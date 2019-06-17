@@ -3,103 +3,114 @@ package Lesson6.Less6_HomeWork;
 public class Dog extends Animal{
 
     // константы:
-    // указывают лимиты прыжка и бега согласно п.№3 задания
+    // указывают лимиты прыжка (верхний предел значение по классу) и бега согласно п.№3 задания
 
     static int DOG_RUN_DISTANCE = 500;
     static int DOG_SWIM_DISTANCE = 10;
     static double DOG_JUMP_HEIGHT = 0.5;
 
-    // поля присущие собакам
-    private String name;
-    private int runDistance;
-    private int swimDistance;
-    private double jumpHeight;
 
-    // конструктор специально для собак (один из конструкторов унаследованный от от Animal)
+    // конструктор
 
-    public Dog(int runDistance, int swimDistance, double jumpHeight, String name) {
-        super(runDistance, swimDistance, jumpHeight, name);
-        this.name = name;
-        this.runDistance = runDistance;
-        this.swimDistance = swimDistance;
-        this.jumpHeight = jumpHeight;
+    public Dog(String name, int runDistance, double jumpHeight, int swimDistance) {
+
+        super(name, runDistance, jumpHeight, swimDistance);
     }
 
 
     // геттеры и сеттеры:
-    // в сеттерах задана проверка на галавные условия для классов котиков и собак: дистанции прыжком и бега;
-    // и отдельно дистанция плавания для класса собак
+    // переопределенные геттеры
 
+
+    @Override
     public String getName() {
-        return name;
+
+        return super.getName();
     }
 
+
+    @Override
     public void setName(String name) {
 
-        this.name = name;
+        super.setName(name);
     }
 
-    public int getRunDistance() {
 
-        return runDistance;
-    }
-
-    // проверка дистанции бега (дублируется в методе run согласно п. 4 задания)
-
+    // проверка не работает геттера на отрицательное значение и превышение лимита не раотает!!!
+    @Override
     public void setRunDistance(int runDistance) {
-        if(runDistance <= DOG_RUN_DISTANCE) {
-            this.runDistance = runDistance;
+
+        if (getRunDistance() < 0){
+            System.out.println("Введено отрицательное значение дистанции бега");
+
+        } else if(getRunDistance() > DOG_RUN_DISTANCE) {
+            System.out.println("Дистанция бега величиной в " + getRunDistance() + " м слишком велика для собак");
         }
-        System.out.println("Дистанция бега величиной в " + runDistance + "м слишком велика для собак");
+
+        super.setRunDistance(runDistance);
     }
 
+
+    @Override
     public double getJumpHeight() {
-
-        return jumpHeight;
+        return super.getJumpHeight();
     }
 
-    // проверка высоты прыжка (дублируется в методе run согласно п. 4 задания)
 
+    // проверка не работает геттера на отрицательное значение и превышение лимита не раотает!!!
+    @Override
     public void setJumpHeight(double jumpHeight) {
-        if(jumpHeight <= DOG_JUMP_HEIGHT){
-            this.jumpHeight = jumpHeight;
+
+        if (getRunDistance() < 0) {
+            System.out.println("Введено отрицательное значение высоты прыжка");
+
+        } else if (getRunDistance() > DOG_JUMP_HEIGHT) {
+            System.out.println("Высота прыжка величиной в " + getRunDistance() + " м слишком велика для собак");
         }
-        System.out.println("Высота прыжка величиной в " + jumpHeight + "м слишком велика для всех собак");
+
+        this.setJumpHeight(jumpHeight);
     }
 
-    public int getSwimDistance() {
 
-        return runDistance;
+    @Override
+    public int getSwimDistance () {
+
+        return super.getSwimDistance();
     }
 
-    // проверка дистанции плавания (дублируется в методе run согласно п. 4 задания)
 
+    // проверка не работает геттера на отрицательное значение и превышение лимита не раотает!!!
+    @Override
     public void setSwimDistance(int swimDistance) {
-        if(swimDistance <= DOG_SWIM_DISTANCE) {
-            this.swimDistance = swimDistance;
+
+        if (getSwimDistance() < 0) {
+            System.out.println("Введено отрицательное значение дистанции плавания");
+
+        } else if (getSwimDistance() > DOG_JUMP_HEIGHT) {
+            System.out.println("Дистанция плавания величиной в " + getSwimDistance() + " м слишком велика для собак");
         }
-        System.out.println("Дистанция плавания величиной в " + swimDistance + "м слишком велика для всех собак");
+
+        this.setSwimDistance(swimDistance);
     }
 
 
     // методы / действия (переопределены из родительского класса Animal:
 
-    // проверка выполнения условия предела бега, который будет задан при создании экземпляра класса котиков
+    // проверка вхлждения в лимиты класса и лимиты объекта при создании экземпляра класса котиков
     // проверка включена в метод согласно п. №4 задания
+
 
     @Override
     public void run(int run) {
 
-        if(run >= 0 && run > getRunDistance() && getRunDistance() <= DOG_RUN_DISTANCE) {
-            System.out.println("Дистанция бега " + run + " м слишком велика для этой собаки");
-            System.out.println("Собака " + getName() + " с трудом пробежал только " + getRunDistance() + " м");
+        if (run < 0) {
+            System.out.println("Введено отрицательное значение");
 
-        } else if (run >= 0 && run > DOG_RUN_DISTANCE) {
-            System.out.println("Дистанция бега в " + run + " м слишком велика для всех собак");
-            System.out.println("Собака " + getName() + " с трудом пробежал только " + getRunDistance() + " м");
+        } else if (run > DOG_RUN_DISTANCE) {
+            System.out.println("Величина дистанции в " + run + " м слишком велика для всех собак в мире");
 
-        } else if (run >= 0 && run > getRunDistance() && run <= DOG_RUN_DISTANCE) {
-            System.out.println("Дистанция бега в " + run + " м слишком велика для всех собак");
+        } else if (run > getRunDistance()) {
+            System.out.println("Величина дистанции в " + run + " м слишком велика для этой собаки");
             System.out.println("Собака " + getName() + " с трудом пробежал только " + getRunDistance() + " м");
 
         } else {
@@ -107,19 +118,18 @@ public class Dog extends Animal{
         }
     }
 
+
     @Override
     public void jump(double jump) {
 
-        if (jump >= 0 && jump > getJumpHeight() && getJumpHeight() <= DOG_JUMP_HEIGHT) {
-            System.out.println("Высота прыжка " + jump + " м слишком велика для этой собаки");
-            System.out.println("Собака " + getName() + " с трудом пробежал только " + getJumpHeight() + " м");
+        if (jump < 0) {
+            System.out.println("Введено отрицательное значение");
 
-        } else if (jump >= 0 && jump > DOG_JUMP_HEIGHT){
-            System.out.println("Высота прыжка " + jump + " м слишком велика для для всех собак");
-            System.out.println("Собака " + getName() + " изловчился прыгнуть только на " + getJumpHeight() + " м");
+        } else if (jump > DOG_JUMP_HEIGHT){
+            System.out.println("Высота " + jump + " м слишком велика для для всех собак в мире");
 
-        } else if (jump >= 0 && jump > getJumpHeight() && jump <= DOG_JUMP_HEIGHT){
-            System.out.println("Высота прыжка " + jump + " м слишком велика для для всех собак");
+        } else if (jump > getJumpHeight()){
+            System.out.println("Высота " + jump + " м слишком велика для для этого котика");
             System.out.println("Собака " + getName() + " изловчился прыгнуть только на " + getJumpHeight() + " м");
 
         } else {
@@ -127,28 +137,30 @@ public class Dog extends Animal{
         }
     }
 
+
     @Override
     public void swim(int swim) {
 
-        if (swim >= 0 && swim > getSwimDistance() && getSwimDistance() <= DOG_SWIM_DISTANCE) {
-            System.out.println("Дистанция плавания в " + swim + " м слишком велика для этой собаки");
-            System.out.println("Собака " + getName() + " с трудом проплыла только " + getSwimDistance() + " м");
+        if (swim < 0) {
+            System.out.println("Введено отрицательное значение");
 
-        } else if (swim >= 0 && swim > DOG_SWIM_DISTANCE){
-            System.out.println("Дистанция плавания в " + swim + " м слишком велика для для всех собак");
-            System.out.println("Собака " + getName() + " с трудом проплыла только на " + getSwimDistance() + " м");
+        } else if (swim > DOG_SWIM_DISTANCE) {
+            System.out.println("Величина дистанции в " + swim + " м слишком велика для всех собак в мире");
 
-        } else if (swim >= 0 && swim > getSwimDistance() && swim <= DOG_SWIM_DISTANCE){
-            System.out.println("Дистанция плавания в " + swim + " м слишком велика для для всех собак");
-            System.out.println("Собака " + getName() + " с трудом проплыла только на " + getSwimDistance() + " м");
+        } else if (swim > getSwimDistance()) {
+            System.out.println("Величина дистанции в " + swim + " м слишком велика для этой собаки");
+            System.out.println("Собака " + getName() + " с трудом пробежал только " + getSwimDistance() + " м");
 
         } else {
-            System.out.println("Собака " + getName() + " успешно проплыла на " + swim + " м");
+            System.out.println("Собака " + getName() + " успешно пробежал " + swim + " м");
         }
     }
 
+
     @Override
     public void animalInfo() {
+
         super.animalInfo();
     }
+
 }

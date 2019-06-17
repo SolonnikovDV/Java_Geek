@@ -2,93 +2,90 @@ package Lesson6.Less6_HomeWork;
 
 public class Cat extends Animal {
 
-    // поля присущие котикам
-    private String name;
-    private int runDistance;
-    private double jumpHeight;
-
-
     // константы:
-    // указывают лимиты прыжка и бега согласно п.№3 задания
+    // указывают лимиты прыжка (верхний предел значение по классу) и бега согласно п.№3 задания
 
     static int CAT_RUN_DISTANCE = 200;
     static int CAT_JUMP_HEIGHT = 2;
 
 
-    // конструктор специально для котиков, в параметры передаются пределы значений бега и прыжков,
-    // ведь котики не все стройные и резвые, есть и батончики, но они все равно милые козявыши!
+    // конструктор
 
-    public Cat(int runDistance, double jumpHeight, String name) {
-        super(runDistance, jumpHeight, name);
-        this.name = name;
-        this.runDistance = runDistance;
-        this.jumpHeight = jumpHeight;
+    public Cat(String name, int runDistance, double jumpHeight) {
+
+        super(name, runDistance, jumpHeight);
     }
 
 
     // геттеры и сеттеры:
-    // в сеттерах задана проверка на галавные условия для классов котиков и собак: дистанции прыжком и бега
+    // переопределенные геттеры
 
+    @Override
     public String getName() {
-        return name;
+
+        return super.getName();
     }
 
+
+    @Override
     public void setName(String name) {
 
-        this.name = name;
+        super.setName(name);
     }
 
-    public int getRunDistance() {
 
-        return runDistance;
-    }
-
-    // проверка дистанции бега (дублируется в методе run согласно п. 4 задания)
-
-    // сеттер не отрабатывает, когда вводятся данные при создании экземпляра класса
+    // проверка не работает геттера на отрицательное значение и превышение лимита не раотает!!!
+    @Override
     public void setRunDistance(int runDistance) {
-        if(runDistance <= CAT_RUN_DISTANCE) {
-            this.runDistance = runDistance;
-        } else {
-            System.out.println("Величина дистанции в " + runDistance + "м слишком велика для всех котиков");
+
+        if (getRunDistance() < 0){
+            System.out.println("Введено отрицательное значение дистанции бега");
+
+        } else if(getRunDistance() > CAT_RUN_DISTANCE) {
+            System.out.println("Дистанция бега величиной в " + getRunDistance() + "м слишком велика для котиков");
         }
+
+        super.setRunDistance(runDistance);
     }
 
+
+    @Override
     public double getJumpHeight() {
 
-        return jumpHeight;
+        return super.getJumpHeight();
     }
 
-    // проверка высоты прыжка на этапе ввода параметров полей при создании объекта
-    // не работает!!!!! :(((
 
+    // проверка не работает геттера на отрицательное значение и превышение лимита не раотает!!!
+    @Override
     public void setJumpHeight(double jumpHeight) {
-        if (jumpHeight > CAT_JUMP_HEIGHT) {
-            this.jumpHeight = jumpHeight;
+
+        if(jumpHeight > CAT_JUMP_HEIGHT){
+            System.out.println("Введены параметры превышющие заданны лимит в " + CAT_JUMP_HEIGHT + " м");
+
         } else {
-            System.out.println("Высота прыжка величиной в " + jumpHeight + "м слишком велика для всех котиков");
+            this.setJumpHeight(jumpHeight);
         }
     }
 
 
     // методы / действия:
 
-    // проверка выполнения условия предела бега, который будет задан при создании экземпляра класса котиков
+    // проверка вхлждения в лимиты класса и лимиты объекта при создании экземпляра класса котиков
     // проверка включена в метод согласно п. №4 задания
+
 
     @Override
     public void run(int run) {
 
-        if(run >= 0 && run > getRunDistance() && getRunDistance() <= CAT_RUN_DISTANCE) {
-            System.out.println("Дистанция " + run + " м слишком велика для этого котика");
-            System.out.println("Котик " + getName() + " с трудом пробежал только " + getRunDistance() + " м");
-            // эту часть надо поменять местами с
-        } else if (run >= 0 && run > CAT_RUN_DISTANCE) {
-            System.out.println("Величина дистанции в " + run + " м слишком велика для всех котиков");
-            System.out.println("Котик " + getName() + " с трудом пробежал только " + getRunDistance() + " м");
+        if (run < 0) {
+            System.out.println("Введено отрицательное значение");
 
-        } else if (run >= 0 && run > getRunDistance() && run <= CAT_RUN_DISTANCE) {
-            System.out.println("Величина дистанции в " + run + " м слишком велика для всех котиков");
+        } else if (run > CAT_RUN_DISTANCE) {
+            System.out.println("Величина дистанции в " + run + " м слишком велика для всех котиков в мире");
+
+        } else if (run > getRunDistance()) {
+            System.out.println("Величина дистанции в " + run + " м слишком велика для этого котика");
             System.out.println("Котик " + getName() + " с трудом пробежал только " + getRunDistance() + " м");
 
         } else {
@@ -96,19 +93,18 @@ public class Cat extends Animal {
         }
     }
 
+
     @Override
     public void jump(double jump) {
 
-        if (jump >= 0 && jump > getRunDistance() && getRunDistance() <= CAT_JUMP_HEIGHT) {
-            System.out.println("Высота " + jump + " м слишком велика для этого котика");
-            System.out.println("Котик " + getName() + " с трудом пробежал только " + getJumpHeight() + " м");
+        if (jump < 0) {
+            System.out.println("Введено отрицательное значение");
 
-        } else if (jump >= 0 && jump > CAT_JUMP_HEIGHT && jump > getJumpHeight()){
+        } else if (jump > CAT_JUMP_HEIGHT){
             System.out.println("Высота " + jump + " м слишком велика для для всех котиков");
-            System.out.println("Котик " + getName() + " изловчился прыгнуть только на " + getJumpHeight() + " м");
 
-        } else if (jump >= 0 && jump > getJumpHeight() && jump <= CAT_JUMP_HEIGHT){
-            System.out.println("Высота " + jump + " м слишком велика для для всех котиков");
+        } else if (jump > getJumpHeight()){
+            System.out.println("Высота " + jump + " м слишком велика для для этого котика");
             System.out.println("Котик " + getName() + " изловчился прыгнуть только на " + getJumpHeight() + " м");
 
         } else {
@@ -116,8 +112,19 @@ public class Cat extends Animal {
         }
     }
 
+
+    // исключение для класса котиков
+    @Override
+    public void swim(int swim) {
+
+        System.out.println("Любой допропорядочный гражданин наверняка знает, что котикам непристало плавать по указу!");
+    }
+
+
     @Override
     public void animalInfo() {
+
         super.animalInfo();
     }
+
 }
