@@ -6,7 +6,7 @@ import java.util.Arrays;
  * * Java. Level 1. Lesson 7. Homework doing.
  *  *
  *  * @autor @Dmitriy Solonnikov
- *  * @version dated Jun-21-2019
+ *  * @version dated Jun-20-2019
  *
  * Расширить задачу про котов и тарелки с едой.
  * Сделать так, чтобы в тарелке с едой не могло получиться отрицательного количества еды (например, в миске 10 еды, а кот пытается покушать 15-20).
