@@ -1,6 +1,10 @@
 package lsn2.homeWork;
-
-
+/**
+ * * Java. Level 2. Lesson 2. Homework doing.
+ *  *
+ *  * @autor @Dmitriy Solonnikov
+ *  * @version dated Aug-01-2019
+ */
 
 public class Lsn2HomeWork {
 
@@ -99,7 +103,7 @@ public class Lsn2HomeWork {
                 stringsArr[i][j] = getRandIntToString();
             }
         }
-        
+
         // встроенная проверка массива на этапе инициализиации
         checkDataType(stringsArr);
 
