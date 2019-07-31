@@ -1,0 +1,29 @@
+package lsn2.homeWork;
+
+public class MyArrayDataException extends NumberFormatException{
+
+    // поля
+    private String[][] dataTypeValue;
+
+
+    // конструктор
+    public MyArrayDataException(String[][] dataTypeValue) {
+
+        this.dataTypeValue = dataTypeValue;
+    }
+
+
+    // значение, вызвавшее Exception
+    public String[][] getDataTypeValue() {
+
+        return dataTypeValue;
+    }
+
+
+
+    public MyArrayDataException (String s, String[][] arr){
+
+    }
+
+
+}
