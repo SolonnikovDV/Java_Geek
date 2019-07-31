@@ -1,7 +1,6 @@
 package lsn2.homeWork;
 
-import java.sql.SQLOutput;
-import java.util.Arrays;
+
 
 public class Lsn2HomeWork {
 
@@ -57,13 +56,23 @@ public class Lsn2HomeWork {
         // метод провеки указывает тип Exception и индекс массива, где наодятся неприводимые к Integer элементы
         checkDataType(words);
 
-
+/**
+ * 3. В методе main() вызвать полученный метод, обработать возможные исключения 
+ * MySizeArrayException и MyArrayDataException, и вывести результат расчета.
+ */
         //ВЫПОЛНЕНИЕ ЗАДАНИЯ
 
 
     }
 
-
+    /**
+     * 1. Напишите метод, на вход которого подаётся двумерный строковый массив размером 4х4, при подаче массива
+     * другого размера необходимо бросить исключение MyArraySizeException.
+     * 2. Далее метод должен пройтись по всем элементам массива, преобразовать в int, и просуммировать.
+     * Если в каком-то элементе массива преобразование не удалось (например, в ячейке лежит символ или текст вместо
+     * числа), должно быть брошено исключение MyArrayDataException, с детализацией в какой именно ячейке лежат
+     * неверные данные.
+     */
     // метод создания массива String[][] из случайных целых чисел, преобразованных методом getRandIntToString() в строки
     // принмает на вход n - размер массива
     // возращает сроковый массив String[][]
@@ -107,6 +116,25 @@ public class Lsn2HomeWork {
         }
     }
 
+    // метод фактически потроенный на NumberFormatException
+    // перебор элементов реализован через foreach
+    // этот способ не дает возможности указать адрес элемента массива, где возникло исключение
+    public static void checkDataType (String[][] arr) throws NumberFormatException {
+
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr.length; j++) {
+                try {
+                    Integer.parseInt(String.valueOf(arr[i][j]));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    System.out.println("Wrong data type in :"
+                            + String.valueOf(arr[i][j])
+                            + ". Index of exception is: "
+                            + "[" + i + "]" + "[" + j + "]");
+                }
+            }
+        }
+    }
 
     // метод преобразования случайных int в String
 
@@ -135,27 +163,6 @@ public class Lsn2HomeWork {
 
         return intArr;
     }
-
-    // метод фактически потроенный на NumberFormatException
-    // перебор элементов реализован через foreach
-    // этот способ не дает возможности указать адрес элемента массива, где возникло исключение
-    public static void checkDataType (String[][] arr) throws NumberFormatException {
-
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                try {
-                    Integer.parseInt(String.valueOf(arr[i][j]));
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                    System.out.println("Wrong data type in :"
-                            + String.valueOf(arr[i][j])
-                            + ". Index of exception is: "
-                            + "[" + i + "]" + "[" + j + "]");
-                }
-            }
-        }
-    }
-
 
 
     // метод выпода массива String[][] в виде квадрата
