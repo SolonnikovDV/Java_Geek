@@ -1,13 +1,14 @@
 package lsn2.homeWork;
 /**
- * * Java. Level 2. Lesson 2. Homework doing.
- *  *
- *  * @autor @Dmitriy Solonnikov
- *  * @version dated Aug-01-2019
+ * Java. Level 2. Lesson 2. Homework doing.
+ * 
+ * @autor @Dmitriy Solonnikov
+ * @version dated Aug-01-2019
  */
 
 public class Lsn2HomeWork {
 
+    // задаем константу для лилового цвета шрифта
     public static String ANSI_RED = "\u001B[35m";
 
     public static void main(String[] args) {
