@@ -1,7 +1,7 @@
 package lsn2.homeWork;
 /**
  * Java. Level 2. Lesson 2. Homework doing.
- * 
+ *
  * @autor @Dmitriy Solonnikov
  * @version dated Aug-01-2019
  */
@@ -11,63 +11,64 @@ public class Lsn2HomeWork {
     // задаем константу для лилового цвета шрифта
     public static String ANSI_RED = "\u001B[35m";
 
+    public static int ARR_SIZE = 2;
+
     public static void main(String[] args) {
 
-        // тест инициализации массивов String[][]
-        // и строковго массива, преобразованного в целочисленный int[][]
-        System.out.println("\nArrays initial check");
-        initArr(4);
-        printStringArray(initArr(4));
+//        // тест инициализации массивов String[][]
+//        // и строковго массива, преобразованного в целочисленный int[][]
+//        System.out.println("\nArrays initial check");
+//        initArr();
+//        printStringArray(initArr());
+//
+//        // пеачть массивов [][] в виде квадрата
+//        System.out.println("\nPrint check");
+//
+//        // тест вывода массива String[][]
+//        System.out.println("String [][] ");
+//        printStringArray(initArr());
+//        System.out.println();
+//
+//        // тест вывода массива int[][]
+//        System.out.println("int [][] ");
+//        printIntArray(stringToInt(initArr()));
+//
+//        // тест суммирования элементов массива int[][]
+//        System.out.println("\nSum check");
+//        int[][] arr = stringToInt(initArr());
+//        printIntArray(arr);
+//        System.out.println("Сумма элементов массива: " + sumArray(arr));
+//
+//
+//        // тест Exception по размеру массива
+//        System.out.println("\nWrong arrays size check");
+//        try {
+//            checkArrSize(initArr());
+//        } catch (MyArraySizeExeption e) {
+//            System.out.println(
+//                    ANSI_RED
+//                    + "Exception \nArrays size is not equal 4 \nThe size of the specified array is: " + e.getArrSize()
+//                    + ANSI_RED);
+//        }
+//
+//        // тест checkDataType() метода валидации типов элементов массива String[][] при парсинге
+//        // создан намеренно кривой массив: включены элементы, для которных невозможно привести тип к Integer
+//        System.out.println("\nData type check");
+//        String[][] words = {
+//                {"1", "2", "4", "2"},
+//                {"78", "ffff", "4", "-||-"},
+//                {"1", "23", "4", "5"},
+//                {"1", "2", "4", "0"},
+//        };
+//        // метод провеки указывает тип Exception и индекс массива, где наодятся неприводимые к Integer элементы
+//        checkDataType(words);
 
-        // пеачть массивов [][] в виде квадрата
-        System.out.println("\nPrint check");
-
-        // тест вывода массива String[][]
-        System.out.println("String [][] ");
-        printStringArray(initArr(4));
-        System.out.println();
-
-        // тест вывода массива int[][]
-        System.out.println("int [][] ");
-        printIntArray(stringToInt(initArr(4)));
-
-        // тест суммирования элементов массива int[][]
-        System.out.println("\nSum check");
-        int[][] arr = stringToInt(initArr(4));
-        printIntArray(arr);
-        System.out.println("Сумма элементов массива: " + sumArray(arr));
-
-
-        // тест Exception по размеру массива
-        System.out.println("\nWrong arrays size check");
-        try {
-            checkArrSize(initArr(2));
-        } catch (MyArraySizeExeption e) {
-            System.out.println(
-                    ANSI_RED
-                    + "Exception \nArrays size is not equal 4 \nThe size of the specified array is: " + e.getArrSize()
-                    + ANSI_RED);
-        }
-
-        // тест checkDataType() метода валидации типов элементов массива String[][] при парсинге
-        // создан намеренно кривой массив: включены элементы, для которных невозможно привести тип к Integer
-        System.out.println("\nData type check");
-        String[][] words = {
-                {"1", "2", "4", "2"},
-                {"78", "ffff", "4", "-||-"},
-                {"1", "23", "4", "5"},
-                {"1", "2", "4", "0"},
-        };
-        // метод провеки указывает тип Exception и индекс массива, где наодятся неприводимые к Integer элементы
-        checkDataType(words);
-
-    /**
-     * 3. В методе main() вызвать полученный метод, обработать возможные исключения
-     * MySizeArrayException и MyArrayDataException, и вывести результат расчета.
-     */
+        /**
+         * 3. В методе main() вызвать полученный метод, обработать возможные исключения
+         * MySizeArrayException и MyArrayDataException, и вывести результат расчета.
+         */
         //ВЫПОЛНЕНИЕ ЗАДАНИЯ
-
-
+        doItAll();
     }
 
     /**
@@ -78,12 +79,40 @@ public class Lsn2HomeWork {
      * числа), должно быть брошено исключение MyArrayDataException, с детализацией в какой именно ячейке лежат
      * неверные данные.
      */
+
+    // метод агрегатор
+    public static void doItAll() {
+
+        System.out.println("\nArrays initial check");
+        initArr(ARR_SIZE);
+        printStringArray(initArr(ARR_SIZE));
+
+        System.out.println("\nData type check");
+        String[][] word = {
+                {"1", "2", "4", "2"},
+                {"78", "oops", "4", "o_O"},
+                {"1", "23", "4", "5"},
+                {"1", "2", "^_^", "0"},
+        };
+        printStringArray(word);
+        checkDataType(word);
+
+        System.out.println("\nSum check");
+        int[][] arr = stringToInt(initArr(ARR_SIZE));
+        printIntArray(arr);
+        System.out.println("Сумма элементов массива: " + sumArray(arr));
+    }
+
     // метод создания массива String[][] из случайных целых чисел, преобразованных методом getRandIntToString() в строки
     // принмает на вход n - размер массива
     // возращает сроковый массив String[][]
 
     public static String[][] initArr(int n) {
+        // забираем значение из тектового поля окна
+//        GrathActive grathActive = new GrathActive(new Grath());
+//        int n = grathActive.arrSize;
 
+        n = ARR_SIZE;
         String[][] stringsArr = new String[n][n];
 
         // согласно условию размер массива проверятся в методе при его инициализации,
@@ -94,8 +123,8 @@ public class Lsn2HomeWork {
 //            e.printStackTrace();
             System.out.println(
                     ANSI_RED
-                    + "Exception \nArrays size is not equal 4 \nThe size of the specified array is: " + e.getArrSize()
-                    + ANSI_RED);
+                            + "Exception \nArrays size is not equal 4 \nThe size of the specified array is: " + e.getArrSize()
+                            + ANSI_RED);
         }
 
         // этап наполнения массива
@@ -127,7 +156,7 @@ public class Lsn2HomeWork {
     // метод фактически потроенный на NumberFormatException
     // перебор элементов реализован через foreach
     // этот способ не дает возможности указать адрес элемента массива, где возникло исключение
-    public static void checkDataType (String[][] arr) throws NumberFormatException {
+    public static void checkDataType(String[][] arr) throws NumberFormatException {
 
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr.length; j++) {
@@ -217,6 +246,4 @@ public class Lsn2HomeWork {
         }
         return sum;
     }
-
-
 }
