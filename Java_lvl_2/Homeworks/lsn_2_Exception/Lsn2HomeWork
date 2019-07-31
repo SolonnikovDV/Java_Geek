@@ -1,0 +1,204 @@
+package lsn2.homeWork;
+
+import java.sql.SQLOutput;
+import java.util.Arrays;
+
+public class Lsn2HomeWork {
+
+    public static void main(String[] args) {
+
+        // тест инициализации массивов String[][]
+        // и строковго массива, преобразованного в целочисленный int[][]
+        System.out.println("\nArrays initial check");
+        initArr(4);
+        System.out.println();
+        stringToInt(initArr(4));
+
+        // пеачть массивов [][] в виде квадрата
+        System.out.println("\nPrint check");
+
+        // тест вывода массива String[][]
+        printStringArray(initArr(4));
+        System.out.println();
+
+        // тест вывода массива int[][]
+        printIntArray(stringToInt(initArr(4)));
+
+        // тест суммирования элементов массива int[][]
+        System.out.println("\nSum check");
+        int[][] arr = stringToInt(initArr(4));
+        printIntArray(arr);
+        System.out.println("Сумма элементов массива: " + sumArray(arr));
+
+
+        // тест Exception по размеру массива
+        try {
+            checkArrSize(initArr(2));
+        } catch (MyArraySizeExeption e) {
+            e.printStackTrace();
+            System.out.println("Arrays size is not equal 4 \nThe size of the specified array is: " + e.getArrSize());
+        }
+
+
+//        String word = "12";
+//        String word2 = "q";
+//        String word3 = "-";
+//        System.out.println(Integer.parseInt(word));
+//        System.out.println(Integer.parseInt(word3));
+
+        // тест метода валидации типов элементов массива String[][] при парсинге
+        // создан намеренно кривой массив: включены элементы, для которных невозможно привести тип к Integer
+        String[][] words = {
+                {"1", "2", "4", "2"},
+                {"78", "ffff", "4", "-||-"},
+                {"1", "23", "4", "5"},
+                {"1", "2", "4", "0"},
+        };
+        // метод провеки указывает тип Exception и индекс массива, где наодятся неприводимые к Integer элементы
+        checkDataType(words);
+
+
+        //ВЫПОЛНЕНИЕ ЗАДАНИЯ
+
+
+    }
+
+
+    // метод создания массива String[][] из случайных целых чисел, преобразованных методом getRandIntToString() в строки
+    // принмает на вход n - размер массива
+    // возращает сроковый массив String[][]
+
+    public static String[][] initArr(int n) {
+
+        String[][] stringsArr = new String[n][n];
+
+        // согласно условию размер массива проверятся в методе по его инициализации,
+        // в этом же методе должен выбрасываеться Exception
+        try {
+            checkArrSize(stringsArr);
+        } catch (MyArraySizeExeption e) {
+            e.printStackTrace();
+            System.out.println("Arrays size is not equal 4 \nThe size of the specified array is: " + e.getArrSize());
+        }
+
+        // встроенная проверка массива на этапе инициализиации
+        //СДЕЛАТЬ ЧТЕНИЕ ПОТОКА КУДА НАМЕРЯННО ВКЛЮЧИТЬ СИМВОЛЫ
+        checkDataType(stringsArr);
+
+        // этап наполнения массива
+        for (int i = 0; i < stringsArr.length; ++i) {
+            for (int j = 0; j < stringsArr[0].length; ++j) {
+                stringsArr[i][j] = getRandIntToString();
+            }
+        }
+        return stringsArr;
+    }
+
+
+    // метод проверки размера массива
+
+    public static int checkArrSize(String[][] arr) throws MyArraySizeExeption {
+
+        if (arr.length != 4) {
+            throw new MyArraySizeExeption(arr.length);
+
+        } else {
+            return arr.length;
+        }
+    }
+
+
+    // метод преобразования случайных int в String
+
+    public static String getRandIntToString() {
+
+        int a = (int) (Math.random() * 100.0D) + 0;
+
+        return Integer.toString(a);
+    }
+
+
+    // метод преобра String в int
+
+    public static int[][] stringToInt(String[][] arr) {
+
+        int[][] intArr = new int[arr.length][arr.length];
+
+        // тут должна быть проверка на возможность конвертирования в int
+        // тут же реализовать Exception
+
+        for (int i = 0; i < arr.length; ++i) {
+            for (int j = 0; j < arr.length; ++j) {
+                intArr[i][j] = Integer.parseInt(arr[i][j]);
+            }
+        }
+
+        return intArr;
+    }
+
+    // метод фактически потроенный на NumberFormatException
+    // перебор элементов реализован через foreach
+    // этот способ не дает возможности указать адрес элемента массива, где возникло исключение
+    public static void checkDataType (String[][] arr) throws NumberFormatException {
+
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr.length; j++) {
+                try {
+                    Integer.parseInt(String.valueOf(arr[i][j]));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    System.out.println("Wrong data type in :"
+                            + String.valueOf(arr[i][j])
+                            + ". Index of exception is: "
+                            + "[" + i + "]" + "[" + j + "]");
+                }
+            }
+        }
+    }
+
+
+
+    // метод выпода массива String[][] в виде квадрата
+
+    public static void printStringArray(String[][] arr) {
+
+        for (int i = 0; i < arr.length; ++i) {
+            for (int j = 0; j < arr[0].length; ++j) {
+                System.out.print(arr[i][j] + "\t");
+            }
+            System.out.println();
+        }
+    }
+
+
+    // метод вывода массива int[][] в виде квадрата
+
+    public static void printIntArray(int[][] arr) {
+
+        for (int i = 0; i < arr.length; ++i) {
+            for (int j = 0; j < arr[0].length; ++j) {
+                System.out.print(arr[i][j] + "\t");
+            }
+            System.out.println();
+        }
+    }
+
+
+    // метод суммирования элементов массива int[][]
+    // на вход принимает int[][]
+    // возвращает сумму (int) элементов массива
+
+    public static int sumArray(int[][] arr) {
+
+        int sum = 0;
+
+        for (int i = 0; i < arr.length; ++i) {
+            for (int j = 0; j < arr.length; ++j) {
+                sum += arr[i][j];
+            }
+        }
+        return sum;
+    }
+
+
+}
