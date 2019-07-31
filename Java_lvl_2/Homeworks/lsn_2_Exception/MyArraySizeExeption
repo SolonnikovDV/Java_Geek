@@ -1,0 +1,26 @@
+package lsn2.homeWork;
+
+public class MyArraySizeExeption extends Exception{
+
+    // поля класса
+    private int arrSizeValue;
+
+    // конструктор класса
+    public MyArraySizeExeption(int arrSizeValue) {
+        this.arrSizeValue = arrSizeValue;
+
+    }
+
+
+    // значение, вызвавшее Exception
+    public int getArrSize() {
+        return this.arrSizeValue;
+
+    }
+
+
+    public MyArraySizeExeption(String s) {
+
+    }
+
+}
