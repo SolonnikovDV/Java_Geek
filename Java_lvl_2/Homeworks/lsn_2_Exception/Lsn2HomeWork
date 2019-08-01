@@ -9,8 +9,9 @@ package lsn2.homeWork;
 public class Lsn2HomeWork {
 
     // задаем константу для лилового цвета шрифта
-    public static String ANSI_RED = "\u001B[35m";
+    public static final String ANSI_RED = "\u001B[35m";
 
+    // устанавливается размер массива, все что не равно 4 будет выбрасывать Exception
     public static int ARR_SIZE = 2;
 
     public static void main(String[] args) {
@@ -119,12 +120,8 @@ public class Lsn2HomeWork {
         // в этом же методе должен выбрасываеться Exception
         try {
             checkArrSize(stringsArr);
-        } catch (MyArraySizeExeption e) {
-//            e.printStackTrace();
-            System.out.println(
-                    ANSI_RED
-                            + "Exception \nArrays size is not equal 4 \nThe size of the specified array is: " + e.getArrSize()
-                            + ANSI_RED);
+        } catch (MyArraySizeException e) {
+            e.printStackTrace(); // @Override вызывается переопределенный метод
         }
 
         // этап наполнения массива
@@ -143,10 +140,10 @@ public class Lsn2HomeWork {
 
     // метод проверки размера массива
 
-    public static int checkArrSize(String[][] arr) throws MyArraySizeExeption {
+    public static int checkArrSize(String[][] arr) throws MyArraySizeException {
 
         if (arr.length != 4) {
-            throw new MyArraySizeExeption(arr.length);
+            throw new MyArraySizeException(arr.length);
 
         } else {
             return arr.length;
