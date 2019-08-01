@@ -12,9 +12,9 @@ public class Lsn2HomeWork {
     public static final String ANSI_RED = "\u001B[35m";
 
     // устанавливается размер массива, все что не равно 4 будет выбрасывать Exception
-    public static int ARR_SIZE = 2;
+    public static int ARR_SIZE = 4;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MyArraySizeException {
 
 //        // тест инициализации массивов String[][]
 //        // и строковго массива, преобразованного в целочисленный int[][]
@@ -69,7 +69,11 @@ public class Lsn2HomeWork {
          * MySizeArrayException и MyArrayDataException, и вывести результат расчета.
          */
         //ВЫПОЛНЕНИЕ ЗАДАНИЯ
-        doItAll();
+        try {
+            doItAll();
+        }catch (MyArraySizeException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -82,13 +86,13 @@ public class Lsn2HomeWork {
      */
 
     // метод агрегатор
-    public static void doItAll() {
+    public static void doItAll() throws MyArraySizeException {
 
-        System.out.println("\nArrays initial check");
+        System.out.println("\nArrays initial check\n---------------------");
         initArr(ARR_SIZE);
         printStringArray(initArr(ARR_SIZE));
 
-        System.out.println("\nData type check");
+        System.out.println("\nData type check\n---------------------");
         String[][] word = {
                 {"1", "2", "4", "2"},
                 {"78", "oops", "4", "o_O"},
@@ -98,7 +102,7 @@ public class Lsn2HomeWork {
         printStringArray(word);
         checkDataType(word);
 
-        System.out.println("\nSum check");
+        System.out.println("\nSum check\n---------------------");
         int[][] arr = stringToInt(initArr(ARR_SIZE));
         printIntArray(arr);
         System.out.println("Сумма элементов массива: " + sumArray(arr));
@@ -232,8 +236,11 @@ public class Lsn2HomeWork {
     // на вход принимает int[][]
     // возвращает сумму (int) элементов массива
 
-    public static int sumArray(int[][] arr) {
+    public static int sumArray(int[][] arr) throws MyArraySizeException {
 
+        if(checkArrSize(initArr(ARR_SIZE)) !=4) {
+            throw new MyArraySizeException(initArr(ARR_SIZE).length);
+        }
         int sum = 0;
 
         for (int i = 0; i < arr.length; ++i) {
