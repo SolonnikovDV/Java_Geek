@@ -2,28 +2,41 @@ package lsn2.homeWork;
 
 public class MyArrayDataException extends NumberFormatException{
 
+    public static String ANSI_RED = "\u001B[35m";
+
     // поля
-    private String[][] dataTypeValue;
+    private int positionNumber;
+    private String[][] dataValue;
 
 
     // конструктор
-    public MyArrayDataException(String[][] dataTypeValue) {
 
-        this.dataTypeValue = dataTypeValue;
+
+    public MyArrayDataException(int positionNumber, String[][] dataValue) {
+        this.positionNumber = positionNumber;
+        this.dataValue = dataValue;
     }
-
 
     // значение, вызвавшее Exception
-    public String[][] getDataTypeValue() {
+    public int getDataTypeValue() {
 
-        return dataTypeValue;
+        return positionNumber;
+    }
+
+    public String[][] getDataValue() {
+
+        return dataValue;
     }
 
 
-
-    public MyArrayDataException (String s, String[][] arr){
-
+    @Override
+    public void printStackTrace() {
+        System.out.println(ANSI_RED
+                + "Exception \n"
+                + "Wrong data type in :"
+                + String.valueOf(getDataValue())
+//                + ". Index of exception is: "
+//                + "[" + i + "]" + "[" + j + "]"
+                + ANSI_RED);
     }
-
-
 }
