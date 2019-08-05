@@ -1,0 +1,54 @@
+package lsn3_collections.homeWork;
+
+import java.util.*;
+
+public class PhoneBook {
+
+    // содается Map <номер телефона, ФИО>
+    HashMap<String, String> phoneBook;
+
+    // конструкторы
+
+    public PhoneBook(){
+
+    }
+
+    public PhoneBook(HashMap<String, String> phoneBook) {
+
+        this.phoneBook = new HashMap<>();
+    }
+
+
+    // метод добавления записей в кригу
+    public void addRecord (String number, String name) {
+
+        number = new PhoneBookList().getPhoneNumber();
+        name = new PhoneBookList().getName();
+
+        phoneBook.put(number, name);
+    }
+
+
+//    public HashMap<String, String> getRecord (HashMap<String, String> phoneBook) {
+//
+//        HashMap<String, String> record = new HashMap<String, String>();
+//
+//        record.get(phoneBook.get(new PhoneBookList().getPhoneNumber());
+//
+//        return record;
+//    }
+
+
+
+    public static void main(String[] args) {
+
+        PhoneBookList rec1 = new PhoneBookList("Bdfy", "9090909090");
+        PhoneBook phoneBook = new PhoneBook();
+        phoneBook.addRecord(rec1.getPhoneNumber(), rec1.getName());
+        System.out.println(phoneBook);
+
+    }
+
+
+
+}
