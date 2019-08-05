@@ -38,15 +38,16 @@ public class PhoneBook {
 
         // метод поиска фамилии по фамилии
         public List<String> getRecord (String name) {
+        
             System.out.println("Поиск по имени " + name + " дал следующие результаты: ");
             return phoneBook.get(name);
         }
 
 
-
+    // переопределен метод toString для вывода всей книги
     @Override
     public String toString() {
-        String info;
+
         phoneBook.entrySet().forEach(entry->{
             System.out.println("Для записи: " + entry.getKey() + " обнаружены следующие телефоны: " + entry.getValue());
         });
@@ -56,7 +57,8 @@ public class PhoneBook {
     public static void main(String[] args) {
 
             PhoneBook phoneBook = new PhoneBook();
-
+            
+            // добавлены элементы в книгу
             phoneBook.addRecord("Nono", "111111");
             phoneBook.addRecord("Toto", "444444");
             phoneBook.addRecord("Komo", "555555");
@@ -64,13 +66,13 @@ public class PhoneBook {
             phoneBook.addRecord("Nono", "222222");
             phoneBook.addRecord("Toto", "333333");
 
+            // выводит всю книгу
             phoneBook.toString();
 
+            // вывод результата по запросу
             System.out.println(phoneBook.getRecord("Nono"));
             System.out.println(phoneBook.getRecord("Toto"));
             System.out.println(phoneBook.getRecord("Komo"));
-
         }
-
 
     }
