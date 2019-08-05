@@ -38,9 +38,11 @@ public class PhoneBook {
 
         // метод поиска фамилии по фамилии
         public List<String> getRecord (String name) {
-
+            System.out.println("Поиск по имени " + name + " дал следующие результаты: ");
             return phoneBook.get(name);
         }
+
+
 
     @Override
     public String toString() {
