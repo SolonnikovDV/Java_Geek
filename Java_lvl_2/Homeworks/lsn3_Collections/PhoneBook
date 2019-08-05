@@ -11,37 +11,31 @@ import java.util.*;
 
 public class PhoneBook {
 
-    // содается Map <номер телефона, ФИО>
-    HashMap<String, String> phoneBook;
+    // содается Map <фио, телефоны>
+    HashMap<String, ArrayList> phoneBook;
 
     // конструкторы
 
     public PhoneBook(){
-
+        HashMap<String, String> phoneBook = new 
     }
 
-    public PhoneBook(HashMap<String, String> phoneBook) {
-        this.phoneBook = phoneBook;
+    public PhoneBook(String, String... phoneNumbers) {
+        Super.PhoneBook ();
     }
 
     // метод добавления записей в кригу
-    public HashMap<String, String> addRecord (String number, String name) {
-
-        number = new PhoneBookList().getPhoneNumber();
-        name = new PhoneBookList().getName();
-
-        phoneBook.put(number, name);
-        return phoneBook;
+    public Void addRecord (String name, String... phoneNumber) {
+        new ArrayList value = phoneBook.get(name); 
+        If (value==null){
+              map.put(name, phoneNumber);
+        }else{
+              value.addAll(phoneNumber);
     }
 
     // метод поиска фамилии по фамилии
-    public HashMap<String, String> getRecord (String name) {
-        name = new PhoneBookList().getName();
-        HashMap<String, String> record = new HashMap<String, String>();
-
-        record.get(phoneBook.get(name));
-
-        return record;
+    public ArrayList<String> getRecord (String name) {
+        return phoneBook.get(name);
     }
 
 
