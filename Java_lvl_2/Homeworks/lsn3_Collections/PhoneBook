@@ -30,8 +30,6 @@ public class PhoneBook {
         List <String> value = phoneBook.get(name);
 
         if (value == null) {
-            // здесь ошибка в типе передаваемого аргумента phoneNumbers
-            // обнаружено String[] а требуется ArrayList<>
             phoneBook.put(name, new ArrayList<String >(Arrays.asList(phoneNumbers)));
         } else {
             value.addAll(Arrays.asList(phoneNumbers));
@@ -40,7 +38,7 @@ public class PhoneBook {
 
         // метод поиска фамилии по фамилии
         public List<String> getRecord (String name) {
-            
+
             return phoneBook.get(name);
         }
 
