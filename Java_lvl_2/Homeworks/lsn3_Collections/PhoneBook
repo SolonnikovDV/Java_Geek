@@ -1,1 +1,71 @@
+package lsn3_collections.homeWork;
 
+import java.util.*;
+
+/**
+ * 2. Написать простой класс ТелефонныйСправочник, который хранит в себе список фамилий и телефонных номеров.
+ * В этот телефонный справочник с помощью метода add() можно добавлять записи. С помощью метода get() искать
+ * номер телефона по фамилии. Следует учесть, что под одной фамилией может быть несколько телефонов
+ * (в случае однофамильцев), тогда при запросе такой фамилии должны выводиться все телефоны.
+ */
+
+public class PhoneBook {
+
+    // содается Map <фио, телефоны>
+    Map<String, List<String>> phoneBook;
+
+    // конструкторы
+
+    public PhoneBook(){
+        phoneBook = new HashMap<String, List<String>>();
+    }
+
+    public PhoneBook(String name, String... phoneNumbers) {
+        super();
+    }
+
+    // метод добавления записей в кригу
+    public void addRecord (String name, String... phoneNumbers) {
+
+        List <String> value = phoneBook.get(name);
+
+        if (value == null) {
+            // здесь ошибка в типе передаваемого аргумента phoneNumbers
+            // обнаружено String[] а требуется ArrayList<>
+            phoneBook.put(name, Arrays.asList(phoneNumbers));
+        } else {
+            value.addAll(Arrays.asList(phoneNumbers));
+        }
+    }
+
+        // метод поиска фамилии по фамилии
+        public List<String> getRecord (String name) {
+            return phoneBook.get(name);
+        }
+
+
+
+        public static void main(String[] args) {
+
+            PhoneBook phoneBook = new PhoneBook();
+            phoneBook.addRecord("Nono", "111111");
+            phoneBook.addRecord("Nono", "222222");
+            phoneBook.addRecord("Toto", "333333");
+            phoneBook.addRecord("Toto", "444444");
+            phoneBook.addRecord("Komo", "555555");
+            System.out.println(phoneBook);
+
+            System.out.println(phoneBook.getRecord("Nono"));
+            System.out.println(phoneBook.getRecord("Toto"));
+            System.out.println(phoneBook.getRecord("Komo"));
+
+        }
+
+//    Exception in thread "main" java.lang.UnsupportedOperationException
+//    at java.base/java.util.AbstractList.add(AbstractList.java:153)
+//    at java.base/java.util.AbstractList.add(AbstractList.java:111)
+//    at java.base/java.util.AbstractCollection.addAll(AbstractCollection.java:352)
+//    at lsn3_collections.homeWork.PhoneBook.addRecord(PhoneBook.java:37)
+//    at lsn3_collections.homeWork.PhoneBook.main(PhoneBook.java:52)
+
+    }
