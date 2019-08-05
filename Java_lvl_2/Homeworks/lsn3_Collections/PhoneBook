@@ -12,45 +12,44 @@ import java.util.*;
 public class PhoneBook {
 
     // содается Map <фио, телефоны>
-    Map<String, ArrayList<String>> phoneBook;
+    HashMap<String, ArrayList> phoneBook;
 
     // конструкторы
 
     public PhoneBook(){
-        Map<String, ArrayList<String>> phoneBook = new HashMap<String, ArrayList<String>>();
+        HashMap<String, String> phoneBook = new 
     }
 
-    public PhoneBook (String name, ArrayList<String> phoneNumbers) {
-        super(); // вызов родительского конструктора без аргументов
+    public PhoneBook(String, String... phoneNumbers) {
+        Super.PhoneBook ();
     }
 
     // метод добавления записей в кригу
-    public void addRecord (String name, ArrayList<String> phoneNumbers) {
-
-        ArrayList value = phoneBook.get(name);
-
-        if (value == null) {
-            phoneBook.put(name, phoneNumbers);
+    public Void addRecord (String name, String... phoneNumber) {
+        new ArrayList value = phoneBook.get(name); 
+        If (value==null){
+              map.put(name, phoneNumber);
         }else{
-            value.addAll(phoneNumbers);
-        }
+              value.addAll(phoneNumber);
     }
 
-        // метод поиска фамилии по фамилии
-        public ArrayList<String> getRecord (String name) {
-            return phoneBook.get(name);
-        }
+    // метод поиска фамилии по фамилии
+    public ArrayList<String> getRecord (String name) {
+        return phoneBook.get(name);
+    }
 
 
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
 
-            PhoneBook phoneBook = new PhoneBook();
-            phoneBook.addRecord("90909090", "cvngn");
-            System.out.println(phoneBook);
-
-        }
-
-
+        PhoneBookList rec1 = new PhoneBookList("Bdfy", "9090909090");
+        PhoneBook phoneBook = new PhoneBook();
+        phoneBook.addRecord(rec1.getPhoneNumber(), rec1.getName());
+        System.out.println(phoneBook);
+        phoneBook.put()
 
     }
+
+
+
+}
