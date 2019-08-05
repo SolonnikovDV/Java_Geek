@@ -12,12 +12,12 @@ import java.util.*;
 public class PhoneBook {
 
     // содается Map <фио, телефоны>
-    HashMap<String, ArrayList> phoneBook;
+    Map<String, ArrayList> phoneBook;
 
     // конструкторы
 
     public PhoneBook(){
-        HashMap<String, String> phoneBook = new 
+        phoneBook = new HashMap<String, ArrayList>();
     }
 
     public PhoneBook(String, String... phoneNumbers) {
@@ -25,12 +25,12 @@ public class PhoneBook {
     }
 
     // метод добавления записей в кригу
-    public Void addRecord (String name, String... phoneNumber) {
-        new ArrayList value = phoneBook.get(name); 
-        If (value==null){
-              map.put(name, phoneNumber);
+    public Void addRecord (String name, String... phoneNumbers) {
+        ArrayList value = phoneBook.get(name); 
+        if (value==null){
+              phoneBook.put(name, phoneNumbers);
         }else{
-              value.addAll(phoneNumber);
+              value.addAll(phoneNumbers);
     }
 
     // метод поиска фамилии по фамилии
