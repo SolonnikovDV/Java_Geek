@@ -20,36 +20,41 @@ public class PhoneBook {
         phoneBook = new HashMap<String, ArrayList>();
     }
 
-    public PhoneBook(String, String... phoneNumbers) {
-        Super.PhoneBook ();
+    public PhoneBook(String name, String... phoneNumbers) {
+        super();
     }
 
     // метод добавления записей в кригу
-    public Void addRecord (String name, String... phoneNumbers) {
-        ArrayList value = phoneBook.get(name); 
-        if (value==null){
-              phoneBook.put(name, phoneNumbers);
-        }else{
-              value.addAll(phoneNumbers);
+    public void addRecord (String name, String... phoneNumbers) {
+
+        ArrayList <String> value = phoneBook.get(name);
+
+        if (value == null) {
+            // здесь ошибка в типе передаваемого аргумента phoneNumbers
+            // обнаружено String[] а требуется ArrayList<>
+            phoneBook.put(name, phoneNumbers);
+        } else {
+            value.addAll(Arrays.asList(phoneNumbers));
+        }
     }
 
-    // метод поиска фамилии по фамилии
-    public ArrayList<String> getRecord (String name) {
-        return phoneBook.get(name);
+        // метод поиска фамилии по фамилии
+        public ArrayList<String> getRecord (String name) {
+            return phoneBook.get(name);
+        }
+
+
+
+        public static void main(String[] args) {
+
+            PhoneBook phoneBook = new PhoneBook();
+            phoneBook.addRecord("Nono", "1244");
+            System.out.println(phoneBook);
+
+            phoneBook.getRecord("Nono");
+
+        }
+
+
+
     }
-
-
-
-    public static void main(String[] args) {
-
-        PhoneBookList rec1 = new PhoneBookList("Bdfy", "9090909090");
-        PhoneBook phoneBook = new PhoneBook();
-        phoneBook.addRecord(rec1.getPhoneNumber(), rec1.getName());
-        System.out.println(phoneBook);
-        phoneBook.put()
-
-    }
-
-
-
-}
