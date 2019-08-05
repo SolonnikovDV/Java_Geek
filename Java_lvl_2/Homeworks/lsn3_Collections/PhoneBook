@@ -40,6 +40,7 @@ public class PhoneBook {
 
         // метод поиска фамилии по фамилии
         public List<String> getRecord (String name) {
+            
             return phoneBook.get(name);
         }
 
@@ -62,8 +63,8 @@ public class PhoneBook {
 
             phoneBook.addRecord("Nono", "222222");
             phoneBook.addRecord("Toto", "333333");
-            
-            System.out.println(phoneBook.toString());
+
+            phoneBook.toString();
 
             System.out.println(phoneBook.getRecord("Nono"));
             System.out.println(phoneBook.getRecord("Toto"));
