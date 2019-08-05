@@ -34,7 +34,7 @@ public class PhoneBook {
             // обнаружено String[] а требуется ArrayList<>
             phoneBook.put(name, Arrays.asList(phoneNumbers));
         } else {
-            value.addAll(Arrays.asList(phoneNumbers));
+            value.addAll(new ArrayList<String>(Arrays.asList(phoneNumbers)));
         }
     }
 
@@ -48,11 +48,14 @@ public class PhoneBook {
         public static void main(String[] args) {
 
             PhoneBook phoneBook = new PhoneBook();
+
             phoneBook.addRecord("Nono", "111111");
-            phoneBook.addRecord("Nono", "222222");
-            phoneBook.addRecord("Toto", "333333");
             phoneBook.addRecord("Toto", "444444");
             phoneBook.addRecord("Komo", "555555");
+//           // при попытке обратиться к именам, которые имеют дубликаты,
+//            // выкидывается исключение UnsupportedOperationException
+//            phoneBook.addRecord("Nono", "222222");
+//            phoneBook.addRecord("Toto", "333333");
             System.out.println(phoneBook);
 
             System.out.println(phoneBook.getRecord("Nono"));
@@ -60,6 +63,7 @@ public class PhoneBook {
             System.out.println(phoneBook.getRecord("Komo"));
 
         }
+
 
 //    Exception in thread "main" java.lang.UnsupportedOperationException
 //    at java.base/java.util.AbstractList.add(AbstractList.java:153)
