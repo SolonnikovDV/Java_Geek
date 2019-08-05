@@ -42,7 +42,15 @@ public class PhoneBook {
         public List<String> getRecord (String name) {
             return phoneBook.get(name);
         }
-        
+
+    @Override
+    public String toString() {
+        String info;
+        phoneBook.entrySet().forEach(entry->{
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        });
+        return null;
+    }
 
     public static void main(String[] args) {
 
@@ -51,7 +59,8 @@ public class PhoneBook {
             phoneBook.addRecord("Nono", "111111");
             phoneBook.addRecord("Toto", "444444");
             phoneBook.addRecord("Komo", "555555");
-
+//           // при попытке обратиться к именам, которые имеют дубликаты,
+//            // выкидывается исключение UnsupportedOperationException
             phoneBook.addRecord("Nono", "222222");
             phoneBook.addRecord("Toto", "333333");
             System.out.println(phoneBook.toString());
@@ -62,5 +71,12 @@ public class PhoneBook {
 
         }
 
+
+//    Exception in thread "main" java.lang.UnsupportedOperationException
+//    at java.base/java.util.AbstractList.add(AbstractList.java:153)
+//    at java.base/java.util.AbstractList.add(AbstractList.java:111)
+//    at java.base/java.util.AbstractCollection.addAll(AbstractCollection.java:352)
+//    at lsn3_collections.homeWork.PhoneBook.addRecord(PhoneBook.java:37)
+//    at lsn3_collections.homeWork.PhoneBook.main(PhoneBook.java:52)
 
     }
