@@ -12,12 +12,12 @@ import java.util.*;
 public class PhoneBook {
 
     // содается Map <фио, телефоны>
-    Map<String, ArrayList> phoneBook;
+    Map<String, ArrayList<String>> phoneBook;
 
     // конструкторы
 
     public PhoneBook(){
-        phoneBook = new HashMap<String, ArrayList>();
+        phoneBook = new HashMap<String, ArrayList<String>>();
     }
 
     public PhoneBook(String name, String... phoneNumbers) {
