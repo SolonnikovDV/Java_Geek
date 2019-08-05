@@ -21,29 +21,28 @@ public class PhoneBook {
     }
 
     public PhoneBook(HashMap<String, String> phoneBook) {
-
-        this.phoneBook = new HashMap<>();
+        this.phoneBook = phoneBook;
     }
 
-
     // метод добавления записей в кригу
-    public void addRecord (String number, String name) {
+    public HashMap<String, String> addRecord (String number, String name) {
 
         number = new PhoneBookList().getPhoneNumber();
         name = new PhoneBookList().getName();
 
         phoneBook.put(number, name);
+        return phoneBook;
     }
 
+    // метод поиска фамилии по фамилии
+    public HashMap<String, String> getRecord (String name) {
+        name = new PhoneBookList().getName();
+        HashMap<String, String> record = new HashMap<String, String>();
 
-//    public HashMap<String, String> getRecord (HashMap<String, String> phoneBook) {
-//
-//        HashMap<String, String> record = new HashMap<String, String>();
-//
-//        record.get(phoneBook.get(new PhoneBookList().getPhoneNumber());
-//
-//        return record;
-//    }
+        record.get(phoneBook.get(name));
+
+        return record;
+    }
 
 
 
@@ -53,6 +52,7 @@ public class PhoneBook {
         PhoneBook phoneBook = new PhoneBook();
         phoneBook.addRecord(rec1.getPhoneNumber(), rec1.getName());
         System.out.println(phoneBook);
+        phoneBook.put()
 
     }
 
