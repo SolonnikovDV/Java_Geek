@@ -1,12 +1,271 @@
-package lsn3_collections.homeWork;
+package lsn3_collections;
+
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.*;
 
-/**
- * Java. Level 2. Lesson 2. Homework doing.
- *
- * @autor @Dmitriy Solonnikov
- * @version dated Aug-05-2019
- */
+public class Main_lsn3 {
+
+    public static void main(String[] args) {
+
+        List<Integer> arrayList = new ArrayList<>();
+        // ArrayList расширяемый список элементов
+
+        // методы ArrayList
+        // add
+        arrayList.add(1);
+        arrayList.add(2);
+        arrayList.add(3);
+        arrayList.add(4);
+        arrayList.add(5);
+        arrayList.add(2, 90);
+        System.out.println(arrayList);
+
+        // обращение по индексу
+        // get
+        arrayList.get(3);
+        System.out.println(arrayList.get(3));
+
+        // емкость InitialCapacity
+        List<Integer> arrayList1 = new ArrayList<>(3000);
+        // изменение емкости
+        // ensureCapacity (int)
+        ((ArrayList<Integer>) arrayList).ensureCapacity(300);
+        // trimToSize(void)
+        ((ArrayList<Integer>) arrayList).trimToSize();
+        //проверка массива на заполненность
+        //isEmpty
+        arrayList.isEmpty();
+        // очистка коллекции
+        // clear
+        arrayList.clear();
+        // размер коллекции, количество элементов в коллекции
+        // size
+        arrayList.size();
+
+        // удаление элементов
+        // remove
+        arrayList.remove((Integer) 2); // удаляет объект - находит в списке объект равный (int) 2
+
+        List<String> states = new ArrayList<>();
+        states.add("Germany");
+        states.add("Germany");
+        states.add("France");
+        states.add("Russia");
+        states.add("USA");
+
+        // или способ добавления через Arrays.asList и split
+        // но так лучше не делать на практике
+        states.addAll(Arrays.asList("Germany Germany France Russia USA".split(" ")));
+
+        System.out.println(states);
+
+        // в этом удаятсе не все элементы равные germany а только элемент равный Germany с индексом i
+        for (int i = 0; i < states.size(); i++) {
+            if (states.get(i).equals("Germany")){
+                states.remove(i);
+            }
+        }
+
+        // неплохой способ удаления элемента
+        Iterator<String> iterator = states.iterator();
+        while (iterator.hasNext()){
+            if (iterator.next().equals("Germany")){
+                iterator.remove();
+            }
+        }
+
+        // Наилучший способ удаление элемента в коллекции
+        states.removeIf(x -> x.equals("Germany"));
+        states.removeIf(x -> x.length()>4); // уделение элементов длина котрых мобльше 4
+        states.removeIf(x -> x.startsWith("G")); // удаление всех элементов наинающихся с буквы G
+        states.removeIf(x -> x.contains("y")); // удаление всех элементов содаржащих в себе букву "y"
 
 
+        // связанные списки LinkedList
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        // добавление элемента в конец
+        linkedList.add(6);
+        linkedList.addLast(56); // добавляет в конец
+        linkedList.offer(33); // добавляет в конец
+
+        // добавление вперед
+        linkedList.addFirst(7);
+
+        // добавление по индексу
+        linkedList.add(2, 56);
+
+        // получение элемента - посмотреть первый элемент
+        linkedList.getFirst();
+        linkedList.element();// если пусто выкидывает Exception
+        linkedList.peek(); // если пусто возвращает null
+
+        // удаление первого элемента
+        linkedList.remove();
+        linkedList.removeFirst();
+
+        //удаление последнего
+        linkedList.removeLast();
+
+        // операции с интератором
+        ListIterator<Integer> listIterator = linkedList.listIterator();
+        // ListIterator может двигаться в обе стороны колекции
+        listIterator.add(123);
+        listIterator.add(133); // сейчас элементы добавляются последовательно
+        listIterator.next(); // теперь перешагивает через жлемент
+        listIterator.add(12);
+
+        listIterator.previous(); // теперь шагаем назад
+        listIterator.add(3333);
+
+        // добавлем " " пока есть следущий элемент
+        while (listIterator.hasNext()){
+            System.out.println(listIterator.next() + " ");
+        }
+
+        // добавлем " " пока есть предыдущий элемент
+        while (listIterator.hasPrevious()){
+            System.out.println(listIterator.previous() + " ");
+        }
+
+        // интерейс очередь
+        // добавить все элементы коллекции
+        Queue<Integer> queue = new LinkedList<>(linkedList); // теперь ёто копия созданного ранее linkedList
+        System.out.println(queue);
+
+        // первый вошел - первый вышел
+        // методы очереди
+
+        // удаление
+        queue.poll(); // вытвлкивает первый элемент из очедереди. возвратит экспепшн если нет элементов
+        queue.remove(); // вернет null если нет элементов
+
+        // добавление
+        queue.offer(234);
+        queue.add(123);
+
+        // просмотр элементов
+        queue.peek();
+        queue.element();
+
+        //------------------------------------------------------------
+        // стэк
+        LinkedList<Integer> stack = new LinkedList<>();
+        // кто зашел последний выходт первым
+        stack.push(12); // вставить
+        stack.pop(); // вытащить последний элемент
+
+        // приоритетная очередб
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+        //добавлени
+        priorityQueue.add(5);
+        priorityQueue.add(4);
+        priorityQueue.add(5);
+        System.out.println(priorityQueue);
+        // извлечение
+        priorityQueue.poll(); // извлечение происходит в полрядке сначала самый маленький элемент
+
+        // Двусторонная очередь Deque<Integer>
+
+        //------------------------------------------------------------
+        // Множество
+        // можно состаывить коллекцию с не олее одним экземпляром каждого элеента
+//        // виды реализаци
+////        Set<Integer> setHash = new HashSet<>();
+////        Set<Integer> setTree = new TreeSet<>();
+////        Set<Integer> setLinked = new LinkedHashSet<>();
+        Set<Integer> setHash = new HashSet<>();
+        setHash.add(1);
+        setHash.add(1);// этот эемелнт уже не добавится
+        setHash.add(2);
+        setHash.add(23);
+        setHash.add(5);
+        setHash.add(78);
+        // порядок в HashSet устанавливает произвольный, прядок доавления не выплняется
+//        System.out.println(setHash);
+        // доступ к элементу HashSet реализован через hashCode
+
+
+        Set<Integer> setTree = new TreeSet<>();
+        // элементы хранятся в отсортированном виде
+
+        Set<Integer> setLinked = new LinkedHashSet<>();
+        // элементы хранятся в порядке добавления
+
+        //------------------------------------------------------------
+        // интерфейс Map <ключ, значение>
+//        Map<String , Integer> mapHash = new HashMap<>();
+//        Map<String , Integer> mapTree = new TreeMap<>();
+//        Map<String , Integer> mapLinked = new LinkedHashMap<>();
+
+        Map<String , Integer> mapHash = new HashMap<>();
+        // добавление
+        mapHash.put("Cat", 4);
+        mapHash.put("Fedr", 4);
+        mapHash.put("Ignat", 4);
+        // добавление элемента с ижентичным ключем перепишет существующее значение
+        System.out.println(mapHash);
+
+        Map<String , Integer> mapTree = new TreeMap<>();
+        // сортирует элементы по ключам
+        mapHash.put("Cat", 4);
+        mapHash.put("Fedr", 45);
+        mapHash.put("Ignat", 33);
+
+        Map <String , Integer> mapLinked = new LinkedHashMap<>();
+        // расставляет элементы в порядке добавления
+        mapHash.put("Cat", 4);
+        mapHash.put("Fedr", 45);
+        mapHash.put("Ignat", 33);
+
+        // превращение Map в множество
+        // entrySet упаковывает каждый элемент карты в элемент множества
+        Set<Map.Entry <String , Integer>> setMap = mapHash.entrySet(); // спобоб преобразования в коллекцию с итератором
+        for (Map.Entry <String , Integer> entrySet:setMap) {
+            entrySet.getKey();
+            entrySet.getValue();
+            System.out.println(entrySet.getValue() + " " + entrySet.getValue());
+        }
+
+        //------------------------------------------------------------
+        // сколько раз встречается каждое число
+
+        Random random = new Random();
+        Map<Integer, Integer> countMap = new TreeMap<>();
+        for (int i = 0; i < 100; i++) {
+            int num = random.nextInt(10); // от 0 до 9
+            // сколько раз уже встречалось
+            // возвращает по ключу num значение Map, если не встречались то будет null
+            Integer currentNum = countMap.get(num);
+            countMap.put(num, currentNum == null? 1 : currentNum + 1); // если "currentNum == null?" то "1" : иначе "currentNum + 1"
+        }
+        System.out.println(countMap);
+
+
+        //------------------------------------------------------------
+        // Можно делать коллекции с коллекциями
+        Map <String, ArrayList <String>> phoneBook = new HashMap<>();
+        // в ArrayList <String> можно телефонные номера
+
+
+        //------------------------------------------------------------
+        // дефолтные значения
+        int id = 441;
+        HashMap<Integer, String> hm = init();
+        //если значение для ключа есть, то getOrDefault вернет его
+        // если нет, то  вернет значение поумолчанию вместо null
+        hm.getOrDefault(id, "Default");
+        System.out.println(hm.getOrDefault(id, "Default"));
+
+    }
+
+        static HashMap<Integer, String> init () {
+            HashMap<Integer, String> hm = new HashMap<>();
+            hm.put(441, "werwe");
+            hm.put(12, "dsqweq");
+            hm.put(4545, "dd");
+            return hm;
+        }
+
+
+}
