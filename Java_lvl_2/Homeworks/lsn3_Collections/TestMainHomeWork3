@@ -1,1 +1,35 @@
+package lsn3_collections.homeWork;
 
+import java.util.Arrays;
+
+public class TestMainHomeWork3 {
+
+    public static void main(String[] args) {
+
+        MainHomeWork3 test = new MainHomeWork3();
+
+        // тест инициализации массива String[]
+        System.out.println(test.initWordsArr().length);
+        System.out.println(Arrays.toString(test.initWordsArr()));
+
+        // тест фильтрации массива String[] по уникальным именам (из массива выкидывются дубликаты)
+        System.out.println();
+        test.showUniqueWords(test.initWordsArr()).size();
+        System.out.println(test.showUniqueWords(test.initWordsArr()).size());
+        System.out.println(test.showUniqueWords(test.initWordsArr()));
+
+        // тест подсчета оличества повторений каждого элемента в массиве
+        System.out.println();
+        test.countDuplicates(test.initWordsArr());
+        System.out.println(test.countDuplicates(test.initWordsArr()).size());
+        System.out.println(test.countDuplicates(test.initWordsArr()));
+
+        // тест вывода перечня дубликатов
+        System.out.println();
+        test.showDuplicates(test.initWordsArr());
+        System.out.println(test.showDuplicates(test.initWordsArr()).size());
+        System.out.println(test.showDuplicates(test.initWordsArr()));
+
+    }
+
+}
