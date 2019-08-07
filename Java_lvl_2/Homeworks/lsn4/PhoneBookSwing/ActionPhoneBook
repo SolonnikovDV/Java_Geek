@@ -1,3 +1,164 @@
+package lsn3_collections.homeWork;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.*;
+import java.io.*;
+
 /**
  * Здесь описываются все слушатели ActionListener и действия, применяемые в гафическом интерфейсе
  */
+
+public class ActionPhoneBook implements ActionListener {
+
+    ComponentPhoneBook parent_component;
+
+    ActionPhoneBook(ComponentPhoneBook parent_component) {
+        this.parent_component = parent_component;
+    }
+
+    int count;
+    Object[] row = new Object[3];
+    File fileData = new File("PhoneBookData.txt");
+
+    // слушатель для кнопок
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // действие для кнопки Add
+        // здесь нужно реализовать запись данных в файл
+        if (e.getActionCommand().equals("Add")) {
+
+            if (parent_component.textAddName.getText().equals("") || parent_component.textAddNumber.getText().equals("")) {
+
+                JOptionPane.showMessageDialog(parent_component.frameMain, parent_component.labelAddRecError);
+
+            } else {
+                count++;
+                row[0] = count;
+                row[1] = parent_component.textAddName.getText();
+                row[2] = parent_component.textAddNumber.getText();
+                parent_component.modelTable.addRow(row);
+
+            }
+            parent_component.textAddName.setText("");
+            parent_component.textAddNumber.setText("");
+        }
+
+        // действие для кнопки Delete
+        if (e.getActionCommand().equals("Delete")) {
+
+            int i = parent_component.table.getSelectedRow();
+
+            if (i >= 0) {
+                parent_component.modelTable.removeRow(i);
+            } else {
+                JOptionPane.showMessageDialog(parent_component.frameMain, parent_component.labelDeleteError);
+                parent_component.frameMessage.setVisible(true);
+            }
+        }
+        // действие для кнопки Update - обновляет выделенную строку в таблице
+        // заменяя текстом, введенным в поля Name и Number
+        if (e.getActionCommand().equals("Update")) {
+
+            int i = parent_component.table.getSelectedRow();
+
+            if (i >= 0) {
+                parent_component.modelTable.setValueAt(parent_component.textAddName.getText(), i, 1);
+                parent_component.modelTable.setValueAt(parent_component.textAddNumber.getText(), i, 2);
+            } else {
+                JOptionPane.showMessageDialog(parent_component.frameMain, parent_component.labelUpdateError);
+            }
+
+        }
+
+        if (e.getActionCommand().equals("Clear")) {
+
+            parent_component.table.setModel(new DefaultTableModel(null, new String[]{"#", "Name", "Phone Number"}));
+
+        }
+
+        // добавить действие для кнопки ExportData
+        if (e.getActionCommand().equals("ExportData")) {
+
+            // в этом месте происходит запись данных введенных в текстовые поля в файл PhoneBookData.txt
+            // пока еще нет защиты об обнуления - экспорта пустой таблицы и перезапись файла пустыми значениями
+            try {
+
+                if (!fileData.exists()) {
+                    fileData.createNewFile();
+                }
+                FileWriter fileWriter = new FileWriter(fileData.getAbsoluteFile());
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+                for (int i = 0; i < parent_component.table.getRowCount(); i++) {
+                    for (int j = 0; j < parent_component.table.getColumnCount(); j++) {
+                        String dataLine = parent_component.table.getModel().getValueAt(i, j) + " ";
+                        bufferedWriter.write(dataLine);
+                    }
+                    bufferedWriter.write("\n"); // добавляет перевод строки на новую, для того, чтобы не было ошибок при чтении файла
+                }
+
+                bufferedWriter.close();
+                fileWriter.close();
+                JOptionPane.showMessageDialog(null, "Data was successfully export in 'PhoneBookData.txt'");
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        // действие для кнопки Exit - закрывает основной фрейм
+        if (e.getActionCommand().equals("Exit")) {
+
+            parent_component.frameMain.dispose();
+        }
+
+        // действие для кнопки Search - закрывает основной фрейм
+        if (e.getActionCommand().equals("ShowAll")) {
+
+            try {
+                FileReader fileReader = new FileReader(fileData);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                DefaultTableModel defModel = (DefaultTableModel) parent_component.table.getModel();
+
+                Object[] lines = bufferedReader.lines().toArray();
+
+                for (int i = 0; i < lines.length; i++) {
+                    String[] row = lines[i].toString().split(" ");
+                    defModel.addRow(row);
+                }
+
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        //действие для кнопки Show Unique
+
+        if (e.getActionCommand().equals("ShowUnique")) {
+
+            try {
+                FileReader fileReader = new FileReader(fileData);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                DefaultTableModel defModel = (DefaultTableModel) parent_component.table.getModel();
+
+                Object[] lines = bufferedReader.lines().toArray();
+                // в этой части нужно применить метод getRecord из PhoneBook
+                for (int i = 0; i < lines.length; i++) {
+                    String[] row = lines[i].toString().split(" ");
+                    if (row[2].equals(parent_component.textSearch.getText())) {
+                        defModel.addRow(row);
+                    }
+                    JOptionPane.showMessageDialog(null, "Searching record wan't found");
+                }
+
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+
+    }
+
+
+}
