@@ -1,1 +1,199 @@
 package lsn5.HomeWork;
+
+import java.util.Arrays;
+
+/**
+ * Необходимо написать два метода, которые делают следующее:
+ * <p>
+ * 1) Создают одномерный длинный массив, например:
+ * <p>
+ * static final int size = 10000000;
+ * static final int h = size / 2;
+ * float[] arr = new float[size];
+ * <p>
+ * 2) Заполняют этот массив единицами;
+ * 3) Засекают время выполнения: long a = System.currentTimeMillis();
+ * 4) Проходят по всему массиву и для каждой ячейки считают новое значение по формуле:
+ * arr[i] = (float)(arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+ * 5) Проверяется время окончания метода System.currentTimeMillis();
+ * 6) В консоль выводится время работы: System.out.println(System.currentTimeMillis() - a);
+ * Отличие первого метода от второго:
+ * Первый просто бежит по массиву и вычисляет значения.
+ * Второй разбивает массив на два массива, в двух потоках высчитывает новые значения и потом склеивает эти массивы обратно в один.
+ * По замерам времени:
+ * Для первого метода надо считать время только на цикл расчета:
+ * for (int i = 0; i < size; i++) {
+ * arr[i] = (float)(arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+ * }
+ * Для второго метода замеряете время разбивки массива на 2, просчета каждого из двух массивов и склейки.
+ */
+
+public class MainArrThread {
+
+    static final int SIZE = 1000000;
+    static final int HALF = SIZE / 2;
+    // две накапливающих перпеменных, которые будут хранить результат расчетов
+    static float[] res1 = new float[HALF];
+    static float[] res2 = new float[HALF];
+
+
+    public static void main(String[] args) {
+        System.out.println("Первый метод:");
+        initFirstArr();
+        System.out.println("------------------------------------");
+
+        System.out.println("Второй метод:");
+        initSecondArr();
+
+    }
+
+
+    // метод, создающй одномерный массив и вычисляет без разбивки
+
+    public static void initFirstArr() {
+        float[] arr = new float[SIZE];
+
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = 1;
+        }
+//        System.out.println(Arrays.toString(arr));
+
+        // точка начала отсчета времени времени
+        long timePoint1 = System.currentTimeMillis();
+
+        // выполняем вычисление значений/элементов массива по формуле
+        calculation(arr, 0);
+
+        // точка окончания отсчета времени
+        long timePoint2 = System.currentTimeMillis();
+
+        // вывод результата
+        System.out.println("Время заполнения массива элементами по формуле: "
+                + Long.toString(timePoint2 - timePoint1));
+
+//        System.out.println(Arrays.toString(arr));
+
+    }
+
+
+    // метод, создающй одномерный массив и вычисляет в двух потоках
+    // в нем методы copyArray делят заданный массив на 2 равных
+    // дальше метод calculate делает рассчет значений кадой части полученного массива по формуле
+    public static void initSecondArr() {
+        float[] arr = new float[SIZE];
+
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = 1;
+        }
+
+        // первая точка начала отсчета времени времени
+        long timePoint1 = System.currentTimeMillis();
+
+        // разделение массива на два (копирование массивов)
+        copyArray1(arr);
+        copyArray2(arr);
+
+        // срез по первой точке
+        long timePoint2 = System.currentTimeMillis();
+
+        System.out.println("Время выполнения копирования массива: " + Long.toString(timePoint2 - timePoint1));
+
+
+        // создаются потоки с вычислением знаений массивов
+        Thread thread1 = new Thread(() -> {
+//            calculation(copyArray1(arr), 0);
+            // даем ссылку накапливающей переменной на посчитанный массив
+            res1 = calculation(copyArray1(arr), 0);
+            // просмотр полученного массива
+//            System.out.println(Arrays.toString(res1));
+        });
+
+        Thread thread2 = new Thread(() -> {
+//            calculation(copyArray2(arr), HALF);
+            // даем ссылку накапливающей переменной на посчитанный массив
+            res2 = calculation(copyArray2(arr), HALF);
+            // просмотр полученного массива
+//            System.out.println(Arrays.toString(res2));
+        });
+
+
+        // запускаются потоки
+        thread1.start();
+        thread2.start();
+
+        // ждем выполнение потоков
+        try {
+            // выполнение первого потока
+            long timePoint3 = System.currentTimeMillis();
+            thread1.join();
+            long timePoint4 = System.currentTimeMillis();
+            System.out.println("Время выполнения вычислений первой половины массива: "
+                    + Long.toString(timePoint4 - timePoint3));
+
+            // выполнение второго потока
+            long timePoint5 = System.currentTimeMillis();
+            thread2.join();
+            long timePoint6 = System.currentTimeMillis();
+            System.out.println("Время выполнения вычислений второй половины массива: "
+                    + Long.toString(timePoint6 - timePoint5));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        float[] a = copyArray1(arr);
+
+        // вывод склеенного массива
+        System.out.println("Склеенный массив:");
+        long timePoint7 = System.currentTimeMillis();
+        //склеиваем массив с использованием effectively static
+        joinArrays(res1, res2);
+        long timePoint8 = System.currentTimeMillis();
+        System.out.println("Время склейки массива: "
+                + Long.toString(timePoint8 - timePoint7));
+        // вывод склеенного массива с использованием effectively static
+//        System.out.println(Arrays.toString(joinArrays(res1, res2)));
+
+    }
+
+//----------------------------------------------------------------------
+//          Вспомогательные методы
+//----------------------------------------------------------------------
+
+    // метод копирования первой полоины миссива
+    // на входе массив заполненный единицами
+    // взвращает первую половину массива
+    public static float[] copyArray1(float[] arr) {
+        float[] arr1 = new float[HALF];
+        System.arraycopy(arr, 0, arr1, 0, HALF);
+        return arr1;
+    }
+
+    // метод копирования второй половины миссива
+    // на входе массив заполненный единицами
+    // взвращает вторую половину массива
+    public static float[] copyArray2(float[] arr) {
+        float[] arr2 = new float[HALF];
+        System.arraycopy(arr, HALF, arr2, 0, HALF);
+        return arr2;
+    }
+
+    // создаем метод вычисления по формуле
+    // на вход принимает массив заполненный единицами
+    // возвращает массив заполненный элементами вычиленными по формуле
+    public static float[] calculation(float[] arr, int startPos) {
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (float) (arr[i] * Math.sin(0.2f + (i + startPos) / 5) * Math.cos(0.2f + (i + startPos) / 5) * Math.cos(0.4f + (i + startPos) / 2));
+        }
+        return arr;
+    }
+
+    // метод скейки массивов
+    public static float[] joinArrays(float[] arr1, float[] arr2) {
+        float[] arrFull = new float[SIZE];
+        System.arraycopy(arr1, 0, arrFull, 0, HALF);
+        System.arraycopy(arr2, 0, arrFull, HALF, HALF);
+        return arrFull;
+    }
+
+
+}
