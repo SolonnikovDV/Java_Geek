@@ -1,0 +1,42 @@
+// создаются потоки с вычислением знаений массивов
+        Thread thread1 = new Thread(() -> {
+            calculation(copyArray1(arr), 0);
+            // просмотр полученного массива
+//            System.out.println(Arrays.toString(calculation(copyArray1(arr), 0)));
+        });
+
+        Thread thread2 = new Thread(() -> {
+            calculation(copyArray2(arr), h);
+            // просмотр полученного массива
+//            System.out.println(Arrays.toString(calculation(copyArray2(arr), h)));
+        });
+
+
+        // запускаются потоки
+        thread1.start();
+        thread2.start();
+
+        // ждем выполнение потоков
+        try {
+            // выполнение первого потока
+            long timePoint3 = System.currentTimeMillis();
+            thread1.join();
+            long timePoint4 = System.currentTimeMillis();
+            System.out.println("Время выполнения вычислений первой половины массива: "
+                    + Long.toString(timePoint4 - timePoint3));
+
+            // выполнение второго потока
+            long timePoint5 = System.currentTimeMillis();
+            thread2.join();
+            long timePoint6 = System.currentTimeMillis();
+            System.out.println("Время выполнения вычислений второй половины массива: "
+                    + Long.toString(timePoint6 - timePoint5));
+
+            System.out.println(Arrays.toString(copyArray1(arr)));
+            System.out.println(Arrays.toString(copyArray2(arr)));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // вывод склеенного массива ?????????????
+        System.out.println("Склеенный массив:");
