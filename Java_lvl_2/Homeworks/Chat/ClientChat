@@ -1,1 +1,55 @@
 
+package lsn6_server.HomeWork;
+
+import java.io.*;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class ClientChat {
+
+    private static Socket socket;
+    private static Scanner scanner;
+
+    public static void main(String[] args) {
+
+        connect();
+        handle();
+        end();
+    }
+
+    private static void connect () {
+        try {
+            socket = new Socket("localhost", 1234);
+            System.out.println("Client is run.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    private static void handle () {
+        try {
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            Scanner scanner = new Scanner(System.in);
+            out.writeUTF(scanner.nextLine());
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void end () {
+        try {
+            socket.close();
+            System.out.println("Client is disconnect.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+}
