@@ -1,1 +1,74 @@
+package lsn6_server.HomeWork;
 
+import java.io.*;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class ClientChat {
+
+    private String host;
+    private int port;
+
+    // в конструктор передаем имя хоста и номер порта
+    public ClientChat(String host, int port) {
+        this.host = host;
+        this.port = port;
+
+        // для подключения к серверу нужно знать IP и порт
+        // поскльку Socket является closeable передаем его в качестве ресурса в try
+        try (
+                Socket socket = new Socket("localhost", 8080);
+                // исходящиее сообщение от клиента
+                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                // чтение клиентом входящего потока от сервера
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
+        ) {
+            System.out.println("Connection to server successful");
+
+            // выполнение потока клинета в бесконечно цикле
+
+            while (true) {
+                // запрос
+                Scanner scanner = new Scanner(System.in);
+                System.out.print("Enter your message: ");
+                String outComeMessage = scanner.nextLine();
+                System.out.println("Client send message: " + outComeMessage);
+
+                // условие завершения потока клинета
+                if (outComeMessage.equals("/break")) {
+                    break;
+                }
+
+                try {
+                    out.write(outComeMessage);// забирает сообщение и передает в отправку
+                    out.newLine();// переводит каретку на новую строку
+                    out.flush();// отправка сообщения
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // прослушиваем в бесконечном цикле ответ сервера
+                new Thread(() -> {
+                    while (true) {
+                        try {
+                            String inComeMessage = in.readLine();
+                            System.out.println("Message from server: " + inComeMessage);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        ClientChat clientChat = new ClientChat("localhost", 8080);
+    }
+
+}
