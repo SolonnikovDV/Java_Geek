@@ -61,22 +61,28 @@ public class ClientHandler {
 //  ПРИВАТНЫЕ СООБЩЕНИЯ
 //------------------------------------------------------------------------------------------------------------------
                         // для приватной сессии нужен вложенный поток
-                        if (str.startsWith("/w ")) {
+
                             new Thread(() -> {
-                                while (true) {
+                                try {
+                                    while (true) {
+                                        String string = in.readUTF();
+                                        if (string.startsWith("/w ")) {
+                                            String[] token = string.split(" +", 3);
+                                            nick = token[1]; // получаем ник
+                                            String message = token[2]; // текст сообщения
 
-                                    String[] token = str.split(" +", 3);
-                                    String nick = token[2]; // получаем ник
-                                    String message = token[3]; // текст сообщения
+                                            // проверяем существует ли такой ник
+                                            server.isNick(nick);
+                                            System.out.println(server.isNick(nick));
 
-                                    // проверяем существует ли такой ник
-                                    server.isNick(nick);
-
-                                    // отправка приватного сообщения
-                                    sendMSG(message);
+                                            // отправка приватного сообщения
+                                            server.privateMSG(this, message);
+                                        }
+                                    }
+                                } catch (IOException e){
+                                    e.printStackTrace();
                                 }
                             }).start();
-                        }
 //------------------------------------------------------------------------------------------------------------------
                     }
                 } catch (IOException e) {
