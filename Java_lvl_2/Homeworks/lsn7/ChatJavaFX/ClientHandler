@@ -1,0 +1,114 @@
+package ChatJavaFX.Server;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
+// класс который будет определять подлючение для каждого клиента (множества клинетов)
+public class ClientHandler {
+    private Server server;
+    private Socket socket; // сокет для каждого конкретного пользователя
+    DataInputStream in;
+    DataOutputStream out;
+    String nick;
+
+    // конструктор
+    public ClientHandler(Server server, Socket socket) {
+
+        // инициализируем входящий поток по полученному сокету
+        try {
+            this.server = server;
+            this.socket = socket;
+            in = new DataInputStream(socket.getInputStream());
+            out = new DataOutputStream(socket.getOutputStream());
+
+            // чтобы клиенты могли работать независимо друг от друга
+            // нужно каждому клиенту выделить поток
+            new Thread(() -> {
+                try {
+                    // цикл авторизации
+                    while (true) {
+                        String str = in.readUTF();
+
+                        if (str.startsWith("/auth ")) {
+                            String[] token = str.split(" +"); // делим входящую строку на элементы
+                            String newNick = AuthService.getNickByLoginAndPass(token[1], token[2]); // 0 - auth, 1 - login, 2 - password
+
+                            if (newNick != null) {
+                                sendMSG("/authOk");
+                                nick = newNick;
+                                server.subscribe(this);
+                                System.out.println("Client " + nick + " authorized");
+                                server.broadcastMSG("Client " + nick + " authorized");
+                                break;
+
+                            } else {
+                                sendMSG("Wrong login / password.");
+                            }
+                        }
+                    }
+                    // цикл работы
+                    while (true) {
+                        String str = in.readUTF();
+
+                        if (str.equals("/end")) {// обоработка отключения клиента
+                            break;
+                        }
+                        server.broadcastMSG(nick + ": " + str);// отправка сообщений
+
+//------------------------------------------------------------------------------------------------------------------
+//  ПРИВАТНЫЕ СООБЩЕНИЯ
+//------------------------------------------------------------------------------------------------------------------
+                        // для приватной сессии нужен вложенный поток
+                        if (str.startsWith("/w ")) {
+                            new Thread(() -> {
+                                while (true) {
+
+                                    String[] token = str.split(" +", 3);
+                                    String nick = token[2]; // получаем ник
+                                    String message = token[3]; // текст сообщения
+
+                                    // проверяем существует ли такой ник
+                                    server.isNick(nick);
+
+                                    // отправка приватного сообщения
+                                    sendMSG(message);
+                                }
+                            }).start();
+                        }
+//------------------------------------------------------------------------------------------------------------------
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // закрываем сокет при выходе клинета и удаляем его из листа методом unSubscribe()
+                } finally {
+                    try {
+                        socket.close();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    server.unSubscribe(this);
+                    System.out.println("Client " + nick + "disconnect");
+                }
+            }).start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    // метод отправки сообщений
+    public void sendMSG(String message) {
+        try {
+            out.writeUTF(message);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
