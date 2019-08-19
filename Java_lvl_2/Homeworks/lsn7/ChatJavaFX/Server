@@ -81,6 +81,18 @@ public class Server {
         clients.remove(clientHandler);
     }
 
+// --------------------------------------------------------------------------------
+
+    // метод отправки приватного сообщения
+    public void privateMSG (ClientHandler clientHandler, String message) {
+        clientHandler.sendMSG(message);
+
+    }
+
+    // метод проверки клиента в списке
+    public boolean isNick (String nick) {
+       return clients.contains(nick);
+    }
 
 
 }
