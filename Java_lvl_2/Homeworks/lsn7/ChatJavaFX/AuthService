@@ -1,0 +1,72 @@
+package ChatJavaFX.Server;
+
+import java.sql.*;
+
+// класс отвечает за авторизацию и работу с БД
+public class AuthService {
+
+    public static Connection connection;
+    private static Statement stmt;
+
+    // метод полключения к базе данных
+    public static void connect() throws SQLException {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:mainDB.db");
+            stmt = connection.createStatement();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // метод отключения от БД
+    public static void disconnect() {
+        try {
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //
+    public static String getNickByLoginAndPass (String login, String password){
+        // запрос, где %s - передаваемый аргумент (строка)
+        String sql = String.format("SELECT nickname FROM main\n" +
+                "WHERE login = '%s'\n" +
+                "AND password = '%s'", login, password);
+
+        // результат запроса
+        try {
+            ResultSet rs = stmt.executeQuery(sql);
+            // проверка наличия в базе учетной записи: если запрошенное сочетание логин/пароль true тогда возвращаем ник
+            if (rs.next()) {
+                return rs.getString(1); // возвращаем из БД запись в колонке (под этим индексом колонки идет наш ник
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static int getIdNyNick (String nick){
+        String sql = String.format(
+                "SELECT ID FROM main\n" +
+                "WHERE nick = '%s'\n" + nick);
+
+        try {
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()){
+                return rs.getInt(0);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Integer.parseInt(null);
+    }
+
+}
