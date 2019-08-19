@@ -89,10 +89,6 @@ public class Server {
 
     }
 
-    // метод проверки клиента в списке
-    public boolean isNick (String nick) {
-       return clients.contains(nick);
-    }
 
 
 }
