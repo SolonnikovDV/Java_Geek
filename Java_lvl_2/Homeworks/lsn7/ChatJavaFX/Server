@@ -1,0 +1,98 @@
+package ChatJavaFX.Server;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.sql.SQLException;
+import java.util.Vector;
+
+public class Server {
+
+    // Vector - это потокобезопасная реализация листа. Теперь каждый раз когда будет создаваться клинет он будет добавляться в коллекцию
+    private Vector<ClientHandler> clients;
+
+
+    public Server () throws SQLException {
+        //  авторизация и подключение к БД
+        AuthService.connect();
+//        // проверка аторизации
+//        System.out.println(AuthService.getNickByLoginAndPass("login1", "pass1"));
+
+        ServerSocket server = null; // тут инициализируется с null чтобы в коде дальше можно было использовать server не пересоздава его экземпляр
+        Socket socket = null; // аналогично
+
+        clients = new Vector<>();
+
+        //делаем серверный сокет
+        try {
+            // реализовываем код для одновременного подключения нескольких клентов
+            server = new ServerSocket(8189);
+            System.out.println("Server is run");
+
+            // делаем эксземпляр ClientHandler для каждого полюченного клиента
+            while (true) {
+                // ждем пока кто то подключится через метод accept() поток при этом останавливается
+                // когда кто то подключеится метод вернет сокет подключившегося клиента и поток будет запущен дальше
+                socket = server.accept();
+                System.out.println("Client connected");
+
+                // добавляем подлючившегося клинета в коллекцию, чтобы можно было пройтись по каждому клинету
+                // и передать ему записи отрпавленных сообщений от каждого клиента в сети
+                // это будет реализовано через метод subscribe() и sendMSG() в классе ClientHandler и метод broadcastMSG в классе Server
+                new ClientHandler(this, socket);
+                // удаляться из листа запись будет в классе ClientHandler методом unSubscribe()
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        // обзательно закрываем через finally
+        } finally {
+            try {
+                server.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            AuthService.disconnect(); // отключаемся от БД
+        }
+
+
+    }
+
+
+    //отправка сообщений всем из коллекции
+    public void broadcastMSG (String message){
+        for (ClientHandler client: clients) {
+            client.sendMSG(message);
+        }
+
+    }
+
+    // метод добавления клинета в лист при входе
+    public void subscribe (ClientHandler clientHandler){
+
+        clients.add(clientHandler);
+    }
+
+    // метод удаления клинета из листа при выходе
+    public void unSubscribe (ClientHandler clientHandler){
+
+        clients.remove(clientHandler);
+    }
+
+// --------------------------------------------------------------------------------
+
+    // метод отправки приватного сообщения
+    public void privateMSG (ClientHandler clientHandler, String message) {
+        clientHandler.sendMSG(message);
+
+    }
+
+    // метод проверки клиента в списке
+    public boolean isNick (String nick) {
+       return clients.contains(nick);
+    }
+
+
+}
