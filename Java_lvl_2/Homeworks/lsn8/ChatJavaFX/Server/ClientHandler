@@ -1,14 +1,9 @@
 package ChatJavaFX.Server;
 
-import ChatJavaFX.Client.Controller;
-import com.sun.javafx.stage.StageHelper;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
 
 public class ClientHandler {
     private Server server;
@@ -36,14 +31,14 @@ public class ClientHandler {
                 try {
 
                     int timeOut = 5000;
-
+                    
                     // цикл авторизации
                     while (true) {
-//********************* ТОЧКА ОТСЧЕТА ВРЕМЕНИ
+
+                        // ТОЧКА ОТСЧЕТА ВРЕМЕНИ
                         long startTime = System.currentTimeMillis();
 
                         String str = in.readUTF();
-                        System.out.println(str);
 
                         // здесь получаем введенную пользователем строку
                         if (str.startsWith("/auth ")) {
@@ -54,20 +49,12 @@ public class ClientHandler {
                             if (newNick != null) {
                                 if (!server.isLoginAuthorised(token[1])) {
                                     sendMSG("/authok " + newNick);
+
+                                    // ПРОВЕРКА ПРОШЕДШЕГО ВРЕМЕНИ
+                                    сheckTimeOut(timeOut, startTime);
+
                                     nick = newNick;
                                     login = token[1];
-//***************************** ПРОВЕРКОЙ ПРОШЕДШЕГО ВРЕМЕНИ
-                                    long elapsedTime = System.currentTimeMillis() - startTime;
-                                    if (elapsedTime > timeOut) {
-                                        sendMSG("TimeOut");
-                                        try {
-                                            socket.close();
-                                        } catch (SocketException e) {
-                                            e.printStackTrace();
-                                        }
-                                        throw new RuntimeException("TimeOut");
-                                    }
-
                                     server.subscribe(this);
                                     System.out.println("Клиент " + nick + " авторизовался");
                                     break;
@@ -78,10 +65,9 @@ public class ClientHandler {
                             } else {
                                 sendMSG("Неверный логин / пароль");
                             }
-
                         }
-
                     }
+
                     //цикл работы
                     while (true) {
                         String str = in.readUTF();
@@ -131,5 +117,20 @@ public class ClientHandler {
     public String getLogin() {
         return login;
     }
+
+    // метод проврки времени таймаута авторизации
+    private void сheckTimeOut(long timeOut, long startTime) {
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        if (elapsedTime > timeOut) {
+            sendMSG("TimeOut");
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            throw new RuntimeException("TimeOut");
+        }
+    }
+
 
 }
