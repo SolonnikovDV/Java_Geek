@@ -1,0 +1,24 @@
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class ReadExcel {
+
+    ReadExcel () throws IOException {
+
+        FileInputStream file = new FileInputStream("/Volumes/Transcend/ExcelReader/Excel.xls");
+        Workbook workbook = new HSSFWorkbook(file);
+        String result = workbook.getSheetAt(0).getRow(0).getCell(0).getStringCellValue();
+        System.out.println(result);
+        file.close();
+
+    }
+
+    public static void main (String[] args) throws IOException {
+        ReadExcel readExcel = new ReadExcel();
+
+    }
+
+}
