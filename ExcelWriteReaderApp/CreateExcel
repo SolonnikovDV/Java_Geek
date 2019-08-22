@@ -1,0 +1,44 @@
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class CreateExcel {
+
+
+    CreateExcel() throws IOException {
+        // создание книги Excel через интерфейс Workbook и класса HSSFWorkbook
+        Workbook workbook = new HSSFWorkbook();
+
+        // создание листа Excel через интерфейс Sheet
+        Sheet sheet1 = workbook.createSheet("Лист 1");
+        Sheet sheet2 = workbook.createSheet("Лист 2");
+        Sheet sheet3 = workbook.createSheet("№№№аа2а23####");
+
+        // создание строки
+        Row row0 = sheet1.createRow(0);
+        Row row1 = sheet1.createRow(1);
+        // создание ячейки
+        Cell cell00 = row0.createCell(1);
+        Cell cell01 = row0.createCell(2);
+        Cell cell10 = row1.createCell(0);
+        // запись в ячейку
+        cell00.setCellValue("00 нулевая строка / нулевой столбец");
+        cell01.setCellValue("01 нулевая строка / первый столбец");
+        cell10.setCellValue("11 первая строка / нулевой столбец");
+
+        // задаем путь и имя файла
+        FileOutputStream file = new FileOutputStream("Excel.xls");
+        workbook.write(file);
+        file.close();
+    }
+
+    public static void main(String[] args) throws IOException {
+       CreateExcel createExcel = new CreateExcel();
+    }
+
+}
