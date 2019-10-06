@@ -1,1 +1,17 @@
+package lsn3.PriorityQueue;
 
+public class AppPriority {
+    public static void main(String[] args) {
+        PriorityQueueImpl priorityQueue = new PriorityQueueImpl(5);
+        priorityQueue.insert(11);
+        priorityQueue.insert(44);
+        priorityQueue.insert(55);
+        priorityQueue.insert(22);
+        priorityQueue.insert(33);
+
+        while (!priorityQueue.isEmpty()){
+            int n = priorityQueue.remove();
+            System.out.println(n );
+        }
+    }
+}
