@@ -1,1 +1,69 @@
+package lsn3.Queue;
 
+public class QueueImpl implements Queue {
+
+    private int[] queue;
+    private int front; // первый элемент (первый у выхода)
+    private int rear; // последний элемент (первый у входа)
+    private int items;
+    private int maxSize;
+
+    public QueueImpl(int size) {
+        this.queue = new int[size]; // для очереди создаетяс массив
+        this.front = 0;
+        this.rear = -1; // значение установлено -1 т к далее будет префиксное изменение переменной величины массива
+        this.items = 0;
+        this.maxSize = size;
+    }
+
+    @Override
+    public boolean isEmpty() {
+
+        return (items == 0);
+    }
+
+    @Override
+    public boolean isFull() {
+
+        return (items == maxSize);
+    }
+
+    @Override
+    public int size() {
+
+        return items;
+    }
+
+    @Override
+    public void insert(int element) {
+        if (rear == maxSize - 1) {
+            rear = -1;
+        }
+        queue[++rear] = element;
+        items++;
+    }
+
+    @Override
+    public int remove() { // метод будет всегдя удалять первый элемент
+        int template = queue[front]; // если сокращенно то int template = queue[front++];
+        front++;
+        // условия для случая, когда элементов в очереди не осталось
+        if (front == maxSize) {
+            front = 0;
+        }
+        items--;
+        return template;
+    }
+
+    @Override
+    public int get() {
+
+        return 0;
+    }
+
+    @Override
+    public int peek() {
+
+        return 0;
+    }
+}
