@@ -1,1 +1,47 @@
+package lsn3.Stack;
 
+import java.util.Arrays;
+
+public class StackImp implements Stack {
+    private char[] stack;
+    private int size;
+    private int top;
+
+    public StackImp(int size) {
+        this.size = size;
+        this.stack = new char[size];
+        this.top = -1;// если хранилище не создано то его вершина равна -1
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return (top == -1);
+    }
+
+    @Override
+    public boolean isFull() {
+        return (top == size - 1);
+    }
+
+    // добавить элемент
+    @Override
+    public void push(char element) {
+        stack[++top] = element;
+    }
+
+    // достать элемент
+    @Override
+    public char pop() {
+        return stack[top--];
+    }
+
+    // вывод массива / стэка
+    @Override
+    public int peek() {
+        return stack[top];
+    }
+
+    public String print(){
+        return Arrays.toString(this.stack);
+    }
+}
