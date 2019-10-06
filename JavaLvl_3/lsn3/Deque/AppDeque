@@ -1,1 +1,40 @@
+package lsn3.Deque;
 
+public class AppDeque {
+    public static void main(String[] args) {
+        DequeImpl deque = new DequeImpl(5);
+
+        // добавление элемента в начало
+        deque.pushFront(111);
+        deque.pushFront(222);
+        deque.pushFront(333);
+        System.out.print("Полученный дек: " + deque.print() + "\n");
+
+        // добавление элемента в конец
+        deque.pushRear(234);
+        deque.pushRear(345);
+
+//      // демонстрация переполнения
+//        deque.pushFront(444);
+//        deque.pushFront(555);
+        System.out.print("Полученный дек: " + deque.print() + "\n");
+
+        // вывод элеента с начала
+        System.out.println("Вывод элемента с начала дека: " + deque.getFromFront());
+
+        // вывод элеента с конца
+        System.out.println("Вывод элемента с конца дека: " + deque.getFromRear());
+
+        // извелечение элемента с конца
+        System.out.println("Извелечение элемента с конца дека: " + deque.popRear());
+
+        // извелечение элемента с начала
+        System.out.println("Вывод элемента с начала дека: " + deque.popFront());
+        System.out.print("Полученный дек: " + deque.print() + "\n");
+
+        // вот тут видно, что элементы извелечены, однако визуализация "обнуления" не отражает :'(
+        System.out.println(deque.getFromRear());
+
+    }
+
+}
