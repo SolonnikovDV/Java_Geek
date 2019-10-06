@@ -1,1 +1,133 @@
+package lsn3.Deque;
 
+import java.util.Arrays;
+
+public class DequeImpl implements Deque {
+    private int maxSize; // максимальны размер дека
+    private int items; //  текущее количество элементов в деке
+    private int front, rear; // индексы первого (верхнего) и последнего (нижнего) элементов дека в массиве
+    private int[] deque; //массив для хранения данных внутри дека
+
+    public DequeImpl(int size) {
+        this.deque = new int[size];
+        this.front = 0;
+        this.rear = 0;
+        this.items = 0;
+        this.maxSize = size;
+    }
+
+
+    @Override
+    public void pushFront(int element) {
+        String dequeIsFullMsg = "Дек полный. Увеличьте размер дека.";
+        String elementAddMsg = "В конец дека добавлен элемент: ";
+        if (items == maxSize) { // проверка если дек полный
+            System.out.println(dequeIsFullMsg);
+            return;
+        } else if (items == 0) {
+            rear = front;
+            deque[front] = element;
+            items++;
+        } else {
+            front++;
+            if (front >= maxSize) {
+                front = 0;
+            }
+            deque[front] = element;
+            items++;
+        }
+        System.out.println(elementAddMsg + element);
+    }
+
+
+    @Override
+    public void pushRear(int element) {
+        String dequeIsFullMsg = "Дек полный. Увеличьте размер дека.";
+        String elementAddMsg = "В конец дека добавлен элемент: ";
+        if (items == maxSize) {
+            System.out.println(dequeIsFullMsg);
+            return;
+        } else if (items == 0) {
+            front = rear;
+            deque[rear] = element;
+            items++;
+        } else {
+            rear--;
+            if (rear < 0) {
+                rear = maxSize - 1;
+            }
+            deque[rear] = element;
+            items++;
+        }
+        System.out.println(elementAddMsg + element);
+    }
+
+    // метод извлекает элемент из массива, сдвигая индекс начала влево
+    @Override
+    public int popFront() {
+        int templation;
+
+        if (items != 0) {
+            templation = deque[front];
+            front--;
+            if (front < 0) {
+                front = maxSize - 1;
+            }
+            items--;
+            return templation;
+        } else {
+            return -1;
+        }
+    }
+
+    // метод, работает аналогично pushFront извлекает, но только сдвигает индекс начала вправо
+    @Override
+    public int popRear() {
+        int templation;
+
+        if (items != 0) {
+            templation = deque[rear];
+            rear++;
+            if (rear >= maxSize) {
+                rear = 0;
+            }
+            items--;
+            return templation;
+        } else {
+            return -1;
+        }
+    }
+
+    // метод выводит элемент не сдвигая индекс влево
+    @Override
+    public int getFromFront() {
+        if (items != 0) {
+            return deque[front];
+        } else {
+            return -1;
+        }
+    }
+
+    // метод выводит элемент не сдвигая индекс вправо
+    @Override
+    public int getFromRear() {
+        if (items != 0) {
+            return deque[rear];
+        } else {
+            return -1;
+        }
+    }
+
+    // возвращает количество элементов
+    @Override
+    public int size() {
+        return items;
+    }
+
+    // не удалось реализовать "обнуление" позиции извелеченного элемента в массиве
+    @Override
+    public String print (){
+        return Arrays.toString(deque);
+    }
+
+}
