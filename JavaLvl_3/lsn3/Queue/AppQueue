@@ -1,1 +1,27 @@
+package lsn3.Queue;
 
+public class AppQueue {
+    public static void main(String[] args) {
+        QueueImpl q = new QueueImpl(6);
+
+        q.insert(11);
+        q.insert(22);
+        q.insert(33);
+        q.insert(44);
+        q.insert(55);
+        q.insert(66);
+
+        q.remove(); // удалит 11
+        q.remove(); // удалит 22
+
+        q.insert(22222); // добавит после 66
+        q.insert(33333); // добавит после 22222
+
+        // вывод очереди на экран методом почередного удаления элемента (а он всегда первый) из очереди,
+        // пока размер не достигнет нуля
+        while (!q.isEmpty()){
+            int n = q.remove();
+            System.out.println(n);
+        }
+    }
+}
