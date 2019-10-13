@@ -1,1 +1,26 @@
+package lsn4.linkedLIst;
 
+public class AppLink {
+
+    public static void main(String[] args) {
+        LinkedListImpl list = new LinkedListImpl();
+        list.insert("AAAA", 12);
+        list.insert("SSSSS", 13);
+        list.insert("DDDD", 14);
+        list.insert("FFFF", 15);
+
+        list.display();
+        System.out.println();
+
+
+        if (!list.isEmpty()) {
+            list.deleteLink();
+            list.deleteName("AAAA");
+        }
+        list.display();
+        System.out.println();
+
+        System.out.println(list.find("SSSSS"));
+
+    }
+}
