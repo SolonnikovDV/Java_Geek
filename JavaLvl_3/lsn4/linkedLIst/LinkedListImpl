@@ -1,1 +1,51 @@
+package lsn4.linkedLIst;
 
+import lsn4.AbstractClassLink.AbstractLink;
+
+public class LinkedListImpl extends AbstractLink {
+
+    private Link first;
+
+    public void setFirst(Link first) {
+        this.first = first;
+    }
+
+    public Link getFirst() {
+        return first;
+    }
+
+    public LinkedListImpl() {
+
+        this.first = null;
+    }
+
+    @Override
+    public void insert(String name, int age) {
+        super.insert(name, age);
+    }
+
+    @Override
+    public Link deleteLink() {
+        return super.deleteLink();
+    }
+
+    @Override
+    public Link deleteName(String name) {
+        return super.deleteName(name);
+    }
+
+    @Override
+    public void display() {
+        super.display();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return super.isEmpty();
+    }
+
+    @Override
+    public Link find(String name) {
+        return super.find(name);
+    }
+}
