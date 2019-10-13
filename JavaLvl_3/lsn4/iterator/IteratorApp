@@ -1,1 +1,24 @@
+package lsn4.iterator;
 
+import lsn4.linkedLIst.LinkedListImpl;
+
+public class IteratorApp {
+    public static void main(String[] args) {
+
+        LinkedListImpl list = new LinkedListImpl();
+        ListIterator iterator = new ListIterator(list);
+
+        iterator.insertAfter("Inokentiy", 45);
+        iterator.insertAfter("Goblin", 1); // поле отработки итератор стоит тут
+        iterator.insertBefore("Feofan", 12);
+        iterator.insertBefore("Leopold", 15);
+
+        list.display();
+        // (1) Inokentiy (3) Leopold  (4) Feofan  (2) Goblin
+
+        System.out.println("deleteCurrent");
+        System.out.println("was delete: " + iterator.deleteCurrent() + "\n");
+        list.display();
+
+    }
+}
