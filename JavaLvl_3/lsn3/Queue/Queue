@@ -1,1 +1,18 @@
+package lsn3.Queue;
 
+public interface Queue {
+
+    public boolean isEmpty();
+
+    public boolean isFull();
+
+    public int size();
+
+    public void insert(int element);
+
+    public int remove ();
+
+    public int get();
+
+    public int peek();
+}

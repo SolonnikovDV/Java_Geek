@@ -1,1 +1,14 @@
+package lsn3.Stack;
 
+public interface Stack {
+
+    public boolean isEmpty();
+
+    public boolean isFull();
+
+    public void push(char element);
+
+    public char pop ();
+
+    public int peek();
+}

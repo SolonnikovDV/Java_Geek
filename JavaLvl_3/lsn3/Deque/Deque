@@ -1,1 +1,22 @@
+package lsn3.Deque;
 
+public interface Deque {
+
+    public void pushFront (int element);
+
+    public void pushRear (int element);
+
+    public int popFront ();
+
+    public int popRear ();
+
+    public int getFromFront();
+
+    public int getFromRear();
+
+    public int size();
+
+    public String print ();
+
+
+}

@@ -1,1 +1,58 @@
+package lsn3.InvertingStringsApp;
 
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
+public class InvertApp {
+    public static void main(String[] args) {
+        System.out.print("Enter your text: ");
+
+        // первый способ через массив
+        reverseString(inputString());
+
+        // второй способ через StringBuilder и метод reverse()
+        reverseString_2(inputString());
+    }
+
+    // чтения текста вводимого в консоль
+    private static Scanner inputString() {
+        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+        Scanner scanner = new Scanner(inputStreamReader);
+        return scanner;
+    }
+
+    // метод № 1 (через массив) чтения введенного текста в обратном порядке
+    private static void reverseString(Scanner inputString) {
+        String str;
+        char[] arr;
+        int i;
+        String enterText = "Enter your text: ";
+        String reversedText = "Reversed text: ";
+
+        while (inputString.hasNext()) {
+            System.out.print(enterText);
+            str = inputString.nextLine(); // сохраняем введенный текст в строку
+            arr = str.toCharArray(); // переводим полученную строку в символы и заполняем этими символами массив
+
+            for (i = arr.length - 1; i >= 0; i--) { // читаем массив с конца
+                System.out.print(reversedText + arr[i]);
+            }
+        }
+    }
+
+    // метод № 2 (через StringBuilder и метод reverse()) чтения введенного текста в обратном порядке
+    private static void reverseString_2(Scanner inputString) {
+        String str;
+        StringBuilder sb;
+        String enterText = "Enter your text: ";
+        String reversedText = "Reversed text: ";
+
+        while (inputString.hasNext()) {
+            System.out.print(enterText);
+            str = inputString.nextLine();
+            sb = new StringBuilder(str);
+            System.out.print(reversedText + sb.reverse());
+        }
+    }
+
+}
