@@ -1,1 +1,75 @@
+package lsn4.iterator;
 
+import lsn4.linkedLIst.Link;
+import lsn4.linkedLIst.LinkedListImpl;
+
+public class ListIterator {
+
+    private Link current;
+    private Link prev;
+    private LinkedListImpl list;
+
+    public ListIterator(LinkedListImpl list) {
+        this.list = list;
+        reset();
+    }
+
+    private void reset() {
+        current = list.getFirst(); // перевод итереатора в начало
+        prev = null;
+    }
+
+    public void nexLink() {
+        prev = current;
+        current = current.next;
+    }
+
+    public boolean atEnd() {
+        return current.next == null; // дошли до конца
+    }
+
+    public Link getCurrent() {
+        return current;
+    }
+
+    public void insertAfter(String name, int age) {
+        Link link = new Link(name, age);
+        if (list.isEmpty()) {
+            list.setFirst(link);
+            current = link;
+        } else {
+            link.next = current.next;
+            current.next = link;
+            nexLink();
+        }
+    }
+
+    public void insertBefore(String name, int age) {
+        Link link = new Link(name, age);
+        if (prev == null) {
+            link.next = list.getFirst();
+            list.setFirst(link);
+            reset();// переводим итератор в начало списка
+        } else {
+            link.next = prev.next;
+            prev.next = current = link;
+        }
+    }
+
+    // TODO: самостоятельная реализация метода
+    public String deleteCurrent () {
+        String name = current.name;
+        if(prev == null){
+            list.setFirst(current.next);
+            reset();
+        }else {
+            prev.next = current.next;
+            if(atEnd()){
+                reset();
+            } else{
+                current = current.next;
+            }
+        }
+        return name;
+    }
+}
