@@ -1,1 +1,11 @@
+package lsn4.doubleLinkedList;
 
+public interface DoubleLink {
+
+    void insertFirst(String name, int age);
+
+    void insertLast(String name, int age);
+
+    boolean isFind(String name);
+
+}
