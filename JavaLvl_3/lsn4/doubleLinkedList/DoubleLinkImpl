@@ -1,1 +1,56 @@
+package lsn4.doubleLinkedList;
 
+import lsn4.AbstractClassLink.AbstractLink;
+import lsn4.linkedLIst.Link;
+
+public class DoubleLinkImpl extends AbstractLink {
+
+    public Link first;
+    public Link last;
+
+    public DoubleLinkImpl() {
+        this.first = null;
+        this.last = null;
+    }
+
+    @Override
+    public Link deleteDoubleLink() {
+        return super.deleteDoubleLink();
+    }
+
+    @Override
+    public Link deleteName(String name) {
+        return super.deleteName(name);
+    }
+
+    @Override
+    public void display() {
+        super.display();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return super.isEmpty();
+    }
+
+    @Override
+    public Link find(String name) {
+        return super.find(name);
+    }
+
+    // данные методы подтягиваются из интерфейса DoubleLink
+    @Override
+    public void insertFirst(String name, int age) {
+        super.insertFirst(name, age);
+    }
+
+    @Override
+    public void insertLast(String name, int age) {
+        super.insertLast(name, age);
+    }
+
+    @Override
+    public boolean isFind(String name) {
+        return super.isFind(name);
+    }
+}

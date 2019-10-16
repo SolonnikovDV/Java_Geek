@@ -1,1 +1,136 @@
+package lsn4.AbstractClassLink;
 
+import lsn4.doubleLinkedList.DoubleLink;
+import lsn4.linkedLIst.Link;
+
+// TODO: самостоятельная методов на основе абстрактного класса
+public abstract class AbstractLink implements DoubleLink {
+
+    private Link first;
+    public Link last;
+
+    public AbstractLink() {
+        this.first = null;
+        this.last = null;
+    }
+/**
+ * перечень методов абстрактного класса с реализаци:
+ * void insert(String name, int age)
+ * Link deleteLink()
+ * Link deleteDoubleLink()
+ * Link deleteName(String name)
+ * Link find(String name)
+ * boolean isEmpty()
+ * void display()
+ */
+
+    public void insert(String name, int age) {
+        Link newLink = new Link(name, age);
+        newLink.next = first;
+        first = newLink;
+    }
+
+    public Link deleteLink() {
+        Link temp = first;
+        first = first.next;
+        return temp;
+    }
+
+    public Link deleteDoubleLink() {
+        Link temp = first;
+        if (first.next == null) {
+            last = null;
+        }else {
+            first = first.next;
+        }
+        return temp;
+    }
+
+    public Link deleteName(String name) {
+        Link current = first;
+        Link prev = first;
+        while (current.name != name) {
+            if (current.name == null) {
+                return null;
+            } else {
+                prev = current;
+                current = current.next;
+            }
+        }
+        if (current == first) {
+            first = first.next;
+        } else {
+            prev.next = current.next;
+        }
+        return current;
+    }
+
+    public void display() {
+        Link current = first;
+        while (current != null) {
+            current.print();
+            current = current.next;
+        }
+    }
+
+    public boolean isEmpty() {
+        return first == null;
+    }
+
+    public Link find(String name) {
+        Link current = first;
+        while (current.name != name) {
+            if (current.name == null) {
+                return null;
+            } else {
+                current = current.next;
+            }
+        }
+        return current;
+    }
+
+/**
+ * данные методы имплементятся из интерфейса DoubleLink:
+ * void insertFirst(String name, int age)
+ * void insertLast(String name, int age)
+ * boolean isFind(String name)
+ */
+    @Override
+    public void insertFirst(String name, int age) {
+        Link newLink = new Link(name, age);
+        if (this.isEmpty()) {
+            last = newLink;
+        }
+        newLink.next = first;
+        first = newLink;
+    }
+
+    @Override
+    public void insertLast(String name, int age) {
+        Link newLink = new Link(name, age);
+        if (this.isEmpty()) {
+            first = newLink;
+        }
+        last.next = newLink;
+        last = newLink;
+    }
+
+    @Override
+    public boolean isFind(String name) {
+        boolean result = false;
+        Link current = first;
+        while (current.name != null) {
+            if (current.name == name) {
+                result = true;
+                break;
+            } else if (current.next != null) {
+                current = current.next;
+            } else {
+                break;
+            }
+        }
+        return result;
+    }
+
+
+}
