@@ -12,10 +12,10 @@ public class AppBag {
         WishList wishList = new WishList();
 
         // предмет добавлен в лист пользователя
-        wishList.addItem(knife);
+        wishList.insert(knife);
 
         // вывод содержимого листа
-        wishList.print();
+        wishList.display();
 
     }
 }
