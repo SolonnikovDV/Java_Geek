@@ -1,0 +1,12 @@
+package lsn5.HomeWorkDoing.Bag;
+
+import java.util.List;
+
+public class Bag {
+    static double WEIGHT = 50; // вместимость, максимальный вес
+
+    List<Item> bagList; // содержимое рюкзака
+    int itemRang; // ранг предмета
+
+
+}
