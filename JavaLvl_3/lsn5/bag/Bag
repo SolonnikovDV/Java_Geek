@@ -1,12 +1,33 @@
 package lsn5.HomeWorkDoing.Bag;
 
-import java.util.List;
+import java.util.*;
 
 public class Bag {
-    static double WEIGHT = 50; // вместимость, максимальный вес
+    public List<Item> bag = new ArrayList<>();
+    Item first;
 
-    List<Item> bagList; // содержимое рюкзака
-    int itemRang; // ранг предмета
+    public Bag() {
+        this.first = null;
+    }
 
+    // метод вывод размера списка
+    public double size (){
+        return bag.size();
+    }
+
+    // метод добавления предмета в лист пользоваеля
+    public void insert(Item item) {
+        item.next = first;
+        first = item;
+    }
+
+    // метод вывода списка в консоль
+    public void display() {
+        Item current = first;
+        while (current != null) {
+            current.print();
+            current = current.next;
+        }
+    }
 
 }
