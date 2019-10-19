@@ -1,9 +1,11 @@
 package lsn5.HomeWorkDoing.Bag;
 
+// описание предмета
 public class Item {
-    String name;
-    int rang;
-    double weight;
+    private String name;
+    private int rang;
+    private double weight;
+    public Item next;
 
     public Item(String name, int rang, double weight) {
         this.name = name;
@@ -11,4 +13,8 @@ public class Item {
         this.weight = weight;
     }
 
+    // метод вывода элемента в консоль
+    public void print() {
+        System.out.println(String.format("name: <%s> , rang: <%d> , weight: <%g>", name, rang, weight));
+    }
 }
