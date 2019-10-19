@@ -1,0 +1,14 @@
+package lsn5.HomeWorkDoing.Bag;
+
+public class Item {
+    String name;
+    int rang;
+    double weight;
+
+    public Item(String name, int rang, double weight) {
+        this.name = name;
+        this.rang = rang;
+        this.weight = weight;
+    }
+
+}
