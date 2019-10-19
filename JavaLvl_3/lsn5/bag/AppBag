@@ -1,21 +1,48 @@
 package lsn5.HomeWorkDoing.Bag;
 
-import lsn5.HomeWorkDoing.WishList;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class AppBag {
+    static double WEIGHT_MAX = 10;
+
     public static void main(String[] args) {
 
         // создан предмет
-        Item knife = new Item("Knife", 1, 0.2);
+        Item pizza = new Item("Pizza", 3, 1.5);
+        Item knife = new Item("Knife", 2, 0.2);
+        Item spoon = new Item("Spoon", 5, 0.1);
+        Item beer = new Item("Beer", 1, 10.5);
+        // добавление элементов в пользовательский лист
+        List<Item> items = new ArrayList<Item>();
+        items.add(pizza);
+        items.add(knife);
+        items.add(spoon);
+        items.add(beer);
+        // сортировка по рангу
+        Collections.sort(items);
+        // вывод отсортированного пользовательского листа
+        for (Object o:items) {
+            System.out.println(o);
+        }
 
-        // создан список пользователя
-        WishList wishList = new WishList();
+        // создан рюкзак
+        Bag bag = new Bag();
+        bag.insert(items.get(0)); // тест добавления элемента
+        bag.display(); // тест вывода содержимого рюкзака
+        System.out.println(items.get(0).getWeight()); // тест вывода поля конкретного элемента
 
-        // предмет добавлен в лист пользователя
-        wishList.insert(knife);
-
-        // вывод содержимого листа
-        wishList.display();
+        // нужно из отсортированного List<Item> добавлять элементы в Bag() методом insert()
+        // до тех пор пока items.get(0).getWeight() <= WEIGHT_MAX
+        System.out.println("Рюкзак");
+        for (int i = 0; i < items.size(); i++) {
+            while ((items.get(i).getWeight() + items.get(i+1).getWeight()) <= WEIGHT_MAX){
+                bag.insert(items.get(i));
+            }
+        }
+        // рюкзак
+        bag.display();
 
     }
 }
