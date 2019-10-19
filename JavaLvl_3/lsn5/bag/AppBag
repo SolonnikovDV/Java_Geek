@@ -1,0 +1,21 @@
+package lsn5.HomeWorkDoing.Bag;
+
+import lsn5.HomeWorkDoing.WishList;
+
+public class AppBag {
+    public static void main(String[] args) {
+
+        // создан предмет
+        Item knife = new Item("Knife", 1, 0.2);
+
+        // создан список пользователя
+        WishList wishList = new WishList();
+
+        // предмет добавлен в лист пользователя
+        wishList.addItem(knife);
+
+        // вывод содержимого листа
+        wishList.print();
+
+    }
+}
