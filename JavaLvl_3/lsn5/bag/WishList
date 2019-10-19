@@ -1,0 +1,32 @@
+package lsn5.HomeWorkDoing;
+
+import lsn5.HomeWorkDoing.Bag.Item;
+
+import java.util.ArrayList;
+import java.util.List;
+
+// перечень предметов, выбранный пользователем
+// данный перечень подлежит проверке при наполнении рюкзака
+public class WishList {
+    public List<Item> items = new ArrayList<>();
+
+    public WishList() {
+
+    }
+
+    public List<Item> addItem (Item item){
+        items.add(item);
+        return items;
+    }
+
+    @Override
+    public String toString() {
+            return "WishList{" +
+                    "list=" + items +
+                    '}';
+    }
+
+    public void print (){
+        items.forEach(System.out ::println);
+    }
+}
