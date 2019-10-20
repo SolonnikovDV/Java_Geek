@@ -1,11 +1,12 @@
 package lsn5.HomeWorkDoing.Bag;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class AppBag {
-    static double WEIGHT_MAX = 10;
     public static void main(String[] args) {
 
         // создан предмет
@@ -19,26 +20,20 @@ public class AppBag {
         items.add(knife);
         items.add(spoon);
         items.add(beer);
-        // сортировка по рангу
-        Collections.sort(items);
+
         // вывод отсортированного пользовательского листа
+        System.out.println("Not sorted wishlist: ------------------------/");
         for (Object o:items) {
             System.out.println(o);
         }
 
-        System.out.println("Fill the bag ");
         // создан рюкзак
         Bag bag = new Bag(10);
-//        bag.insert(items.get(0)); // тест добавления элемента
-//        bag.display(); // тест вывода содержимого рюкзака
-//        System.out.println(items.get(0).getWeight()); // тест вывода поля конкретного элемента
 
-        // нужно из отсортированного List<Item> добавлять элементы в Bag() методом insert()
-        // до тех пор пока items.get(0).getWeight() <= WEIGHT_MAX
-
+        System.out.println("Fill the bag: -------------------------------/");
+        // наполнение циклом, без рекурсии
         bag.fillBag(items);
 
-        // рюкзак
         bag.display();
 
     }
