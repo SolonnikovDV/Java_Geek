@@ -22,23 +22,26 @@ public class Bag {
         first = item;
     }
 
+
+    public Boolean checkInsert(Item item) {
+        if ((currentWeight + item.getWeight()) > capacity) return false;
+        else return true;
+    }
+
     // метод, которы наполняет массив выбраными пользователм элементами
     public void fillBag(List<Item> items) {
         Collections.sort(items);
-        currentItem = 0;
-        currentWeight = 0;
-        while (currentItem < items.size() && currentWeight != capacity) {
-            if ((currentWeight + items.get(currentItem).getWeight()) < capacity) {
+
+        while (currentItem < items.size()) {
+            if (this.checkInsert(items.get(currentItem))) {
                 bag.add(items.get(currentItem)); // добавляем элемент
                 currentWeight += items.get(currentItem).getWeight(); // увеличиваем текущий вес рюкзака
-                ++currentItem; // увиличиваем количество предметов в рюкзаке
-            } else if (++currentItem < items.size() && currentWeight != capacity){
-                
-
-
             }
+            if(currentWeight == capacity) {
+                break;
+            }
+            ++currentItem; // увиличиваем количество предметов в рюкзаке
         }
-
     }
 
     // метод вывода списка в консоль
