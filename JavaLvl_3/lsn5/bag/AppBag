@@ -1,12 +1,12 @@
 package lsn5.HomeWorkDoing.Bag;
 
-import org.w3c.dom.ls.LSOutput;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AppBag {
+
+    final static int i = 0;
+
     public static void main(String[] args) {
 
         // создан предмет
@@ -14,6 +14,7 @@ public class AppBag {
         Item knife = new Item("Knife", 2, 0.2);
         Item spoon = new Item("Spoon", 5, 0.1);
         Item beer = new Item("Beer", 1, 10.5);
+
         // добавление элементов в пользовательский лист
         List<Item> items = new ArrayList<Item>();
         items.add(pizza);
@@ -23,17 +24,21 @@ public class AppBag {
 
         // вывод отсортированного пользовательского листа
         System.out.println("Not sorted wishlist: ------------------------/");
-        for (Object o:items) {
+        for (Object o : items) {
             System.out.println(o);
         }
 
         // создан рюкзак
         Bag bag = new Bag(10);
 
-        System.out.println("Fill the bag: -------------------------------/");
-        // наполнение циклом, без рекурсии
-        bag.fillBag(items);
+//        // наполнение циклом, без рекурсии
+//        System.out.println("Fill the bag: ---------------------------------/");
+//        bag.fillBag(items);
+//        bag.display();
 
+        // наполнение рекурсией
+        System.out.println("Recursion: -------------------------------/");
+        bag.fillBagRecursion(items, i);
         bag.display();
 
     }
