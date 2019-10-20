@@ -2,23 +2,43 @@ package lsn5.HomeWorkDoing.Bag;
 
 import java.util.*;
 
+// перечень предметов, выбранный пользователем
+// данный перечень подлежит проверке при наполнении рюкзака
 public class Bag {
     public List<Item> bag = new ArrayList<>();
+    private double capacity; // предел вместимости
+    private double currentWeight; // текущая заполненность
+    private int currentItem; // текущее количество предметов
     Item first;
 
-    public Bag() {
+    public Bag(double capacity) {
+        this.capacity = capacity;
         this.first = null;
     }
 
-    // метод вывод размера списка
-    public double size (){
-        return bag.size();
-    }
-
-    // метод добавления предмета в лист пользоваеля
+    // метод добавления премета в лист пользоваеля
     public void insert(Item item) {
         item.next = first;
         first = item;
+    }
+
+    // метод, которы наполняет массив выбраными пользователм элементами
+    public void fillBag(List<Item> items) {
+        Collections.sort(items);
+        currentItem = 0;
+        currentWeight = 0;
+        while (currentItem < items.size() && currentWeight != capacity) {
+            if ((currentWeight + items.get(currentItem).getWeight()) < capacity) {
+                bag.add(items.get(currentItem)); // добавляем элемент
+                currentWeight += items.get(currentItem).getWeight(); // увеличиваем текущий вес рюкзака
+                ++currentItem; // увиличиваем количество предметов в рюкзаке
+            } else if (++currentItem < items.size() && currentWeight != capacity){
+                
+
+
+            }
+        }
+
     }
 
     // метод вывода списка в консоль
@@ -28,6 +48,11 @@ public class Bag {
             current.print();
             current = current.next;
         }
+    }
+
+    public boolean isEmpty() {
+
+        return first == null;
     }
 
 }
