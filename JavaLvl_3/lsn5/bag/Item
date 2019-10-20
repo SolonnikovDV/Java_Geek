@@ -1,10 +1,11 @@
 package lsn5.HomeWorkDoing.Bag;
 
 // описание предмета
+// предмет имеет две величины: ранг и вес
 public class Item implements Comparable<Item> {
     private String name;
-    private int rang;
-    private double weight;
+    private int rang; // ранг предмета
+    private double weight; // вес предмета
     public Item next;
 
     public Item(String name, int rang, double weight) {
@@ -21,17 +22,22 @@ public class Item implements Comparable<Item> {
         return weight;
     }
 
+//    // удельная ценность вещи в отношении ее ранга и веса (такая задумка не подошла)
+//    public double itemValue() {
+//        return rang / weight;
+//    }
+
     // метод вывода элемента в консоль
     public void print() {
         System.out.println(String.format("name: <%s> , rang: <%d> , weight: <%g>", name, rang, weight));
     }
-    
+
     @Override
     public String toString() {
         return "Item{" +
-                "name='" + name + '\'' +
-                ", rang=" + rang +
-                ", weight=" + weight +
+                "name = '" + name + '\'' +
+                ", rang = " + rang +
+                ", weight = " + weight +
                 '}';
     }
 
