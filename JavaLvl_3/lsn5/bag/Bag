@@ -4,12 +4,15 @@ import java.util.*;
 
 // перечень предметов, выбранный пользователем
 // данный перечень подлежит проверке при наполнении рюкзака
+
 public class Bag {
+
     public List<Item> bag = new ArrayList<>();
-    private double capacity; // предел вместимости
-    private double currentWeight; // текущая заполненность
+    private Item first;
+    private double capacity; // предел вместимости, предельный вес
+    private double currentWeight; // текущая заполненность, текущий вес
     private int currentItem; // текущее количество предметов
-    Item first;
+
 
     public Bag(double capacity) {
         this.capacity = capacity;
@@ -22,13 +25,19 @@ public class Bag {
         first = item;
     }
 
-
+    // метод проверяет соответствие текущего веса предмета предельному весу рюкзака
     public Boolean checkInsert(Item item) {
         if ((currentWeight + item.getWeight()) > capacity) return false;
         else return true;
     }
 
-    // метод, которы наполняет массив выбраными пользователм элементами
+    // метод, которы наполняет коллекцию выбраными пользователем элементами
+    // проверяем элементы пока количество элементов коллекции List<Item> bag не сравняется
+    // с количеством элементов пользовательсткого листа List<Item> items
+    // элементы добавляются в коллекцию, пока сумма значений по полю weight не превысит предельное значение capacity
+    // причем, если с учетом добавляемого элемента сумма по полю weight превышает capacity, выполняется переход к следующему,
+    // и если он удовлетсовряем условию, то добавлется в коллекцию
+    // цикл прерывается когда сумма по полю weight станет равной capacity
     public void fillBag(List<Item> items) {
         Collections.sort(items);
 
@@ -37,25 +46,40 @@ public class Bag {
                 bag.add(items.get(currentItem)); // добавляем элемент
                 currentWeight += items.get(currentItem).getWeight(); // увеличиваем текущий вес рюкзака
             }
-            if(currentWeight == capacity) {
+            if (currentWeight == capacity) {
                 break;
             }
             ++currentItem; // увиличиваем количество предметов в рюкзаке
         }
     }
 
-    // метод вывода списка в консоль
-    public void display() {
-        Item current = first;
-        while (current != null) {
-            current.print();
-            current = current.next;
+    public void fillBagRecursion(List<Item> items) {
+        Collections.sort(items);
+
+        while (currentItem < items.size()) {
+            if (this.checkInsert(items.get(currentItem))) {
+                bag.add(items.get(currentItem)); // добавляем элемент
+                currentWeight += items.get(currentItem).getWeight(); // увеличиваем текущий вес рюкзака
+            }
+            if (currentWeight == capacity) {
+                break;
+            }
+            ++currentItem; // увиличиваем количество предметов в рюкзаке
         }
     }
 
-    public boolean isEmpty() {
-
-        return first == null;
+    public int insertItem (List<Item> items, int currentItem){
+        bag.add(items.get(currentItem)); // добавляем элемент
+        currentWeight += items.get(currentItem).getWeight(); // увеличиваем текущий вес рюкзака
+        return currentItem;
     }
+
+    // метод вывода списка в консоль
+    public void display() {
+        for (Object o : bag) {
+            System.out.println(o);
+        }
+    }
+
 
 }
