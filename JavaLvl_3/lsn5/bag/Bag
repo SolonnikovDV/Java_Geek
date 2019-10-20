@@ -13,16 +13,9 @@ public class Bag {
     private double currentWeight; // текущая заполненность, текущий вес
     private int currentItem; // текущее количество предметов
 
-
     public Bag(double capacity) {
         this.capacity = capacity;
         this.first = null;
-    }
-
-    // метод добавления премета в лист пользоваеля
-    public void insert(Item item) {
-        item.next = first;
-        first = item;
     }
 
     // метод проверяет соответствие текущего веса предмета предельному весу рюкзака
@@ -53,25 +46,21 @@ public class Bag {
         }
     }
 
-    public void fillBagRecursion(List<Item> items) {
+    // метод наполнения коллекции через рекурсию аналогично fillBag
+    // в данном случае в рекурсии идет обновление счетчика элементов currentItem
+    public void fillBagRecursion(List<Item> items, int currentItem) {
         Collections.sort(items);
 
-        while (currentItem < items.size()) {
-            if (this.checkInsert(items.get(currentItem))) {
-                bag.add(items.get(currentItem)); // добавляем элемент
-                currentWeight += items.get(currentItem).getWeight(); // увеличиваем текущий вес рюкзака
-            }
-            if (currentWeight == capacity) {
-                break;
-            }
-            ++currentItem; // увиличиваем количество предметов в рюкзаке
+        if (this.checkInsert(items.get(currentItem))) {
+            bag.add(items.get(currentItem)); // добавляем элемент
+            currentWeight += items.get(currentItem).getWeight(); // увеличиваем текущий вес рюкзака
         }
-    }
-
-    public int insertItem (List<Item> items, int currentItem){
-        bag.add(items.get(currentItem)); // добавляем элемент
-        currentWeight += items.get(currentItem).getWeight(); // увеличиваем текущий вес рюкзака
-        return currentItem;
+        if (currentWeight == capacity) {
+            return;
+        }
+        if (++currentItem < items.size()) {
+            fillBagRecursion(items, currentItem);
+        }
     }
 
     // метод вывода списка в консоль
@@ -80,6 +69,5 @@ public class Bag {
             System.out.println(o);
         }
     }
-
 
 }
