@@ -1,0 +1,183 @@
+package lsn6;
+
+public class Tree {
+
+    Node root;
+
+    // в теле метода идет стравнение элемента по родительскому ключу
+    public Node find(int key) {
+        Node current = root;
+        while (current.person.id != key) {
+            if (key < current.person.id) {
+                current = current.leftChild;
+            } else {
+                current = current.rightChild;
+            }
+            if (current == null) {
+                return null;
+            }
+        }
+        return current;
+    }
+
+
+    public void insert(Person p) {
+        Node node = new Node();
+        node.person = p; // p - это ключ
+        if (root == null) {
+            root = node;
+        } else {
+            Node current = root;
+            Node parent; // это любой элемент в дереве. он нужен только для того чтобы можно было выполнить сравнение. это какой то уже существующий элемент в дереве
+            while (true) {
+                parent = current;
+                if (p.id < current.person.id) {
+                    current = current.leftChild;
+                    if (current == null) {
+                        parent.leftChild = node;
+                        return;// для завершения цикла while
+                    }
+                } else {
+                    current = current.rightChild;
+                    if (current == null) {
+                        parent.rightChild = node;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+
+    // обход дерева
+    void order(Node root) {
+        if (root != null) {
+            order(root.leftChild);
+            root.display(); // визуализация посещения узла
+            order(root.rightChild);
+        }
+    }
+
+    // обход дерева - прямой
+    public void orderStright(Node root) {
+        if (root != null) {
+            root.display(); // визуализация посещения узла
+            orderStright(root.leftChild);
+            orderStright(root.rightChild);
+        }
+    }
+
+    // обход дерева - обратный
+    public void orderInvert(Node root) {
+        if (root != null) {
+            orderInvert(root.leftChild);
+            orderInvert(root.rightChild);
+            root.display(); // визуализация посещения узла
+        }
+    }
+
+    // поиск макс мин элемента
+    // самы левый лист - мин
+    // самый равый лист - макс
+    public Node min() {
+        Node current, last = null;
+        current = root;
+        while (current != null) {
+            last = current;
+            current = current.leftChild;
+        }
+        return last; // самый левый лист
+    }
+
+    public Node max() {
+        Node current, last = null;
+        current = root;
+        while (current != null) {
+            last = current;
+            current = current.rightChild;
+        }
+        return last; // самый левый лист
+    }
+
+
+    boolean delete(int key) {
+        Node current = root;
+        Node parent = root;
+        boolean isLeftChild = true;
+        while (current.person.id != key) {
+            parent = current;
+            if (key < current.person.id) {
+                isLeftChild = true;
+                current = current.leftChild;
+            } else {
+                isLeftChild = false;
+                current = current.rightChild;
+            }
+            if (current == null) { // если элемент/потомок не найден
+                return false;
+            }
+        }
+// удаление беспотомочного узла (лист)
+        if (current.leftChild == null && current.rightChild == null) {
+            if (current == root) {
+                root = null;
+            } else if (isLeftChild) {
+                parent.leftChild = null;
+            } else {
+                parent.rightChild = null;
+            }
+        }
+// если нет левого потомка, то узел заменяется правым поддеревом
+        else if (current.leftChild == null) {
+            if (current == root) {
+                root = current.rightChild;
+            } else if (isLeftChild) {
+                parent.leftChild = current.rightChild;
+            } else {
+                parent.rightChild = current.rightChild;
+            }
+        }
+// если нет правого потомка, то узел заменяется левым поддеревом
+        else if (current.rightChild == null) {
+            if (current == root) {
+                root = current.leftChild;
+            } else if (isLeftChild) {
+                parent.leftChild = current.leftChild;
+            } else {
+                parent.rightChild = current.leftChild;
+            }
+        }
+// если есть два потомка
+        else {
+            Node succ = getSugg(current); // нашли приемника
+            if(current == root){
+                root = succ;
+            } else if(isLeftChild){
+                parent.leftChild = succ;
+            }else{
+                parent.rightChild = succ;
+            }
+            succ.leftChild = current.leftChild;
+        }
+        return true;
+
+    }
+
+    private Node getSugg(Node node) {
+        Node suggParent = node;
+        Node sugg = node;
+        Node current = node.rightChild; // потому что это ближайший самый большой элемент
+        while (current != null) {
+            suggParent = sugg;
+            sugg = current;
+            current = current.leftChild; // самый минимальный элемент
+        }
+        if (sugg != node.rightChild) {
+            suggParent.leftChild = sugg.rightChild;
+            sugg.rightChild = node.rightChild;
+        }
+        return sugg;
+    }
+
+
+}
