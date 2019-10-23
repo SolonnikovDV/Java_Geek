@@ -1,0 +1,14 @@
+package lsn6;
+// root
+public class Node {
+
+    Person person;
+    Node leftChild;
+    Node rightChild;
+
+    void display (){
+        System.out.println(String.format("Name %s, age %d", person.name, person.age));
+    }
+
+
+}
