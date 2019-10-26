@@ -1,1 +1,38 @@
+package lsn6;
 
+import java.util.Random;
+
+public class AddTree {
+    final static int MAX_BOUNT = 100;
+    final static int MIN_BOUNT = 100;
+
+    public static void main(String[] args) {
+
+        Tree tree = new Tree();
+
+        Element e1 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
+        Element e2 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
+        Element e3 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
+        Element e4 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
+        Element e5 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
+        Element e6 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
+        Element e7 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
+        tree.insertElement(e1);
+        tree.insertElement(e2);
+        tree.insertElement(e3);
+        tree.insertElement(e4);
+        tree.insertElement(e5);
+        tree.insertElement(e6);
+        tree.insertElement(e7);
+
+        tree.displayTree();
+        System.out.println("Глубина дерева: " + tree.maxDepth(tree.root));
+
+
+    }
+
+    static int getRandom (int min, int max) {
+        return new Random().nextInt(max + min) - min;
+    }
+
+}
