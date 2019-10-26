@@ -1,14 +1,13 @@
-package lsn6;
-// root
+package lsn6.homeWork;
+
 public class Node {
+    public int iData;
+    public Node leftChild;
+    public Node rightChild;
 
-    Person person;
-    Node leftChild;
-    Node rightChild;
-
-    void display (){
-        System.out.println(String.format("Name %s, age %d", person.name, person.age));
+    @Override
+    public String toString() {
+        return "{" + iData+ "}";
     }
-
 
 }
