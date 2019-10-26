@@ -1,38 +1,78 @@
-package lsn6;
+package lsn6.homeWork;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class AddTree {
-    final static int MAX_BOUNT = 100;
-    final static int MIN_BOUNT = 100;
+public class AppTree {
+    static int MIN = 100;
+    static int MAX = 100;
 
     public static void main(String[] args) {
+        Tree theTree = new Tree();
 
-        Tree tree = new Tree();
+        // getRandom(11, 15) - задает диапазон узлов, который дает 6 уровней дерева
 
-        Element e1 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
-        Element e2 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
-        Element e3 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
-        Element e4 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
-        Element e5 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
-        Element e6 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
-        Element e7 = new Element(getRandom(MIN_BOUNT, MAX_BOUNT));
-        tree.insertElement(e1);
-        tree.insertElement(e2);
-        tree.insertElement(e3);
-        tree.insertElement(e4);
-        tree.insertElement(e5);
-        tree.insertElement(e6);
-        tree.insertElement(e7);
+        // эта часть отрабатывает нормально, дает 6 уровней
+        fillTheTree(theTree, 12).displayTree();
+        System.out.println(fillTheTree(theTree, 12).maxDepth(theTree.root));
 
-        tree.displayTree();
-        System.out.println("Глубина дерева: " + tree.maxDepth(tree.root));
+        // а вот тут начинается дичь, создается по 9 - 14 уровней
+        listOfTrees(theTree, 20, 1).get(1).displayTree();
+        System.out.println(listOfTrees(theTree, 20, 1).get(1).maxDepth(theTree.root));
 
-
+        // ну а это вообще за гранью... почему то все деревья несбалансированные
+        balanceReport(listOfTrees(theTree, 1, 1));
     }
 
-    static int getRandom (int min, int max) {
+    // получение случайного числа
+    static int getRandom(int min, int max) {
         return new Random().nextInt(max + min) - min;
     }
+
+    //создание деревьев - криво создаются деревья
+    static List<Tree> listOfTrees(Tree theTree, int howManyTrees, int nodes) {
+        List<Tree> treeList = new ArrayList<>();
+
+        for (int i = 0; i < howManyTrees; i++) {
+            treeList.add(fillTheTree(theTree, nodes));
+        }
+        return treeList;
+    }
+
+    // заполнение дерева элементами в заданном диапазоне
+    static Tree fillTheTree(Tree theTree, int nodes) {
+        for (int i = 0; i < nodes; i++) {
+            theTree.insert(getRandom(MIN, MAX));
+        }
+        return theTree;
+    }
+
+    // вывод каждого дерева из листа
+    static void printTreeList(List<Tree> treeList) {
+        for (int i = 0; i < treeList.size(); i++) {
+            System.out.println("Дерево № " + i);
+            treeList.get(i).displayTree();
+        }
+    }
+
+    // List<Tree> treeList - в качестве параметра передать listOfTrees()
+    static void balanceReport(List<Tree> treeList){
+        String report;
+        int isNotBal = 0;
+        int isBal = 0;
+        for (int i = 0; i < treeList.size(); i++) {
+            if(treeList.get(i).isBalanced(treeList.get(i).root) == false){
+                report = "не сбалансировано";
+                ++isNotBal;
+            }
+            else report = "сбалансировано";
+            System.out.println("Дерево № " + i + " " + report);
+            ++isBal;
+        }
+        if(isBal >= isNotBal) System.out.println("Процент несбалансированных = " + isNotBal/isBal*100 + "%");
+        if(isBal < isNotBal) System.out.println("Процент сбалансированных = " + isBal/isNotBal*100 + "%");
+    }
+
 
 }
