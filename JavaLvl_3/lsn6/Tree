@@ -1,14 +1,21 @@
-package lsn6;
+package lsn6.homeWork;
+
+import java.util.List;
+import java.util.Stack;
 
 public class Tree {
 
-    Node root;
+    public Node root; // корень
 
-    // в теле метода идет стравнение элемента по родительскому ключу
+    public Tree() {
+        this.root = null;
+    }
+
     public Node find(int key) {
         Node current = root;
-        while (current.person.id != key) {
-            if (key < current.person.id) {
+
+        while (current.iData != key) {
+            if (key < current.iData) {
                 current = current.leftChild;
             } else {
                 current = current.rightChild;
@@ -20,120 +27,42 @@ public class Tree {
         return current;
     }
 
+    public void insert(int id) {
+        Node newNode = new Node();
+        newNode.iData = id;
 
-    public void insert(Person p) {
-        Node node = new Node();
-        node.person = p; // p - это ключ
         if (root == null) {
-            root = node;
+            root = newNode;
         } else {
             Node current = root;
-            Node parent; // это любой элемент в дереве. он нужен только для того чтобы можно было выполнить сравнение. это какой то уже существующий элемент в дереве
+            Node parent;
             while (true) {
                 parent = current;
-                if (p.id < current.person.id) {
+                if (id < current.iData) {
                     current = current.leftChild;
                     if (current == null) {
-                        parent.leftChild = node;
-                        return;// для завершения цикла while
+                        parent.leftChild = newNode;
+                        return;
                     }
                 } else {
                     current = current.rightChild;
                     if (current == null) {
-                        parent.rightChild = node;
+                        parent.rightChild = newNode;
                         return;
                     }
                 }
             }
         }
     }
-
-    public void insertElement(Element e) {
-        Node node = new Node();
-        node.element = e; // e - это ключ
-        if (root == null) {
-            root = node;
-        } else {
-            Node current = root;
-            Node parent; // это любой элемент в дереве. он нужен только для того чтобы можно было выполнить сравнение. это какой то уже существующий элемент в дереве
-            while (true) {
-                parent = current;
-                if (e.id < current.element.id) {
-                    current = current.leftChild;
-                    if (current == null) {
-                        parent.leftChild = node;
-                        return;// для завершения цикла while
-                    }
-                } else {
-                    current = current.rightChild;
-                    if (current == null) {
-                        parent.rightChild = node;
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
-
-    // обход дерева
-    void order(Node root) {
-        if (root != null) {
-            order(root.leftChild);
-            root.display(); // визуализация посещения узла
-            order(root.rightChild);
-        }
-    }
-
-    // обход дерева - прямой
-    public void orderStright(Node root) {
-        if (root != null) {
-            root.display(); // визуализация посещения узла
-            orderStright(root.leftChild);
-            orderStright(root.rightChild);
-        }
-    }
-
-    // обход дерева - обратный
-    public void orderInvert(Node root) {
-        if (root != null) {
-            orderInvert(root.leftChild);
-            orderInvert(root.rightChild);
-            root.display(); // визуализация посещения узла
-        }
-    }
-
-    // поиск макс мин элемента
-    // самы левый лист - мин
-    // самый равый лист - макс
-    public Node min() {
-        Node current, last = null;
-        current = root;
-        while (current != null) {
-            last = current;
-            current = current.leftChild;
-        }
-        return last; // самый левый лист
-    }
-
-    public Node max() {
-        Node current, last = null;
-        current = root;
-        while (current != null) {
-            last = current;
-            current = current.rightChild;
-        }
-        return last; // самый левый лист
-    }
-
 
     boolean delete(int key) {
         Node current = root;
         Node parent = root;
         boolean isLeftChild = true;
-        while (current.person.id != key) {
+
+        while (current.iData != key) {
             parent = current;
-            if (key < current.person.id) {
+            if (key < current.iData) {
                 isLeftChild = true;
                 current = current.leftChild;
             } else {
@@ -176,86 +105,133 @@ public class Tree {
         }
 // если есть два потомка
         else {
-            Node succ = getSugg(current); // нашли приемника
-            if(current == root){
-                root = succ;
-            } else if(isLeftChild){
-                parent.leftChild = succ;
-            }else{
-                parent.rightChild = succ;
+            Node successor = getSuccessor(current); // нашли приемника
+            if (current == root) {
+                root = successor;
+            } else if (isLeftChild) {
+                parent.leftChild = successor;
+            } else {
+                parent.rightChild = successor;
             }
-            succ.leftChild = current.leftChild;
+            successor.leftChild = current.leftChild;
         }
         return true;
-
     }
 
-    private Node getSugg(Node node) {
-        Node suggParent = node;
-        Node sugg = node;
+    private Node getSuccessor(Node node) {
+        Node successorParent = node;
+        Node successor = node;
         Node current = node.rightChild; // потому что это ближайший самый большой элемент
         while (current != null) {
-            suggParent = sugg;
-            sugg = current;
+            successorParent = successor;
+            successor = current;
             current = current.leftChild; // самый минимальный элемент
         }
-        if (sugg != node.rightChild) {
-            suggParent.leftChild = sugg.rightChild;
-            sugg.rightChild = node.rightChild;
+        if (successor != node.rightChild) {
+            successorParent.leftChild = successor.rightChild;
+            successor.rightChild = node.rightChild;
         }
-        return sugg;
+        return successor;
     }
 
-    public void displayTree(){
-        Stack stack = new Stack(1000);
-        stack.push(root);
-        int nBlanks = 32;
-        boolean isRowEmpty = false;
+    public void preOrder(Node localRoot) {
+        if (localRoot != null) {
+            System.out.print(localRoot.iData + " ");
+            preOrder(localRoot.leftChild);
+            preOrder(localRoot.rightChild);
+        }
+    }
 
-        while (!isRowEmpty) {
-            Stack localStack = new Stack(1000);
+    private void inOrder(Node localRoot) {
+        if (localRoot != null) {
+            inOrder(localRoot.leftChild);
+            System.out.print(localRoot.iData + " ");
+            inOrder(localRoot.rightChild);
+        }
+    }
+
+    private void postOrder(Node localRoot) {
+        if (localRoot != null) {
+            postOrder(localRoot.leftChild);
+            postOrder(localRoot.rightChild);
+            System.out.print(localRoot.iData + " ");
+        }
+    }
+
+    public void displayTree() {
+        Stack globalStack = new Stack();
+        globalStack.push(root);
+        int nBlanks = 96;
+        boolean isRowEmpty = false;
+        System.out.println("......................................................");
+        while (isRowEmpty == false) {
+            Stack localStack = new Stack();
             isRowEmpty = true;
-            for(int i=0;i<nBlanks;i++){
-                System.out.print(" ");
-            }
-            while (!stack.isEmpty()) {
-                Node temp = stack.pop();
-                if (temp != null){
-                    temp.display();
+
+            for (int j = 0; j < nBlanks; j++) System.out.print(' ');
+            while (globalStack.isEmpty() == false) {
+                Node temp = (Node) globalStack.pop();
+                if (temp != null) {
+                    System.out.print(temp.iData);
                     localStack.push(temp.leftChild);
                     localStack.push(temp.rightChild);
-                    if(temp.leftChild != null || temp.rightChild != null){
+                    if (temp.leftChild != null ||
+                            temp.rightChild != null)
                         isRowEmpty = false;
-                    }
-                }else{
+                } else {
                     System.out.print("--");
                     localStack.push(null);
                     localStack.push(null);
                 }
-                for(int j=0; j < nBlanks * 2 - 2; j++)
-                    System.out.print(' ');
+                for (int j = 0; j < nBlanks * 2 - 2; j++) System.out.print(' ');
             }
-            System.out.println(" ");
-            nBlanks = nBlanks / 2;
-            while (!localStack.isEmpty()) {
-                stack.push(localStack.pop());
+            System.out.println();
+            nBlanks /= 2;
+            while (localStack.isEmpty() == false)
+                globalStack.push(localStack.pop());
+        }
+        System.out.println("......................................................");
+    }
+
+    // корень дерева имеет нулевой ряд
+    int maxDepth(Node node) {
+        if (node == null) {
+            return (-1);
+        } else {
+            int leftDepth = maxDepth(node.leftChild);
+            int rightDepth = maxDepth(node.rightChild);
+
+            if (leftDepth > rightDepth) {
+                return (leftDepth + 1);
+            } else {
+                return (rightDepth + 1);
             }
-            System.out.println("..........................................");
         }
     }
 
-    int maxDepth(Node node) {
-        if (node == null) {
-            return (-1); // an empty tree  has height −1
-        } else {
-            // compute the depth of each subtree
-            int leftDepth = maxDepth(node.leftChild);
-            int rightDepth = maxDepth(node.rightChild);
-            // use the larger one
-            if (leftDepth > rightDepth )
-                return (leftDepth + 1);
-            else
-                return (rightDepth + 1);
+   public boolean isBalanced(Node root) {
+        if (longestPath(root) - shortestPath(root) > 1) return false;
+        else return true;
+    }
+
+
+    private int longestPath(Node root) {
+        if (root == null) return 0;
+        else {
+            int leftPathLength = longestPath(root.leftChild);
+            int rightPathLength = longestPath(root.rightChild);
+            if (leftPathLength >= rightPathLength) return leftPathLength + 1;
+            else return rightPathLength + 1;
+        }
+    }
+
+    private int shortestPath(Node root) {
+        if (root == null) return 0;
+        else {
+            int leftPathLength = shortestPath(root.leftChild);
+            int rightPathLength = shortestPath(root.rightChild);
+            if (leftPathLength <= rightPathLength) return leftPathLength + 1;
+            else return rightPathLength + 1;
         }
     }
 
