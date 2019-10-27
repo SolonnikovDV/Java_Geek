@@ -4,7 +4,6 @@ import lsn3.Queue.Queue;
 import lsn3.Queue.QueueImpl;
 import lsn3.Stack.Stack;
 import lsn3.Stack.StackImp;
-import lsn6.homeWork.Node;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +16,8 @@ public class Graph {
 
     Stack stack;
     Queue queue;
+
+    private int nVertex;
 
     public Graph() {
         stack = new StackImp(VERTS);
@@ -49,10 +50,17 @@ public class Graph {
 
     // вывод значения вершины
     public void display(int vertex) {
-        System.out.println(vertexList[vertex]);
+        System.out.print(vertexList[vertex] + " ");
     }
 
-    // поиск непосещенных вершин (вспомогательный метод для обхода в глубину)
+    // вывод полного списока вершин
+    public void displayVertexList() {
+        for (int i = 0; i < size; i++) {
+            System.out.print(vertexList[i] + " ");
+        }
+    }
+
+    // поиск непосещенных вершин (вспомогательный метод для обхода)
     private int getUnvisitedVertex(int vertex) {
         for (int i = 0; i < size; i++) {
             if (matrix[vertex][i] == 1 && vertexList[i].wasVisit == false) return i;
@@ -98,5 +106,37 @@ public class Graph {
             vertexList[i].wasVisit = false;
         }
     }
+
+    // тут нужно доработать метод bfs()
+    // Найти все вершины, лежащие на каком-либо кратчайшем пути между заданной парой вершин (A, B).
+    // На вход подаются точки начала и окончания маршрута
+    public void bfs2(int start, int finish) {
+        List<Vertex> listVertex = new LinkedList<>(); // хранение отношений/путей между вершинами
+
+        vertexList[start].wasVisit = true;
+        display(start);
+        queue.insert(0);
+        int w;
+
+        while (!queue.isEmpty()) {
+            int v = queue.remove();
+            // тут нужно накапливать маршруты в LinkedList (?) (в текущем случае отрабатывает неверно)
+            listVertex.add(vertexList[queue.remove()]);
+
+            while ((w = getUnvisitedVertex(v)) != -1) {
+                vertexList[w].wasVisit = true;
+                display(w);
+                queue.insert(w);
+            // где то здесь должна быть проверка на достижение точки finish
+            // что то типа -> if (true) break; (в текущем случае отрабатывает неверно)
+                if(w == finish+1){
+                    break;
+                }
+            }
+            // вывод мартрутов
+            System.out.println(listVertex.toString());
+        }
+    }
+
 
 }
