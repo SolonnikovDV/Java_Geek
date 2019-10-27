@@ -1,0 +1,102 @@
+package lsn7;
+
+import lsn3.Queue.Queue;
+import lsn3.Queue.QueueImpl;
+import lsn3.Stack.Stack;
+import lsn3.Stack.StackImp;
+import lsn6.homeWork.Node;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class Graph {
+    private final int VERTS = 10; // количество вершин графа
+    private Vertex[] vertexList; // список вершин
+    private int[][] matrix; // двумерная матрица
+    private int size;
+
+    Stack stack;
+    Queue queue;
+
+    public Graph() {
+        stack = new StackImp(VERTS);
+        queue = new QueueImpl(VERTS);
+        vertexList = new Vertex[VERTS];
+        matrix = new int[VERTS][VERTS];
+        // в конструкторе можно сразу инициализировать матрицу если все ее элементы и типы были бы известны
+        for (int i = 0; i < VERTS; i++) {
+            for (int j = 0; j < VERTS; j++) {
+                matrix[i][j] = 0;
+            }
+        }
+        size = 0;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    // метод потребитель
+    public void addVertex(char label) {
+        vertexList[size++] = new Vertex(label); //добавлена новая вершина в граф
+    }
+
+    // создается ребро - связь между вершинами
+    public void addEdge(int start, int end) {
+        matrix[start][end] = 1;
+        matrix[end][start] = 1; // созданы связи между вершинами (начало и конец ребра)
+    }
+
+    // вывод значения вершины
+    public void display(int vertex) {
+        System.out.println(vertexList[vertex]);
+    }
+
+    // поиск непосещенных вершин (вспомогательный метод для обхода в глубину)
+    private int getUnvisitedVertex(int vertex) {
+        for (int i = 0; i < size; i++) {
+            if (matrix[vertex][i] == 1 && vertexList[i].wasVisit == false) return i;
+        }
+        return -1;
+    }
+
+    // метод depth-first search (собственно поиск в глубину)
+    public void dfs() {
+        vertexList[0].wasVisit = true; // начальная точка - нулевой элемент массива - первая вершина в графе. true - значит посетили
+        display(0);
+        stack.push(0);
+        while (!stack.isEmpty()) {
+            int v = getUnvisitedVertex(stack.peek());
+            if (v == -1) {
+                stack.pop();
+            } else {
+                vertexList[v].wasVisit = true;
+                display(v);
+                stack.push(v);
+            }
+        }
+        for (int i = 0; i < size; i++) {
+            vertexList[i].wasVisit = false;
+        }
+    }
+
+    // поиск вширину (breadth first search)
+    public void bfs() {
+        vertexList[0].wasVisit = true; // наналогично dfs() - берем из очереи первую вершину
+        display(0);
+        queue.insert(0);
+        int w;
+        while (!queue.isEmpty()) { // пока в очереди есть элементы проверям вложенный цикл и потом укорачиаем очередь
+            int v = queue.remove(); // удаляет из очереди первый добавленный элемент
+            while ((w = getUnvisitedVertex(v)) != -1) { // ищем для w смежную непоещеную вершину и проверяем имеет ли она смежную непосещенную вершину
+                vertexList[w].wasVisit = true;
+                display(w);
+                queue.insert(w);
+            }
+        }
+        for (int i = 0; i < size; i++) {
+            vertexList[i].wasVisit = false;
+        }
+    }
+
+}
