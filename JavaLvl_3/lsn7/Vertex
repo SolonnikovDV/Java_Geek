@@ -1,0 +1,17 @@
+package lsn7;
+
+public class Vertex {
+
+    public char label;
+    public boolean wasVisit;
+
+    public Vertex(char label) {
+        this.label = label;
+        this.wasVisit = false;
+    }
+
+    @Override
+    public String toString() {
+        return "Вершина {" + label + '}';
+    }
+}
