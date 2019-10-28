@@ -1,1 +1,56 @@
+package lsn7;
+//    0 1 2 3 4 5 6 7 8 9
+//    A B C D E F G H I J
+//0 A - 1 1 1 - - - - - - AB[0;1] AB[0;2] AB[0;3]
+//1 B - - - - - - - - 1 - BI[1;8]
+//2 C - - - - 1 - - - - - CE[2;4]
+//3 D - - - - - - - - - 1 DJ[3;9]
+//4 E - - - - - 1 - - - - EF[4;5]
+//5 F - - - - - - - - 1 - FH[5;7]
+//6 G - - - - - - - - - 1 GJ[6;9]
+//7 H - - - - - - - - - 1 HJ[7;9]
+//8 I - - - - - - 1 - - - IG[8;6]
+//9 J - - - - - - - - - - // J - тупиковая вершина
 
+//   /-- B ---- I ---- G --\
+// A -- C -- E -- F -- H --- J
+//   \--------- D ---------/
+
+public class AddGraph {
+    public static void main(String[] args) {
+        Graph graph = new Graph();
+        // созданы вершины
+        graph.addVertex('A');
+        graph.addVertex('B');
+        graph.addVertex('C');
+        graph.addVertex('D');
+        graph.addVertex('E');
+        graph.addVertex('F');
+        graph.addVertex('G');
+        graph.addVertex('H');
+        graph.addVertex('I');
+        graph.addVertex('J');
+
+        System.out.print("Список добавленных вершин: ");
+        graph.displayVertexList();
+        System.out.println();
+
+        // созданы ребра
+        graph.addEdge(0, 1); // AB
+        graph.addEdge(0, 2); // AC
+        graph.addEdge(0, 3); // AD
+        graph.addEdge(1, 8); // BI
+        graph.addEdge(2, 4); // CE
+        graph.addEdge(3, 9); // DJ
+        graph.addEdge(4, 5); // EF
+        graph.addEdge(5, 7); // FH
+        graph.addEdge(6, 9); // GJ
+        graph.addEdge(7, 9); // HJ
+        graph.addEdge(8, 6); // IG
+
+        System.out.print("Обход: ");
+        graph.bfs2(0, 9);
+
+
+    }
+}
