@@ -1,0 +1,93 @@
+package lsn8;
+
+public class HashTable {
+
+    private DataItem[] hashArray;
+    private int size;
+    private DataItem nonItem;
+
+    public HashTable(int size) {
+        this.size = size;
+        this.hashArray = new DataItem[size];
+        this.nonItem = new DataItem(-1);
+
+    }
+
+    // принимает на вход ключ
+    public DataItem find(int key) {
+        int hashValue = hashFunc(key);
+        while (hashArray[hashValue] != null) { // пока не айдена пустая ячейка
+            if (hashArray[hashValue].getKey() == key) {
+                return hashArray[hashValue];
+            }
+            ++hashValue; // // к следующей ячейке
+            hashValue %= size; // hashValue = hashValue % size - возвращаемся в начало
+        }
+        return null; // не найден
+    }
+
+    public DataItem delete(int key) {
+        int hashValue = hashFunc(key);
+        while (hashArray[hashValue] != null) {
+            if (hashArray[hashValue].getKey() == key) {
+                DataItem temp = hashArray[hashValue];
+                hashArray[hashValue] = nonItem; // помечаем элемент в массиве как удаленный (пустой)
+                return temp; // возращаем удаленный элемент
+            }
+            ++hashValue;
+            hashValue %= size; // hashValue = hashValue % size - возвращаемся в начало
+        }
+        return null;
+    }
+
+    public void display() {
+        for (int i = 0; i < size; i++) {
+            if (hashArray[i] != null) {
+                System.out.print(hashArray[i].getKey() + " ");
+            } else {
+                System.out.print("Element is null ");
+            }
+        }
+        System.out.println();
+    }
+
+    public void insert(DataItem item) {
+        int key = item.getKey();
+        int hashValue = hashFunc(key);
+        while (hashArray[hashValue] != null && hashArray[hashValue].getKey() != -1) {
+            ++hashValue;
+            hashValue %= size;
+        }
+        // тут проверка на коллизию, если коллизия есть то в hashArray передается LinkedList
+        hashArray[hashValue] = item;
+    }
+
+    private boolean isCollision (int key){
+        if(hashFunc(key) == key) return true; // если результат хэшфункции равен ключу, значит возвращаем true
+        return false;
+    }
+
+    // хэширование ключа
+    private int hashFunc(int key) {
+        return key % size;
+    }
+
+    // увеличение размера таблицы
+    private int getPrime(int currentHashTableSize) {
+        for (int i = currentHashTableSize + 1; true; i++) {
+            if (isPrime(i)) {
+                return i;
+            }
+        }
+    }
+
+    // проверка на простое число
+    private boolean isPrime(int i) {
+        for (int j = 2; j * j <= i; j++) {
+            if (i % j == 0) return false;
+        }
+        return true;
+    }
+
+
+}
