@@ -1,11 +1,53 @@
 package lsn8;
+
+import java.util.Random;
+
 //1. создать таблицу и вызвать все методы описаные в классе HashTable
 //2. написать цепочки
 public class AppHash {
 
     public static void main(String[] args) {
 
-        
+        HashTable hashTable = new HashTable(10);
+        hashTable.insert(getElement(1, 1000));
+        hashTable.insert(getElement(1, 1000));
+        hashTable.insert(getElement(1, 1000));
+        hashTable.insert(getElement(1, 1000));
+        hashTable.insert(getElement(1, 1000));
+        hashTable.insert(getElement(1, 1000));
+        hashTable.insert(getElement(1, 1000));
+        hashTable.insert(getElement(1, 1000));
+        hashTable.insert(getElement(1, 1000));
+        hashTable.insert(new DataItem(111111));
+
+        System.out.println("Insert and Display:");
+        hashTable.display();
+
+        System.out.println("Find: ");
+        System.out.println(hashTable.find(111111));
+
+        System.out.println("Delete: ");
+        System.out.println(hashTable.delete(111111));
+
+        hashTable.display();
+
+
+        // реализация цепочки
+        HashTableLink hashTableLink = new HashTableLink(10);
+
+        hashTableLink.insert(new Bucket(getRandomInt(1, 1000)));
+        hashTableLink.insert(new Bucket(getRandomInt(1, 1000)));
+        hashTableLink.insert(new Bucket(getRandomInt(1, 1000)));
+        hashTableLink.insert(new Bucket(getRandomInt(1, 1000)));
+        hashTableLink.insert(new Bucket(getRandomInt(1, 1000)));
+        hashTableLink.display();
     }
-    
+
+    static int getRandomInt(int min, int max) {
+        return new Random().nextInt(max + min) - min;
+    }
+
+    static DataItem getElement(int min, int max) {
+        return new DataItem(getRandomInt(min, max));
+    }
 }
