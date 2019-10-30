@@ -1,0 +1,11 @@
+package lsn8;
+//1. создать таблицу и вызвать все методы описаные в классе HashTable
+//2. написать цепочки
+public class AppHash {
+
+    public static void main(String[] args) {
+
+        
+    }
+    
+}
