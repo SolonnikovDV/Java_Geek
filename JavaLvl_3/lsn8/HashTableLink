@@ -1,1 +1,57 @@
+package lsn8;
 
+// в целях реализации метода цепочек, за основу взят класс HashTable
+// в котором изменены методы find, insert, delete, display
+
+public class HashTableLink {
+
+    private Bucket[] hashArray;
+    private int size;
+    private Bucket bucket;
+//    private int dataBucket;
+
+    public HashTableLink(int size) {
+        this.size = size;
+        this.hashArray = new Bucket[size];
+        for (int i = 0; i < size; i++) {
+            hashArray[i] = new Bucket();// в этом месте не решена проблема с конструктором, вызов пустого конструтора дает NullPointerException
+        }
+    }
+
+    public HashTableLink(int size, int element) {
+        this.size = size;
+        this.hashArray = new Bucket[size];
+        for (int i = 0; i < size; i++) {
+            hashArray[i] = new Bucket(element);
+        }
+    }
+
+    public Bucket find (int key){
+        int hashValue = hashFunc(key);
+        bucket = hashArray[hashValue].find(key);
+        return bucket;
+    }
+
+    public void insert (Bucket bucket){
+        int key = bucket.getKey();
+        int hashValue = hashFunc(key);
+        hashArray[hashValue].insert(bucket);
+    }
+
+    public void delete (int key){
+        int hashValue = hashFunc(key);
+        hashArray[hashValue].delete(key);
+    }
+
+    public void display (){
+        for (int i = 0; i < size; i++) {
+            System.out.print("Элемент " + i + ": ");
+            hashArray[i].displayBucket();
+        }
+    }
+
+    // метод аналогичен использованному в классе HashTable
+    private int hashFunc(int key) {
+        return key % size;
+    }
+}
