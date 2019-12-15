@@ -1,11 +1,3 @@
-package lsn1.homeWork.task3;
-
 public abstract class Fruit {
-    private float weight;
-
-    public Fruit(float weight) {
-        this.weight = weight;
-    }
-
     public abstract float getWeight();
 }
