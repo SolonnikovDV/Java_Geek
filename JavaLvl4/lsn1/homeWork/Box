@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * a. Есть классы Fruit -> Apple, Orange;(больше фруктов не надо)
  * b. Класс Box в который можно складывать фрукты, коробки условно сортируются по типу фрукта, поэтому в одну коробку
- * нельзя сложить и яблоки, и апельсины;
+ * нельзя сложить и яблоки, и апельсины; ВЫПОЛНЕНО
  * c. Для хранения фруктов внутри коробки можете использовать ArrayList; ВЫПОЛНЕНО
  * d. Сделать метод getWeight() который высчитывает вес коробки, зная количество фруктов и вес одного фрукта
  * (вес яблока - 1.0f, апельсина - 1.5f, не важно в каких это единицах); ВЫПОЛНЕНО
@@ -25,18 +25,17 @@ public class Box<T extends Fruit> {
 
     private List<T> fruitList;
     private float totalWeight;
-    Class typeOfClass = null;
+    private float summaryWeight;
+    private Class typeOfClass;
 
     public Box() {
         this.fruitList = new ArrayList<T>();
+        this.typeOfClass = null;
+        this.summaryWeight = totalWeight;
     }
 
     public List<T> getFruitList() {
         return fruitList;
-    }
-
-    public float getTotalWeight() {
-        return totalWeight;
     }
 
     public boolean compareTo(Box<? extends Fruit> other) {
@@ -52,24 +51,36 @@ public class Box<T extends Fruit> {
 
     public boolean addFruit(T fruit) {
         //TODO
+        // проверка класса добавляемого элемента
         if (typeOfClass == null) {
             typeOfClass = fruit.getClass();
             fruitList.add(fruit);
         } else if (typeOfClass.equals(fruit.getClass())) {
             fruitList.add(fruit);
         } else {
+            try {
+                throw new DropException();
+            } catch (DropException e) {
+                e.printStackTrace();
+            }
             return false;
         }
-        totalWeight += fruit.getWeight();
         return true;
     }
 
     public void dropFruits(Box<?> otherBox) {
         //TODO
         //otherBox -> this
+        if(fruitList.get(0).getClass().equals(otherBox.getFruitList().get(0).getClass())){
+            
+        }
     }
 
     public double getWeight() {
+        int len = fruitList.size();
+        for (int i = 0; i < len; i++) {
+            totalWeight += fruitList.get(i).getWeight();
+        }
         return totalWeight;
     }
 
