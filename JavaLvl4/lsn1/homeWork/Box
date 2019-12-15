@@ -75,7 +75,7 @@ public class Box<T extends Fruit> {
         //TODO
         //otherBox -> this
         int index = fruitList.size();
-        if(otherBox != null && this.getTypeOfClass().equals(otherBox.typeOfClass)){
+        if(otherBox != null && this.getTypeOfClass().equals(otherBox.getTypeOfClass())){
             fruitList.addAll(index, (Collection<? extends T>) otherBox.getFruitList());
             otherBox.getFruitList().clear();
         } else {
