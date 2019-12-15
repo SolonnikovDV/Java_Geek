@@ -1,0 +1,14 @@
+package lsn1.homeWork.task3;
+
+public class Main {
+    public static void main(String[] args) {
+        Box appleBox = new Box();
+        appleBox.addFruit(new Orange());
+        appleBox.addFruit(new Orange());
+        appleBox.addFruit(new Apple());
+
+        System.out.println(appleBox);
+
+        System.out.println(appleBox.getWeight());
+    }
+}
