@@ -1,0 +1,10 @@
+package lsn1.homeWork.task3;
+
+public class DropException extends Exception {
+
+    @Override
+    public String getMessage() {
+        return "невозможно добавить фрукты в коробку";
+    }
+
+}
