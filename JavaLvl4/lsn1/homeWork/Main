@@ -6,6 +6,7 @@ public class Main {
         appleBox.addFruit(new Orange());
         appleBox.addFruit(new Orange());
         appleBox.addFruit(new Apple());
+        appleBox.addFruit(new Orange());
 
         System.out.println(appleBox);
 
