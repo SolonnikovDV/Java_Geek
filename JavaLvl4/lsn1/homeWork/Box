@@ -25,9 +25,18 @@ public class Box<T extends Fruit> {
 
     private List<T> fruitList;
     private float totalWeight;
+    Class typeOfClass = null;
 
     public Box() {
-        this.fruitList = new ArrayList<>();
+        this.fruitList = new ArrayList<T>();
+    }
+
+    public List<T> getFruitList() {
+        return fruitList;
+    }
+
+    public float getTotalWeight() {
+        return totalWeight;
     }
 
     public boolean compareTo(Box<? extends Fruit> other) {
@@ -38,10 +47,18 @@ public class Box<T extends Fruit> {
         return false;
     }
 
-    public void addFruit(T fruit) {
+    public boolean addFruit(T fruit) {
         //TODO
+        if (typeOfClass == null) {
+            typeOfClass = fruit.getClass();
             fruitList.add(fruit);
-            totalWeight += fruit.getWeight();
+        } else if (typeOfClass.equals(fruit.getClass())) {
+            fruitList.add(fruit);
+        } else {
+            return false;
+        }
+        totalWeight += fruit.getWeight();
+        return true;
     }
 
     public void dropFruits(Box<?> otherBox) {
