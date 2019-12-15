@@ -1,15 +1,7 @@
-package lsn1.homeWork.task3;
-
 public class Orange extends Fruit {
 
-    private static float WEIGHT = 1.5F;
-
-    public Orange() {
-        super(WEIGHT);
-    }
-
     @Override
-    public float getWeight() {
-        return WEIGHT;
+    public float getWeight(){
+        return 1.5F;
     }
 }
