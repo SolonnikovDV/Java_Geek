@@ -1,1 +1,45 @@
+package lsn1.homeWork.task1;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
+/**
+ * 1. Написать метод, который меняет два элемента массива местами.(массив может быть любого ссылочного типа);
+ * <p>
+ * для решения второго задания в качестве массива взят списочный массив ArrayList
+ */
+
+public class ChangeArrElements {
+
+    // создаем списочный массив
+    static ArrayList<Object> array = new ArrayList<>();
+
+    public static void main(String[] args) {
+        // заполняем массив
+        array.add("r");
+        array.add('#');
+        array.add(1);
+        array.add(1.2);
+        array.add(4.6F);
+
+        //выводим созданный массив
+        System.out.println(array);
+
+        //выводим массив после замены элементов
+        System.out.println(changeElements(array, 0, 3));
+
+    }
+
+    // метод меняющий элементы местамм
+    static ArrayList<Object> changeElements(ArrayList<Object> array, int el1, int el2) {
+        int len;
+        len = array.size();
+
+        if (el1 < len && el2 < len) {
+            Collections.swap(array, el1, el2);
+        }
+
+        return array;
+    }
+
+}
