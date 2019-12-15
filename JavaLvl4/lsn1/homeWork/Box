@@ -37,6 +37,10 @@ public class Box<T extends Fruit> {
         return fruitList;
     }
 
+    public Class getTypeOfClass() {
+        return typeOfClass;
+    }
+
     public boolean compareTo(Box<? extends Fruit> other) {
         //TODO
         //this <-> other
@@ -71,7 +75,7 @@ public class Box<T extends Fruit> {
         //TODO
         //otherBox -> this
         int index = fruitList.size();
-        if(fruitList.get(0).getClass().equals(otherBox.getFruitList().get(0).getClass())){
+        if(this.getTypeOfClass().equals(otherBox.typeOfClass)){
             fruitList.addAll(index, (Collection<? extends T>) otherBox.getFruitList());
             otherBox.getFruitList().clear();
         } else {
