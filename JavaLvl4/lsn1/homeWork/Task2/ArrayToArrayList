@@ -1,1 +1,26 @@
+package lsn1.homeWork.task2;
 
+import java.util.*;
+
+/**
+ * 2. Написать метод, который преобразует массив в ArrayList;
+ */
+
+public class ArrayToArrayList {
+
+    // создаем массив, элементами которго могут быть любые объекты
+    static Object[] array = new Object[]{"a", "2", '@'};
+
+    public static void main(String[] args) {
+        // вывод результата преобразования массива в списочный массив
+        System.out.println(arrToList(array));
+
+    }
+
+    // метод преобразования массива в списочный массив
+    static List<Object> arrToList(Object[] array) {
+
+        return Arrays.asList(array);
+    }
+
+}
