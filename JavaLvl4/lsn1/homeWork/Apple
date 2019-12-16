@@ -1,7 +1,15 @@
+package lsn1.homeWork.task3;
+
 public class Apple extends Fruit {
 
+    private static float WEIGHT = 1.0F;
+
+    public Apple() {
+        super(WEIGHT);
+    }
+
     @Override
-    public float getWeight(){
-        return 1.0F;
+    public float getWeight() {
+        return WEIGHT;
     }
 }
