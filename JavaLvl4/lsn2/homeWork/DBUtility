@@ -148,7 +148,7 @@ public class DBUtility {
     // метод должен объедить таблицы и добавить результат в итоговуб таблицу Result
     public void addProducts(Statement stmt) {
         try {
-            stmt.execute("SELECT PC.maker, PC.price, Laptop.maker, Laptop.price FROM Laptop LEFT JOIN PC ON condition;");
+            stmt.execute("INSERT INTO Result (SELECT PC.maker, PC.price, Laptop.maker, Laptop.price FROM Laptop LEFT JOIN PC ON condition);");
         } catch (SQLException e) {
             e.printStackTrace();
         }
