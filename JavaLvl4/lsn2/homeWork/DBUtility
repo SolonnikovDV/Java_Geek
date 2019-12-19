@@ -125,34 +125,22 @@ public class DBUtility {
      * или сделать любым другим способом
      */
 
-    // РЕШЕНИЯ ПОКА НЕТ
-
+    // Решение:
     public int makerWithMaxProceeds(Statement stmt) {
         int result = 0;
+        ResultSet rs;
         //todo
-
+        try {
+            rs = stmt.executeQuery("select sum(p) as total_sum, m from (\n" +
+                    "Select '1' as n, maker as m, price as p from PC union select '2',maker, price from Laptop\n" +
+                    "                                                       ) group by m order by total_sum desc limit 1;");
+            while (rs.next()){
+                result = rs.getInt("total_sum");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return result;
     }
-
-    // результирующая таблица для подсчета суммы по производителям
-    public void createResultTable(Connection conn, Statement stmt) {
-        try {
-            stmt.execute(
-                    "CREATE TABLE IF NOT EXISTS Result(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                            "maker TEXT, sum INTEGER)");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // метод должен объедить таблицы и добавить результат в итоговуб таблицу Result
-    public void addProducts(Statement stmt) {
-        try {
-            stmt.execute("INSERT INTO Result (SELECT PC.maker, PC.price, Laptop.maker, Laptop.price FROM Laptop LEFT JOIN PC ON condition);");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
 }
