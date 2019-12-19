@@ -22,20 +22,13 @@ public class App {
 //        db.addPrinters(stmt, "Printer", 1010, "bw", "jet", "Canon", 5000);
 
         // список уникальных моделей PC дороже 15 тысяч
-        System.out.println(db.selectExpensivePC(stmt));
+        System.out.println("список уникальных моделей PC дороже 15 тысяч: " + db.selectExpensivePC(stmt));
         // список id ноутов, скорость процессора которых выше чем 2500
-        System.out.println(db.selectQuickLaptop(stmt));
+        System.out.println("список id ноутов, скорость процессора которых выше чем 2500: " + db.selectQuickLaptop(stmt));
         // список производителей, которые делают и пк и ноутбуки
-        System.out.println(db.selectMaker(stmt));
-
+        System.out.println("список производителей, которые делают и пк и ноутбуки: " + db.selectMaker(stmt));
         // решение задачи с "самым дорогим" производителем
-        // РЕШЕНИЯ ПОКА НЕТ
-
-        // создана таблица Result для свода уникальных полей из трех таблиц
-        db.createResultTable(conn, stmt);
-        // попытка объединить таблицы
-        db.addProducts(stmt);
-        System.out.println(db.makerWithMaxProceeds(stmt));
+        System.out.println("решение задачи с 'самым дорогим' производителем: " + db.makerWithMaxProceeds(stmt));
 
     }
 }
