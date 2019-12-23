@@ -38,7 +38,7 @@ public class FileUtility {
     }
 
     /*
-     *  Метод должен дописать в переданный файл все
+     * Метод должен дописать в переданный файл все
      * записи из списка по одной записи в строке
      * */
     public void appender(File file, List<String> records) {
