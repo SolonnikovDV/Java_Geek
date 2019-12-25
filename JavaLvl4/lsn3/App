@@ -1,0 +1,40 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class App {
+    public static void main(String[] args) throws IOException {
+        File in, out, append, login, pass;
+
+        in = new File(new FileUtility().path + "array.txt");
+        out = new File(new FileUtility().path + "arrayOut.txt");
+        append = new File(new FileUtility().path + "append.txt");
+        login = new File(new FileUtility().path + "login.txt");
+        pass = new File(new FileUtility().path + "pass.txt");
+
+        FileUtility app = new FileUtility();
+
+        // тест sortEvenElements
+        app.sortEvenElements(in, out);
+
+        // тест passwordGen
+        app.passwordGen(login, pass);
+
+        // тест appender
+        List<String> list = new ArrayList<>();
+        list.add("qweqweqwe");
+        list.add("qweqweqwe");
+        list.add("qweqweqwe");
+        app.appender(append, list);
+
+        // тест getNString
+        String pathToFile = "/Volumes/Transcend/Java4Maven/src/main/java/lsn3/homeWork/file.txt";
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Введите число строк, которое хотите вывести: ");
+        int limit = sc.nextInt();
+        sc.close();
+        System.out.println(app.getNString(pathToFile, limit));
+    }
+}
