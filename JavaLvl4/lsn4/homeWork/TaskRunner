@@ -1,37 +1,47 @@
 import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.Semaphore;
 
-public class TaskRunner implements Runnable {
+public class Runner implements Runnable {
 
-    //TODO
+    private final Semaphore previous;
+    private final Semaphore next;
+    private final String word;
 
-    Object mutex;   //монитор синхронизации
-    String message; //сообщение которое поток будет добавлять в список
+    List<String> list = new LinkedList<>();
 
-    //у вас могут быть другие решения и другие переменные
-    volatile int cnt;
-    volatile int inc;
-    static volatile int iter = 0;
-    //этот список будет проверяться на предмет синхронизации
-    //данных
-    //а именно: [1, 2, 3, 1, 2, 3, 1, 2, 3....]
-    //в список будут писать из 3 потоков
-    static volatile LinkedList<String> list = new LinkedList<>();
-
-
-
-    public TaskRunner(Object mutex, String msg, int cnt) {
-        this.mutex = mutex;
-        message = msg; //каждый поток может писать в список только
-        //его сообщение!!!
-        this.cnt = cnt;
-        inc = 0;
+    public Runner(Semaphore previous, Semaphore next, String word) {
+        this.previous = previous;
+        this.next = next;
+        this.word = word;
     }
 
     @Override
     public void run() {
-        // TODO: 26.12.2019
-        while (true) {
-            list.add(message);
+        for (int i = 0; i < 5; i++) {
+            waitForGreen();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(word);
+            list.add(word); // криво отрабатывает
+            switchGreenForNext();
+        }
+        System.out.println(list); // криво отрабатывает
+    }
+
+    private void switchGreenForNext() {
+        next.release();
+    }
+
+    private void waitForGreen() {
+        try {
+            previous.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
