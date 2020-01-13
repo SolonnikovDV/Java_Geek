@@ -13,9 +13,9 @@ public class App {
         sem2.acquire();
         sem3.acquire();
 
-        Thread t1 = new Thread(new Runner(sem3, sem1, "Hallo"));
-        Thread t2 = new Thread(new Runner(sem1, sem2, "my"));
-        Thread t3 = new Thread(new Runner(sem2, sem3, "friend"));
+        Thread t1 = new Thread(new TaskRunner(sem3, sem1, "Hallo"));
+        Thread t2 = new Thread(new TaskRunner(sem1, sem2, "my"));
+        Thread t3 = new Thread(new TaskRunner(sem2, sem3, "friend"));
 
         Thread [] threads = new Thread[3];
         threads[0] = t1;
