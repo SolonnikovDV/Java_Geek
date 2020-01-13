@@ -1,35 +1,14 @@
 package lsn2.homeWork;
 
-public class Printer {
+public class Printer extends Product {
 
-    private int model;
     private String color;
     private String type;
-    private int price;
-    private String maker;
 
-    public Printer(int _model, String _maker, String _color, String _type, int _price){
-        this.model = _model;
+    public Printer(String _productType, int _model, String _color, String _type, String _maker, int _price) {
+        super(_productType, _model, _price, _maker);
         this.color = _color;
         this.type = _type;
-        this.price = _price;
-        this.maker = _maker;
-    }
-
-    public void setMaker(String maker) {
-        this.maker = maker;
-    }
-
-    public String getMaker() {
-        return maker;
-    }
-
-    public int getModel() {
-        return model;
-    }
-
-    public void setModel(int model) {
-        this.model = model;
     }
 
     public String getColor() {
@@ -48,11 +27,8 @@ public class Printer {
         this.type = type;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
+    @Override
+    public String getProductType() {
+        return super.getProductType();
     }
 }

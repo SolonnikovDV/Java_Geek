@@ -1,0 +1,34 @@
+package lsn2.homeWork;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class App {
+    private static final String URL_CON = "jdbc:sqlite:/Volumes/Transcend/Java4Maven/homework.db";
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        DBUtility db = new DBUtility();
+
+        Class.forName("org.sqlite.JDBC");
+        Connection conn = DriverManager.getConnection(URL_CON);
+        Statement stmt = conn.createStatement();
+
+        // создана таблица с принтерами
+        db.createPrinterTable(conn, stmt);
+        // добавлены позиции в принтеров в таблицу Printer и Product
+//        db.addPrinters(stmt, "Printer", 1012, "col", "laser", "HP", 20000);
+//        db.addPrinters(stmt, "Printer", 1010, "bw", "jet", "Canon", 5000);
+//        db.addPrinters(stmt, "Printer", 1010, "bw", "jet", "Canon", 5000);
+
+        // список уникальных моделей PC дороже 15 тысяч
+        System.out.println("список уникальных моделей PC дороже 15 тысяч: " + db.selectExpensivePC(stmt));
+        // список id ноутов, скорость процессора которых выше чем 2500
+        System.out.println("список id ноутов, скорость процессора которых выше чем 2500: " + db.selectQuickLaptop(stmt));
+        // список производителей, которые делают и пк и ноутбуки
+        System.out.println("список производителей, которые делают и пк и ноутбуки: " + db.selectMaker(stmt));
+        // решение задачи с "самым дорогим" производителем
+        System.out.println("решение задачи с 'самым дорогим' производителем: " + db.makerWithMaxProceeds(stmt));
+
+    }
+}

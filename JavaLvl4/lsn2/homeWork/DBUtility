@@ -3,6 +3,9 @@ package lsn2.homeWork;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.sql.*;
+import java.util.List;
+
 
 public class DBUtility {
     /*
@@ -18,23 +21,55 @@ public class DBUtility {
     Каждая вставка в таблицу принтер должна отражаться добавлением записи в таблицу продукт
      */
 
-
-    void AddPrinters(Statement stmt){
+    void addPrinters(Statement stmt, String productType, int model, String сolor, String type, String maker, int price) {
         // TODO: 16.12.2019
+        try {
+            // строка не компилируется: [SQLITE_ERROR] SQL error or missing database (5 values for 6 columns)
+//            stmt.execute("INSERT INTO Printer (productType, model, color, type, maker, price) VALUES ('" + printer.getProductType() + "', '" + printer.getModel() + "', '" + printer.getColor() + ", " + printer.getType() + "','" + printer.getMaker() + "', '" + printer.getPrice() + "');");
+
+            stmt.execute("INSERT INTO Printer (productType, model, color, type, maker, price) " +
+                    "VALUES ('" + productType + "','" + model + "', '" + сolor + "', '" + type + "', '" + maker + "', '" + price + "')");
+            stmt.execute("INSERT INTO Product (maker, model, type) " +
+                    "VALUES ('" + maker + "', '" + model + "', '" + type + "')");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public void createPrinterTable(Connection con, Statement  stmt){
+    public void createPrinterTable(Connection conn, Statement stmt) {
         // TODO: 16.12.2019
+        try {
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS Printer(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                            "productType TEXT, model INTEGER, color TEXT, type TEXT, maker TEXT, price INTEGER)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
 
     /*
      * Метод должен вернуть список уникальных моделей PC дороже 15 тысяч
      */
 
-    public ArrayList<String> selectExpensivePC(Statement stmt){
+    public ArrayList<String> selectExpensivePC(Statement stmt) {
         //todo
-        return null;
+        List<String> list = new ArrayList<>();
+        ResultSet rs;
+        String str;
+        try {
+            rs = stmt.executeQuery("SELECT * from PC WHERE price > 15000;");
+            while (rs.next()) {
+                str = rs.getString("model");
+                list.add(str);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return (ArrayList<String>) list;
     }
 
     /*
@@ -42,18 +77,43 @@ public class DBUtility {
      * которых выше чем 2500
      */
 
-    public ArrayList<Integer> selectQuickLaptop(Statement stmt){
+    public ArrayList<Integer> selectQuickLaptop(Statement stmt) {
         // TODO: 16.12.2019
-        return null;
+        List<Integer> list = new ArrayList<>();
+        ResultSet rs;
+        int id;
+        try {
+            rs = stmt.executeQuery("SELECT * from Laptop WHERE speed > 2500;");
+            while (rs.next()) {
+                id = rs.getInt("id");
+                list.add(id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (ArrayList<Integer>) list;
     }
 
     /*
      * Метод должен вернуть список производителей которые
-     *  делают и пк и ноутбуки
+     * делают и пк и ноутбуки
      */
-    public ArrayList<String> selectMaker(Statement stmt){
+
+    // в таблицах Laptop и PC нет столбца "производитель"
+    // столбцы добавлены вручную
+    public ArrayList<String> selectMaker(Statement stmt) {
         //todo
-        return null;
+        List<String> list = new ArrayList<>();
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery("SELECT DISTINCT PC.maker from Laptop, PC WHERE Laptop.maker = PC.maker");
+            while (rs.next()) {
+                list.add(rs.getString("maker"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (ArrayList<String>) list;
     }
 
     /*
@@ -65,10 +125,22 @@ public class DBUtility {
      * или сделать любым другим способом
      */
 
-    public int makerWithMaxProceeds(Statement stmt){
+    // Решение:
+    public int makerWithMaxProceeds(Statement stmt) {
         int result = 0;
+        ResultSet rs;
         //todo
+        try {
+            rs = stmt.executeQuery("select sum(p) as total_sum, m from (\n" +
+                    "Select '1' as n, maker as m, price as p from PC union select '2',maker, price from Laptop\n" +
+                    "                                                       ) group by m order by total_sum desc limit 1;");
+            while (rs.next()){
+                result = rs.getInt("total_sum");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return result;
-
     }
+
 }
