@@ -1,119 +1,163 @@
-package lsn3.test;
+package lsn3.homeWork;
 
-import lsn3.homeWork.FileUtility;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import java.io.*;
+import java.util.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
+public class FileUtility {
 
-@DisplayName("Home work 3")
-public class FileTests {
+    String path = "/Volumes/Transcend/Java4Maven/src/main/java/lsn3/homeWork/";
+    Scanner scanner;
+    FileWriter writer;
+    String temp;
 
+    /*
+     * Структура файла ввода: в первой строке одно целое число - N
+     * далее следует N целых чисел через пробел
+     * Метод должен отсортировать элементы с четным значением,
+     * а нечетные оставить на своих местах и вывести результат через пробел в файл вывода
+     * Пример:
+     * in "array.txt":
+     * 5
+     * 5 4 2 1 3    // 2 4
+     * out "arrayout.txt":
+     * 5 2 4 1 3
+     */
 
-    FileUtility util;
-    String pathToResource;
+    //
+    public void sortEvenElements(File in, File out) throws IOException {
+        //TODO
+        // не выполнена часть с сортировкой
 
-    @Before
-    public void starter() {
-        //change your path
-        pathToResource = "C:\\Users\\Mikhail\\IdeaProjects\\Java3\\task3\\src\\main\\resources\\";
-        util = new FileUtility();
-    }
+        List<String> listOfStr = new ArrayList<>();
+        ArrayList<Integer> listOfInt = new ArrayList<>();
+        // чтение потока
+        InputStreamReader isr = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(isr);
+        // запись потока
+        BufferedWriter bwIn = new BufferedWriter(new FileWriter(in));
 
-    @Test
-    public void testSort() {
-        File input = new File(pathToResource + "array.txt");
-        File output = new File(pathToResource + "arrayout.txt");
-        util.sortEvenElements(input, output);
-        int[] arr = new int[]{4, 8, 5, 7, 10, 9, 7, 12, 11, 14};
-        try {
-            Scanner in = new Scanner(output);
-            int pos = 0;
-            while (in.hasNext()) {
-                int x = in.nextInt();
-                Assert.assertEquals(arr[pos++], x);
-            }
-            Assert.assertEquals(10, pos);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean check(String pass) {
-        int c1 = 0, c2 = 0, c3 = 0, c4 = 0;
-        for (int i = 0; i < pass.length(); i++) {
-            if (pass.charAt(i) >= 'a' && pass.charAt(i) <= 'z') {
-                c1++;
-            }
-            if (pass.charAt(i) >= 'A' && pass.charAt(i) <= 'Z') {
-                c2++;
-            }
-            if (pass.charAt(i) >= '0' && pass.charAt(i) <= '9') {
-                c3++;
-            }
-            if (pass.charAt(i) == '*' || pass.charAt(i) == '!' ||
-                    pass.charAt(i) == '%') {
-                c4++;
+        System.out.println("Введите числа. Для завершения ввведите 'exit'");
+        while (true) {
+            String s = br.readLine();
+            listOfStr.add(s);
+            if (s.equals("exit")) {
+                isr.close();
+                br.close();
+                listOfStr.remove(listOfStr.size() - 1); // костыль, чтобы не выводилось 'exit'
+                break;
             }
         }
-        return pass.length() > 5 && pass.length() < 13 && c1 > 0 && c2 > 0 && c3 > 0 && c4 > 0;
+        // чтение листа в файл по условию
+        bwIn.write(listOfStr.get(0)); // первый элемент
+        bwIn.newLine(); // перевод строки
+        for (int i = 1; i < listOfStr.size(); i++) { // оставшаяся часть листа
+            bwIn.write(listOfStr.get(i) + " ");
+            listOfInt.add(Integer.parseInt(listOfStr.get(i)));
+        }
+        bwIn.close();
+
+        BufferedWriter bwOut = new BufferedWriter(new FileWriter(out));
+        /*
+         тут должен быть код с сортировкой
+         */
+        for (int i = 0; i < listOfInt.size(); i++) {
+            bwOut.write(listOfInt.get(i));
+        }
+        bwOut.close();
     }
 
-    @Test
-    public void testPassGen() {
-        File input = new File(pathToResource + "login.txt");
-        File output = new File(pathToResource + "pass.txt");
-        util.passwordGen(input, output);
-        HashSet<String> set = new HashSet<>();
-        try {
-            Scanner in = new Scanner(output);
-            while (in.hasNextLine()) {
-                String pass = in.nextLine().split(" ")[1];
-                Assert.assertTrue(check(pass));
-                set.add(pass);
+
+    /*
+     * Генератор паролей, пароль должен отвечать требованиям:
+     * длина не менее 6 и не более 12, включает минимум по одному символу
+     * из наборов: a-z, A-Z, 0-9, {*,!,%}
+     * все пароли должны быть разными
+     * На вход метод получает файл с логинами пользователей "login.txt"
+     * Метод должен записать в файл вывода записи с логинами и паролями
+     * для каждого пользователя "pass.txt"
+     */
+
+    public void passwordGen(File in, File out) throws IOException {
+        //TODO
+        // выполнено
+
+        // логин и пароль будем хранить в HashMap
+        Map<String, Character[]> listOfLogin = new HashMap<>();
+        BufferedReader reader = new BufferedReader(new FileReader(in));
+        String loginName;
+        // считываем содержимое login.txt и формируем пару логин - пароль
+        while ((loginName = reader.readLine()) != null) {
+            listOfLogin.put(loginName, makePass());
+        }
+        reader.close();
+        // записываем логин пароль в файл pass.txt
+        PrintWriter pw = new PrintWriter(out);
+        for (Map.Entry<String, Character[]> entry : listOfLogin.entrySet()) {
+            pw.write(Thread.currentThread().getName() + " pass: " + entry.getKey() + "\n");
+        }
+        pw.close();
+    }
+
+    // метод генерации пароля (вспомогательный метод passwordGen)
+    public Character[] makePass() {
+        int character, passLength;
+        char pass;
+        int max = 12;
+        int min = 6;
+
+        passLength = (int) (Math.random() * ++max) + min;
+        Character[] passArr = new Character[passLength];
+
+        if (passLength > 5 && passLength < 13) {
+            for (int i = 0; i < passLength; i++) {
+                character = (int) (Math.random() * 93 + 33);
+                pass = (char) character;
+                passArr[i] = pass;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
-        Assert.assertEquals(7, set.size());
+        return passArr;
     }
 
-    @Test
-    public void testAppend() {
-        File file = new File(pathToResource + "append.txt");
-        ArrayList<String> list = new ArrayList<>();
-        for (int i = 4; i < 11; i++) {
-            list.add("str" + i);
+    /*
+     * Метод должен дописать в переданный файл "append.txt" все
+     * записи из списка по одной записи в строке
+     * */
+    public void appender(File file, List<String> records) throws IOException {
+        //TODO
+        // выполнено
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        for (int i = 0; i < records.size(); i++) {
+            writer.write(records.get(i) + "\n");
         }
-        util.appender(file, list);
-        try {
-            Scanner in = new Scanner(file);
-            int pos = 1;
-            while (in.hasNextLine()) {
-                String line = in.nextLine();
-                Assert.assertEquals(line, "str" + pos);
-                pos++;
-            }
-            Assert.assertEquals(11, pos);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        writer.close();
     }
 
-    @Test
-    public void testNLines() {
-        List<String> list =
-                util.getNString(pathToResource + "file.txt", 100);
-        for (int i = 0; i < 100; i++) {
-            Assert.assertEquals("Oleg message " + (i + 900),
-                    list.get(i).trim());
+    /*
+     * Метод возвращает список из N последних строк файла "file.txt"
+     * строки можно дополнять пробелами до длины 80
+     * тогда количество символов в файле будет предсказуемо
+     * 10 строк это ровно 800 символов
+     * Изучите класс RandomAccessFile для эффективного решения данной
+     * задачи
+     * Альтернативное решение: использование очереди или стека
+     * */
+    public List<String> getNString(String pathToFile, int n) throws IOException {
+        //TODO
+        // выполнено, реализация через Stack
+        List<String> list = new ArrayList<>(); // сюда добавляем считанные из стека строки
+        Stack<String> stack = new Stack<>(); // сюда добавляем считанные из файла строки
+
+        BufferedReader reader = new BufferedReader(new FileReader(pathToFile));
+        // считываем содержимое файла построчно и складываем в стек
+        while (reader.read() != -1) {
+            stack.add(reader.readLine());
         }
+        reader.close();
+        // достаем из стека нужно количество строк и добавляем в лист
+        for (int i = 0; i < n; i++) {
+            list.add(stack.pop());
+        }
+        return list;
     }
+
 }

@@ -1,0 +1,7 @@
+main pass: a.chugunov
+main pass: m.levin
+main pass: a.kozlov
+main pass: o.ivanov
+main pass: a.snitko
+main pass: o.petrov
+main pass: u.dolgikh
