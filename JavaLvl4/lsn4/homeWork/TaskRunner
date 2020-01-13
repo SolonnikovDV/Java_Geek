@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-public class Runner implements Runnable {
+public class TaskRunner implements Runnable {
 
     private final Semaphore previous;
     private final Semaphore next;
@@ -10,7 +10,7 @@ public class Runner implements Runnable {
 
     List<String> list = new LinkedList<>();
 
-    public Runner(Semaphore previous, Semaphore next, String word) {
+    public TaskRunner(Semaphore previous, Semaphore next, String word) {
         this.previous = previous;
         this.next = next;
         this.word = word;
