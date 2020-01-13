@@ -19,7 +19,7 @@ public class Runner implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < 5; i++) {
-            waitForGreen();
+            wait();
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -27,16 +27,16 @@ public class Runner implements Runnable {
             }
             System.out.println(word);
             list.add(word); // криво отрабатывает
-            switchGreenForNext();
+            goNext();
         }
         System.out.println(list); // криво отрабатывает
     }
 
-    private void switchGreenForNext() {
+    private void goNext() {
         next.release();
     }
 
-    private void waitForGreen() {
+    private void wait() {
         try {
             previous.acquire();
         } catch (InterruptedException e) {
