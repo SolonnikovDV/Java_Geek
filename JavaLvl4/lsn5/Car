@@ -1,8 +1,10 @@
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CyclicBarrier;
 
 public class Car implements Runnable {
 
     private static int CARS_COUNT;
+    private static ConcurrentLinkedQueue queue = new ConcurrentLinkedQueue();
 
     static {
         CARS_COUNT = 0;
@@ -11,6 +13,8 @@ public class Car implements Runnable {
     private Race race;
     private int speed;
     private String name;
+
+    private Object mutex = new Object();
 
     CyclicBarrier cb = new CyclicBarrier(1);
 
@@ -22,10 +26,12 @@ public class Car implements Runnable {
     }
 
     public String getName() {
+
         return name;
     }
 
     public int getSpeed() {
+
         return speed;
     }
 
@@ -35,21 +41,23 @@ public class Car implements Runnable {
 
     @Override
     public void run() {
+        int count = 0;
         try {
             System.out.println(this.name + " готовится");
             Thread.sleep(500 + (int) (Math.random() * 800));
             System.out.println(this.name + " готов");
             Thread.sleep(500 + (int) (Math.random() * 800));
+            cb.await();
+
             // начало заезда
             for (int i = 0; i < race.getStages().size(); i++) {
                 race.getStages().get(i).go(this);
-                Thread.sleep(500);
             }
-            cb.await();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+
 
 }
