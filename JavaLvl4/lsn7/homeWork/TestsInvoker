@@ -1,0 +1,15 @@
+package lsn7.homeWork;
+
+import java.lang.reflect.InvocationTargetException;
+
+public class TestsInvoker {
+
+    public void invokeTests(Class c) throws InvocationTargetException, IllegalAccessException {
+        // TODO: 18/11/2019
+    }
+
+    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException {
+        Class clazz = Tests.class;
+        new TestsInvoker().invokeTests(clazz);
+    }
+}
