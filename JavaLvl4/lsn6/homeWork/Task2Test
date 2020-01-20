@@ -1,0 +1,29 @@
+package lsn6.homeWork.forTests;
+
+import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+
+class Task2Test {
+
+    @Test
+    void sortArr() {
+        int[] arr = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        ArrayList<Integer> expected = Task2.sortArr(arr);
+        ArrayList<Integer> actual = new ArrayList<>();
+        actual.add(5);
+        actual.add(6);
+        actual.add(7);
+        actual.add(8);
+        actual.add(9);
+        Assert.assertEquals(expected.toString(), actual.toString());
+
+    }
+
+    @Test
+    void checkArr() {
+        int[] arr = new int[]{0, 1, 2, 3, 4};
+        boolean expected = Task2.checkArr(arr);
+        Assert.assertTrue(expected);
+    }
+}
