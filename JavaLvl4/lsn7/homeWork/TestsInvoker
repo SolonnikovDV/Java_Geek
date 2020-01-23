@@ -1,15 +1,58 @@
 package lsn7.homeWork;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 
 public class TestsInvoker {
 
-    public void invokeTests(Class c) throws InvocationTargetException, IllegalAccessException {
+    public void invokeTests() throws InvocationTargetException, IllegalAccessException {
         // TODO: 18/11/2019
+        Tests clazz = new Tests();
+        Class<?> c = clazz.getClass();
+
+        Method[] methods = c.getDeclaredMethods();
+        ArrayList<Method> list = new ArrayList<>();
+        TreeMap<Integer, Method>  map = new TreeMap<>();
+
+        // тремя циклами foreach определил последовательность запуска методов тестов
+        for (Method m : methods) {
+            if (m.isAnnotationPresent(Before.class)) {
+                list.add(m);
+            }
+        }
+
+        for (Method m : methods) {
+            if (m.isAnnotationPresent(Test.class)) {
+                int priorityKey = m.getAnnotation(Test.class).priority();
+                map.put(priorityKey, m);
+            }
+        }
+
+        // тест сортировки методов с аннотацией @Test по полю priority
+        System.out.println(map);
+        // отсортированный список методов с аннотацией @Test добавлен в общий список
+        for (int i = 1; i < map.size() + 1; i++) {
+            list.add(map.get(i));
+        }
+
+        for (Method m : methods) {
+            if (m.isAnnotationPresent(After.class)) {
+                list.add(m);
+            }
+        }
+        System.out.println(list);
+
+        // запуск методов останавливается на втором в очереде методе с аннотацией @Test
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).invoke(clazz);
+        }
+
     }
 
     public static void main(String[] args) throws InvocationTargetException, IllegalAccessException {
-        Class clazz = Tests.class;
-        new TestsInvoker().invokeTests(clazz);
+
+
+        new TestsInvoker().invokeTests();
     }
 }
