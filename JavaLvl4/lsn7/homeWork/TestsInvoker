@@ -6,13 +6,13 @@ import java.util.*;
 
 public class TestsInvoker {
 
-    public void invokeTests(Class с) throws InvocationTargetException, IllegalAccessException {
+    public void invokeTests() throws InvocationTargetException, IllegalAccessException {
         // TODO: 18/11/2019
-
-        Class c = Tests.class;
+        Tests clazz = new Tests();
+        Class<?> c = clazz.getClass();
 
         Method[] methods = c.getDeclaredMethods();
-        Queue<Method> list = new LinkedList<>();
+        ArrayList<Method> list = new ArrayList<>();
         TreeMap<Integer, Method>  map = new TreeMap<>();
 
         // тремя циклами foreach определил последовательность запуска методов тестов
@@ -45,14 +45,14 @@ public class TestsInvoker {
 
         // запуск методов останавливается на втором в очереде методе с аннотацией @Test
         for (int i = 0; i < list.size(); i++) {
-            list.poll().invoke(new Tests());
+            list.get(i).invoke(clazz);
         }
 
     }
 
     public static void main(String[] args) throws InvocationTargetException, IllegalAccessException {
 
-        Class clazz = Tests.class;
-        new TestsInvoker().invokeTests(clazz);
+
+        new TestsInvoker().invokeTests();
     }
 }
