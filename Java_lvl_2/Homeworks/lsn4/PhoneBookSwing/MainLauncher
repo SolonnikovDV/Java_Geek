@@ -1,6 +1,13 @@
+package lsn3_collections.homeWork;
+
 /**
  * Java. Level 2. Lesson 4. PhoneBook on Swing.
  *
  * @autor @Dmitriy Solonnikov
  * @version dated Aug-07-2019
  */
+
+public class MainLauncher {
+
+    ComponentPhoneBook componentPhoneBook = new ComponentPhoneBook();
+}

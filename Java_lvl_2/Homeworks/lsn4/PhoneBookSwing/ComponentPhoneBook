@@ -1,3 +1,177 @@
+package lsn3_collections.homeWork;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+
 /**
  * Здесь описываются все компоненты и их расположение
  */
+
+public class ComponentPhoneBook {
+
+    JFrame frameMain;
+    JFrame frameMessage;
+
+    JPanel panelBtnBottom;
+    JPanel panelBtnTop;
+    JPanel panelTable;
+
+    JButton btnSearch;
+    JButton btnAdd;
+    JButton btnUpdate;
+    JButton btnDel;
+    JButton btnUniqRecs;
+    JButton btnAllRecs;
+    JButton btnExit;
+    JButton btnExportData;
+    JButton btnClear;
+
+    public JTextField textSearch;
+    public JTextField textAddName;
+    public JTextField textAddNumber;
+
+    // сообщения об ошибках
+    JLabel labelDeleteError;
+    JLabel labelUpdateError;
+    JLabel labelAddRecError;
+
+    JTable table;
+    JScrollPane scrollPane;
+    public DefaultTableModel modelTable;
+
+    ActionPhoneBook actionPhoneBook;
+
+    int count;
+
+
+    public ComponentPhoneBook() {
+
+        BorderLayout borderLayout = new BorderLayout();
+        GridLayout gridLayout = new GridLayout(4, 2);
+
+
+        panelBtnTop = new JPanel();
+        panelBtnTop.setBackground(Color.ORANGE);
+        panelBtnTop.setLayout(gridLayout);
+
+        textSearch = new JTextField();
+        btnSearch = new JButton("Search"); // данная кнопка в текущей версии неактивна
+        btnUniqRecs = new JButton("Show unique records"); // данная кнопка в текущей версии неактивна
+        btnAllRecs = new JButton("Show all records");
+        panelBtnTop.add(new JLabel("Enter the name you want to find"));
+        panelBtnTop.add(new JLabel(""));
+        panelBtnTop.add(textSearch);
+        panelBtnTop.add(btnSearch);
+        panelBtnTop.add(btnUniqRecs);
+        panelBtnTop.add(new JLabel(""));
+        panelBtnTop.add(btnAllRecs);
+
+        panelTable = new JPanel();
+//        panelTable.setLayout(borderLayout);
+
+        // Описание таблицы
+        table = new JTable();
+        // ScrollPane в который кладем нашу таблицу
+        scrollPane = new JScrollPane(table);
+        panelTable.add(scrollPane);
+        scrollPane.setBounds(0, 0, 400, 1000);
+
+        // дизайн таблицы
+        table.setBackground(Color.LIGHT_GRAY);
+        table.setForeground(Color.BLACK);
+        Font font = new Font("Arial", 2, 12);
+        table.setFont(font);
+        table.setRowHeight(30);
+
+        // Модель таблицы
+        modelTable = new DefaultTableModel();
+        Object[] columns = {"#", "Name", "Phone Number"};
+        modelTable.setColumnIdentifiers(columns);
+
+        table.setModel(modelTable);
+
+        // нижняя панель
+        panelBtnBottom = new JPanel();
+        panelBtnBottom.setBackground(Color.ORANGE);
+        panelBtnBottom.setLayout(gridLayout);
+
+        // элементы нижней панели
+        // тектовые поля
+        textAddName = new JTextField("");
+        textAddNumber = new JTextField("");
+        // кнопки
+        btnAdd = new JButton("Add");
+        btnUpdate = new JButton("Update");
+        btnDel = new JButton("Delete");
+        btnExit = new JButton("Exit");
+        btnExportData = new JButton("Export Data");
+        btnClear = new JButton("Clear");
+
+
+        // слушатели
+        // для кнопки Add
+        btnAdd.setActionCommand("Add");
+        btnAdd.addActionListener(new ActionPhoneBook(this));
+        // для кнопки Delete
+        btnDel.setActionCommand("Delete");
+        btnDel.addActionListener(new ActionPhoneBook(this));
+        // для таблицы
+        table.addMouseListener(new ActionMouse(this));
+        // для кнопки Delete
+        btnUpdate.setActionCommand("Update");
+        btnUpdate.addActionListener(new ActionPhoneBook(this));
+        // для кнопки Exit
+        btnExit.setActionCommand("Exit");
+        btnExit.addActionListener(new ActionPhoneBook(this));
+        // для кнопки ExportData
+        btnExportData.setActionCommand("ExportData");
+        btnExportData.addActionListener(new ActionPhoneBook(this));
+        // для кнопки Clear
+        btnClear.setActionCommand("Clear");
+        btnClear.addActionListener(new ActionPhoneBook(this));
+        // для кнопки Search
+        btnAllRecs.setActionCommand("ShowAll");
+        btnAllRecs.addActionListener(new ActionPhoneBook(this));
+
+        // добавление элементов на нижнюю панель
+        panelBtnBottom.add(new JLabel("Enter the name"));
+        panelBtnBottom.add(textAddName);
+        panelBtnBottom.add(btnAdd);
+        panelBtnBottom.add(new JLabel("Enter the number"));
+        panelBtnBottom.add(textAddNumber);
+        panelBtnBottom.add(btnUpdate);
+        panelBtnBottom.add(new JLabel(""));
+        panelBtnBottom.add(btnClear);
+        panelBtnBottom.add(btnDel);
+        panelBtnBottom.add(btnExit);
+        panelBtnBottom.add(new JLabel(""));
+        panelBtnBottom.add(btnExportData);
+
+
+
+        frameMessage = new JFrame();
+        frameMessage.setLayout(new FlowLayout());
+
+        labelDeleteError = new JLabel("Error Delete operation");
+        labelUpdateError = new JLabel("Error Update operation");
+        labelAddRecError = new JLabel("Error Add record operation");
+        frameMessage.add(labelDeleteError);
+        frameMessage.add(labelUpdateError);
+
+        // описание главного фрейма и добавление на него трех панелей
+        frameMain = new JFrame();
+
+        frameMain.add(panelBtnTop, borderLayout.NORTH);
+        frameMain.add(panelTable, borderLayout.CENTER);
+        frameMain.add(panelBtnBottom, borderLayout.SOUTH);
+
+        frameMain.setTitle("PhoneBook");
+        frameMain.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frameMain.setLocationRelativeTo(null);
+        frameMain.pack();
+        frameMain.setVisible(true);
+
+
+    }
+}

@@ -1,3 +1,44 @@
+package lsn3_collections.homeWork;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 /**
  * Здесь описываются все слушатели MouseListener и действия, применяемые в гафическом интерфейсе
  */
+
+public class ActionMouse implements MouseListener {
+
+    ComponentPhoneBook parent_component;
+
+    ActionMouse(ComponentPhoneBook parent_component) {
+        this.parent_component = parent_component;
+    }
+
+    // выделяет сроку и передает текст из этой строки в коответствующие поля Name и Number
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int i = parent_component.table.getSelectedRow();
+        parent_component.textAddName.setText(parent_component.modelTable.getValueAt(i, 1).toString());
+        parent_component.textAddNumber.setText(parent_component.modelTable.getValueAt(i, 2).toString());
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+}
