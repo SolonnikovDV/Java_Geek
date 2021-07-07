@@ -1,1 +1,58 @@
 
+package lsn6_server.HomeWork;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
+
+
+// класс передает отвечает за взаимодейтсвие ClientChat с ServerChat
+
+public class ClientSession extends Thread {
+
+    private final Socket client;
+    private DataInputStream in;
+    private DataOutputStream out;
+
+    public ClientSession(Socket client) {
+        this.client = client;
+        start(); // запускается метод run () (поток)
+
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                in = new DataInputStream(client.getInputStream());
+
+                // если входящий поток не пустой, то читаем поток
+                if (in.available() <= 0) {
+                    return;
+                }
+
+                out = new DataOutputStream(client.getOutputStream());
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+
+
+}
+
+

@@ -1,1 +1,71 @@
 
+package lsn6_server.HomeWork;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+
+public class ServerChat {
+
+    private static ServerSocket server;
+    private static Socket client;
+
+    public static void main(String[] args) {
+            start();
+
+            // обслуживание клинетов
+            connection();
+
+            end();
+
+
+    }
+
+    private static void connection () {
+        // в этомбольшом цикле подключаем клинетов
+        while (true){
+            //обработка подлючающегося/подключающихся клиента/клиентов
+            try {
+                // точка остановка пока клиент не подлючится, подлючившийся записывается в переменную client
+                client = server.accept();
+                System.out.println("Client is connected.");
+                // подключаем клиента
+                new ClientSession(client);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                Thread.sleep(10);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    // создается сервер сокет и занимает порт 1234
+    private static void start (){
+        try {
+            server = new ServerSocket(1234);
+            System.out.println("Server is run.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void end() {
+        try {
+            server.close();
+            System.out.println("Sever is disconnect.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+}
