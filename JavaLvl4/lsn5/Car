@@ -1,34 +1,63 @@
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CyclicBarrier;
+
 public class Car implements Runnable {
+
     private static int CARS_COUNT;
+    private static ConcurrentLinkedQueue queue = new ConcurrentLinkedQueue();
+
     static {
         CARS_COUNT = 0;
     }
+
     private Race race;
     private int speed;
     private String name;
-    public String getName() {
-        return name;
-    }
-    public int getSpeed() {
-        return speed;
-    }
+
+    private Object mutex = new Object();
+
+    CyclicBarrier cb = new CyclicBarrier(1);
+
     public Car(Race race, int speed) {
         this.race = race;
         this.speed = speed;
         CARS_COUNT++;
         this.name = "Участник #" + CARS_COUNT;
     }
+
+    public String getName() {
+
+        return name;
+    }
+
+    public int getSpeed() {
+
+        return speed;
+    }
+
+    public Race getRace() {
+        return race;
+    }
+
     @Override
     public void run() {
+        int count = 0;
         try {
             System.out.println(this.name + " готовится");
-            Thread.sleep(500 + (int)(Math.random() * 800));
+            Thread.sleep(500 + (int) (Math.random() * 800));
             System.out.println(this.name + " готов");
+            Thread.sleep(500 + (int) (Math.random() * 800));
+            cb.await();
+
+            // начало заезда
+            for (int i = 0; i < race.getStages().size(); i++) {
+                race.getStages().get(i).go(this);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < race.getStages().size(); i++) {
-            race.getStages().get(i).go(this);
-        }
     }
+
+
 }

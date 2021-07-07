@@ -1,16 +1,44 @@
+import static lsn5.homeWork.MainClass.level;
+import static lsn5.homeWork.MainClass.racers;
+
 public class Road extends Stage {
+
+    private int len;
+
     public Road(int length) {
-        this.length = length;
+        this.len = length;
         this.description = "Дорога " + length + " метров";
     }
+
+    public int getLen() {
+        return len;
+    }
+
     @Override
-    public void go(Car c) {
+    public void go(Car car) {
         try {
-            System.out.println(c.getName() + " начал этап: " + description);
-            Thread.sleep(length / c.getSpeed() * 1000);
-            System.out.println(c.getName() + " закончил этап: " + description);
+            if(level == 0){
+                System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
+            }
+            level = 1;
+            System.out.println(car.getName() + " начал этап: " + description);
+            Thread.sleep(length / car.getSpeed() * 1000);
+            System.out.println(car.getName() + " закончил этап: " + description);
+            // лютый костыль, но рабочий
+            if (description.equals("Дорога " + 40 + " метров")) {
+                racers.add(1);
+            }
+            if (racers.size() == 4) {
+                System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
+            }
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "" + len;
     }
 }
