@@ -1,1 +1,73 @@
+package lsn8;
 
+public class Bucket {
+    private int key;
+    private Bucket next;
+    private Bucket first;
+    private Bucket current;
+    private Bucket previous;
+
+    public Bucket(int data) {
+        this.key = data;
+        this.first = null;
+    }
+
+    public int getKey() {
+        return key;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + key + "} ";
+    }
+
+    public void displayBucket(){
+        current = first;
+        while (first != null){
+            System.out.print(current);
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    // метод аналогичен использованному в классе HashTable
+    public Bucket find(int key) {
+        current = first;
+        while (current != null) {
+            if (current.getKey() == key) {
+                return current;
+            } else {
+                current = current.next;
+            }
+        }
+        return null;
+    }
+
+    public void insert(Bucket bucket) {
+        int key = bucket.getKey();
+        previous = null;
+        current = first;
+        while (current != null && key > current.getKey()) {
+            previous = current;
+            current = current.next;
+        }
+        if (previous == null) {
+            first = bucket;
+        } else {
+            previous.next = bucket;
+        }
+        bucket.next = current;
+    }
+
+    public void delete(int key) {
+        previous = null;
+        current = first;
+        while (current != null) {
+            previous = current;
+            current = current.next;
+        }
+        if (previous == null) first = first.next;
+        else previous.next = current.next;
+    }
+
+}
