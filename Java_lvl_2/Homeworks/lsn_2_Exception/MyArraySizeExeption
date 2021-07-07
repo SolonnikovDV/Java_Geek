@@ -8,3 +8,35 @@ package lsn2.homeWork;
  * @version dated Aug-01-2019
  */
  
+public class MyArraySizeException extends Exception{
+
+    private static final String ANSI_RED = "\u001B[35m";
+    // поля класса
+    private int arrSizeValue;
+
+    // конструктор класса
+    public MyArraySizeException(int arrSizeValue) {
+        this.arrSizeValue = arrSizeValue;
+
+    }
+
+
+    // значение, вызвавшее Exception
+    public int getArrSize() {
+        return this.arrSizeValue;
+
+    }
+
+    public MyArraySizeException(String s) {
+
+    }
+
+    // переопределяем метод printStackTrace()
+    @Override
+    public void printStackTrace() {
+        System.out.println(
+                        ANSI_RED
+                        + "Exception \nArrays size is not equal 4 \nThe size of the specified array is: " + getArrSize()
+                        + ANSI_RED);
+    }
+}
